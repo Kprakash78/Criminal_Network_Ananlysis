@@ -1,0 +1,31 @@
+FIRST INFORMATION REPORT
+FIR No.: FIR_2026_99999
+Date: 02/09/2026
+Police Station: Cyber Hub, Gurugram
+Reporting Officer: Inspector Ramesh Chander
+Case Reference: DUMMY_TEST_2026
+
+INCIDENT REPORT:
+On the evening of 1st September 2026, a major cyber-heist and extortion attempt was reported at the headquarters of TechNova Solutions in Gurugram. At approximately 18:45 hours, the server administrator, Mr. Alok Verma, noticed unauthorized data exfiltration originating from a suspicious IP address. 
+
+During the internal investigation, the company's CEO, Mrs. Kavita Menon, received a ransom call on her personal phone (9876543210). The caller, identifying himself as 'Raka', demanded a transfer of 50 Lakh Rupees to a bank account (Account No. ACC55667788). The caller threatened to release sensitive corporate data if the demands were not met.
+
+PRIMARY ACCUSED:
+1. Raka (Alias), exact identity unknown.
+2. Suspected insider accomplice.
+
+WITNESSES / VICTIMS:
+1. Mrs. Kavita Menon, CEO, TechNova Solutions.
+2. Mr. Alok Verma, Server Administrator.
+
+EVIDENCE / LEADS:
+- Ransom call received from mobile number: 9988776655.
+- Suspect bank account: ACC55667788 (HDFC Bank, South Ex Branch).
+- CCTV footage shows a suspicious black SUV (Vehicle Reg: HR26XX9090) idling near the server room exit around the time of the breach.
+
+REGISTERED SECTIONS:
+- IPC Section 384 (Extortion)
+- IT Act Section 43 (Damage to computer system)
+- IT Act Section 66 (Computer related offences)
+
+All findings require investigator verification before any action is taken.

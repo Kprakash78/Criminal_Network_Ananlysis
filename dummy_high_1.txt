@@ -1,0 +1,21 @@
+FIRST INFORMATION REPORT
+FIR No.: FIR_2026_HIGH_01
+Date: 04/09/2026
+Police Station: EOW, New Delhi
+Reporting Officer: ACP Sanjeev Kumar
+Case Reference: DUMMY_HIGH_1
+
+INCIDENT REPORT:
+On 4th September 2026, the Economic Offences Wing intercepted a massive illicit fund transfer network. Shell corporations were found moving large sums of money to offshore tax havens. 
+
+During the raid, ledgers were recovered showing continuous high-frequency transactions. The primary nodal account used to funnel these funds is identified as Account No. ACC_dac31588. This account has been flagged previously for suspicious activity and multiple suspect sharing.
+
+PRIMARY ACCUSED:
+1. Ravi Kumar, Director of Shell Corp Alpha.
+2. Fatima Begum, suspected hawala operator.
+
+EVIDENCE:
+- Seized ledgers indicating 45 Crore Rupees moved through ACC_dac31588 in 48 hours.
+- WhatsApp chats recovered from Ravi Kumar's phone detailing the rapid fund movement.
+
+All findings require investigator verification before any action is taken.

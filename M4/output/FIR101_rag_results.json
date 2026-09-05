@@ -1,0 +1,52 @@
+[
+  {
+    "case_id": "FIR101",
+    "source": "FIR_058",
+    "relevance_score": 0.6677,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00058\nDate: 10/10/2026\nPolice Station: Academy\nReporting Officer: Training Academy Staff\nCase Reference: FIR_058\n\nINCIDENT REPORT:\nTraining case: Victim kidn…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR101",
+    "source": "FIR_044",
+    "relevance_score": 0.6404,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00044\nDate: 12/04/2003\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_044\n\nINCIDENT REPORT:\nExtortion calls made from p…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR101",
+    "source": "FIR_039",
+    "relevance_score": 0.6201,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00039\nDate: 09/01/2009\nPolice Station: Hyderabad\nReporting Officer: Training Academy Staff\nCase Reference: FIR_039\n\nINCIDENT REPORT:\nCorporate fraud of 7136 …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR101",
+    "source": "FIR106",
+    "relevance_score": 0.6191,
+    "matched_entities": [],
+    "evidence": "0 par call aaya tha.\nAankhon dekha gawah ne kaha ki Ravi Kumar aur Ravi dono wahan the.\nRavi Kumar ne Sunrise Finance Ltd. ke through paisa bheja, account ACC00101 mein.\n\n        Further, it is report…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR101",
+    "source": "FIR_050",
+    "relevance_score": 0.6078,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00050\nDate: 30/03/2001\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_050\n\nINCIDENT REPORT:\nCircular trading and market…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR101",
+    "source": "M3_FLAGS_ORG_5651b0a3",
+    "relevance_score": 0.2412,
+    "matched_entities": [
+      "ORG_5651b0a3"
+    ],
+    "evidence": "Degree centrality 0.476 — entity connects to 47.6% of the network relative to maximum possible | Betweenness centrality 0.013 — entity lies on 1.3% of shortest paths between other entities",
+    "timestamp": null
+  }
+]

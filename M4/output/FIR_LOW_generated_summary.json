@@ -1,0 +1,12 @@
+{
+  "case_id": "FIR_LOW",
+  "summary_text": "A petty theft occurred at a local grocery store. There is no evidence of financial fraud or shell companies.\n\nAll findings require investigator verification before any action is taken.",
+  "evidence_used": [
+    "RAG_RESULT_1",
+    "RAG_RESULT_2",
+    "RAG_RESULT_3",
+    "RAG_RESULT_4",
+    "RAG_RESULT_5"
+  ],
+  "confidence": 0.2524
+}

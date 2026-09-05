@@ -1,0 +1,60 @@
+AI-Powered Criminal Network Analysis System (PS 26152)
+======================================================
+System Analysis & Workflow Documentation
+======================================================
+
+The system is organized into six highly cohesive modules (M1 - M6), representing a full data pipeline from raw unstructured document upload to a structured interactive dashboard.
+
+MODULE BREAKDOWN
+----------------
+
+1. M1: Entity & Relationship Extraction
+   - Role: Parses raw FIRs and investigation documents to extract key entities (People, Locations, Vehicles, Phones, Accounts) and their relationships.
+   - Mechanism: Uses a multi-layered NLP approach. 
+     * Rules/Regex for deterministic high-confidence extractions (Phones, Accounts, Vehicles).
+     * spaCy (en_core_web_sm) for standard English NER.
+     * IndicBERT for handling Hinglish (Hindi-English code-mixed) text commonly found in Indian police reports.
+   - Also includes a Normalizer to deduplicate identical entities and a Scorer to assign extraction confidence.
+
+2. M2: Knowledge Graph Engine
+   - Role: Serves as the memory and structural backbone of the system. 
+   - Mechanism: Uses NetworkX to build an interactive, directed multi-graph. Entities become nodes; interactions become weighted edges (e.g., "CALLS", "APPEARS_IN_CASE", "OWNS"). 
+   - Supports incremental updates as new cases are uploaded, and can rapidly query subgraphs, neighbors, and shortest paths to find hidden links between cases.
+
+3. M3: Analysis & Threat Scoring
+   - Role: Detects suspicious patterns and ranks entities by priority to guide investigators.
+   - Mechanism: 
+     * Calculates Degree Centrality (who has the most connections) and Betweenness Centrality (who acts as a bridge between different criminal groups).
+     * Uses Louvain Community Detection to automatically group related suspects into syndicates.
+     * Triggers "Pattern Flags" based on heuristics (e.g., MULTI_SUSPECT_SHARED_ACCOUNT, COMMUNICATION_SPIKE) to alert officers to high-risk behaviors.
+
+4. M4: RAG Pipeline (Retrieval-Augmented Generation)
+   - Role: Generates concise, accurate executive summaries of the investigation without hallucinations.
+   - Mechanism: Combines Vector Search with Graph context. 
+     * Embeds document chunks using sentence-transformers (all-MiniLM-L6).
+     * When a summary is requested, it pulls the most relevant text chunks + the exact graph connections + M3 flags, and feeds them into a local LLM (via llama-cpp-python).
+     * Result: A highly contextual, fact-based summary citing evidence.
+
+5. M5: State Orchestration (Agent Workflow)
+   - Role: The "brain" that coordinates all other modules using an automated state machine.
+   - Mechanism: Built on LangGraph, it enforces a strict investigation workflow:
+     Upload -> Extract (M1) -> Graph Lookup (M2) -> Pattern Analysis (M3) -> Summarize (M4) -> Review Decision.
+     * If the RAG confidence drops below 0.50, M5 automatically routes the case to a "Human Review Required" state, preventing automated errors.
+     * Also manages multi-turn conversational follow-up questions from the investigator.
+
+6. M6: Investigator Dashboard (UI)
+   - Role: The interactive frontend for law enforcement officers.
+   - Mechanism: Built using Streamlit, featuring a polished, non-accusatory design.
+   - Features: File Upload, interactive PyVis Network Graphs (to visually map syndicates), an Entity Search engine, a Key Players leaderboard, and one-click PDF/CSV Evidence Export.
+
+
+SYSTEM WORKFLOW
+---------------
+1. INGESTION: An officer uploads a raw FIR text file via the M6 Dashboard.
+2. ORCHESTRATION: The M5 LangGraph Agent takes over, creating a secure session.
+3. EXTRACTION: M5 calls M1 to parse the text, catching English and Hinglish entities and assigning confidence scores.
+4. GRAPH BUILDING: Entities and connections are pushed into the M2 Knowledge Graph.
+5. INTELLIGENCE: The M3 Engine calculates centrality scores and flags suspicious network patterns.
+6. SUMMARIZATION: The M4 pipeline generates a contextual case summary by fusing the graph data with the raw text.
+7. DECISION: M5 checks confidence; if it's too low, it flags the case for Human Review.
+8. DISPLAY: The M6 Dashboard updates live, rendering the Interactive Graph, Key Players, and Summary for the officer.

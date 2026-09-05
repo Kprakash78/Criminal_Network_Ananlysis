@@ -1,0 +1,62 @@
+[
+  {
+    "case_id": "FIR_001",
+    "source": "FIR119",
+    "relevance_score": 0.5467,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR119\n        Date: 24-12-2025\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Mohammed Iqbal alleges that Sunita Sharma and a…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_001",
+    "source": "FIR101",
+    "relevance_score": 0.5452,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR101\n        Date: 29-07-2026\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Ravi Kumar alleges that Anjali Singh and associ…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_001",
+    "source": "FIR130",
+    "relevance_score": 0.5438,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR130\n        Date: 07-05-2024\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Anjali Singh alleges that Mohammed Iqbal and as…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_001",
+    "source": "FIR106",
+    "relevance_score": 0.5432,
+    "matched_entities": [],
+    "evidence": "lace, Delhi.\n\n        Investigations revealed that Ravi Kumar is associated with Sunrise Finance Ltd. and has been receiving suspicious funds in account ACC00101. The accused operates from Camp Area, …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_001",
+    "source": "FIR146",
+    "relevance_score": 0.5377,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR146\n        Date: 16-06-2026\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Suresh Patil alleges that Priya N. and associat…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_001",
+    "source": "M3_FLAGS_PER_a7ca11a0",
+    "relevance_score": 0.2152,
+    "matched_entities": [
+      "PER_a7ca11a0"
+    ],
+    "evidence": "Degree centrality 0.317 — entity connects to 31.7% of the network relative to maximum possible | Betweenness centrality 0.003 — entity lies on 0.3% of shortest paths between other entities",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_001",
+    "source": "M3_FLAGS_ACC_9543ca06",
+    "relevance_score": 0.5524,
+    "matched_entities": [
+      "ACC_9543ca06"
+    ],
+    "evidence": "Degree centrality 0.285 — entity connects to 28.5% of the network relative to maximum possible | Betweenness centrality 0.033 — entity lies on 3.3% of shortest paths between other entities",
+    "timestamp": null
+  }
+]

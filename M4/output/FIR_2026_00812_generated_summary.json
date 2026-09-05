@@ -1,0 +1,23 @@
+{
+  "case_id": "FIR_2026_00812",
+  "summary_text": "Case ID: FIR_2026_00812 NEW CASE DOCUMENT: FIRST INFORMATION REPORT (FIR) FIR No.: FIR154 Date: 30-07-2024 Police Station: [Synthetic] A written complaint submitted by Suresh Patil alleges that S. Sharma and associates operating from Hazratganj, Lucknow have been involved in financial fraud using account ACC00102....[truncated] [RAG_RESULT_4] Source: FIR109 (relevance: 0.66) FIRST INFORMATION REPORT Case No.: FIR154 Date: 30-07-2024 Police Station: [Synthetic]\n\nAll findings require investigator verification before any action is taken.",
+  "evidence_used": [
+    "RAG_RESULT_1",
+    "RAG_RESULT_2",
+    "RAG_RESULT_3",
+    "RAG_RESULT_4",
+    "RAG_RESULT_5",
+    "PATTERN_FLAG_LOC_81a8afca",
+    "GRAPH_EDGE_LOC_81a8afca_PER_90746251",
+    "GRAPH_EDGE_LOC_81a8afca_PER_fb236640",
+    "GRAPH_EDGE_LOC_81a8afca_LOC_fb236640",
+    "GRAPH_EDGE_LOC_81a8afca_PHN_bdf9248c",
+    "GRAPH_EDGE_LOC_81a8afca_PHN_5e2e2898",
+    "GRAPH_EDGE_LOC_81a8afca_ACC_9543ca06",
+    "GRAPH_EDGE_LOC_81a8afca_PER_7d3cf0ca",
+    "GRAPH_EDGE_LOC_81a8afca_PER_2ed27c83",
+    "GRAPH_EDGE_LOC_81a8afca_PER_f1e6dbfd",
+    "GRAPH_EDGE_LOC_81a8afca_ORG_5a0a8754"
+  ],
+  "confidence": 0.0846
+}

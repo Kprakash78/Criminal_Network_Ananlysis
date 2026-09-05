@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "FIR_LOW",
+    "source": "FIR_049",
+    "relevance_score": 0.631,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00049\nDate: 23/04/1992\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_049\n\nINCIDENT REPORT:\nStock market manipulation u…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_LOW",
+    "source": "FIR_047",
+    "relevance_score": 0.6076,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00047\nDate: 03/09/2012\nPolice Station: Delhi\nReporting Officer: Training Academy Staff\nCase Reference: FIR_047\n\nINCIDENT REPORT:\nIrregularities in allocation…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_LOW",
+    "source": "FIR119",
+    "relevance_score": 0.6001,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR119\n        Date: 24-12-2025\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Mohammed Iqbal alleges that Sunita Sharma and a…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_LOW",
+    "source": "FIR_050",
+    "relevance_score": 0.5917,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00050\nDate: 30/03/2001\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_050\n\nINCIDENT REPORT:\nCircular trading and market…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_LOW",
+    "source": "FIR101",
+    "relevance_score": 0.583,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR101\n        Date: 29-07-2026\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Ravi Kumar alleges that Anjali Singh and associ…[truncated]",
+    "timestamp": null
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "FIR105",
+    "source": "FIR_044",
+    "relevance_score": 0.7851,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00044\nDate: 12/04/2003\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_044\n\nINCIDENT REPORT:\nExtortion calls made from p…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR105",
+    "source": "FIR_050",
+    "relevance_score": 0.6602,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00050\nDate: 30/03/2001\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_050\n\nINCIDENT REPORT:\nCircular trading and market…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR105",
+    "source": "FIR109",
+    "relevance_score": 0.6588,
+    "matched_entities": [],
+    "evidence": "et, Kolkata.\n\n        The accused Ravi Kumar contacted the complainant via phone number 9876543210 and demanded money under false pretenses. The accused was last seen driving vehicle DL01AB1234 near L…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR105",
+    "source": "FIR101",
+    "relevance_score": 0.6453,
+    "matched_entities": [],
+    "evidence": "s indicate repeated calls between 9210987654 and 9988776655 during the period of the alleged offence. The subscriber of 9210987654 is identified as Kavya Reddy.\n\n        Police ne Kavya Reddy ko Lajpa…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR105",
+    "source": "FIR134",
+    "relevance_score": 0.6428,
+    "matched_entities": [],
+    "evidence": "ka mobile 9321098765 par call aaya tha.\nPolice ne Suresh Patil ko Hazratganj, Lucknow se giraftaar kiya.\n\n        Further, it is reported that S. Sharma (phone: 9123456789) was in contact with the acc…[truncated]",
+    "timestamp": null
+  }
+]

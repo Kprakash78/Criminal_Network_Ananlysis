@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "FIR106",
+    "source": "FIR127",
+    "relevance_score": 0.618,
+    "matched_entities": [],
+    "evidence": " ACC00108 mein.\nFatima Begum ki gaadi TN09OP0123 CCTV mein pakdi gayi Koramangala, Bengaluru ke paas.\n\n        Further, it is reported that Ravi Kumar (phone: 9876543210) was in contact with the accus…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR106",
+    "source": "FIR_042",
+    "relevance_score": 0.5859,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00042\nDate: 29/12/2006\nPolice Station: Noida\nReporting Officer: Training Academy Staff\nCase Reference: FIR_042\n\nINCIDENT REPORT:\nSerial killings and abductio…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR106",
+    "source": "FIR126",
+    "relevance_score": 0.5846,
+    "matched_entities": [],
+    "evidence": "rh ke paas.\nPolice ne Fatima Begum ko Bandra West, Mumbai se giraftaar kiya.\nChor Fatima Begum ne Sharma & Sons Traders ka maal chura liya.\n\n        Further, it is reported that Ravi Kumar (phone: 987…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR106",
+    "source": "FIR_036",
+    "relevance_score": 0.5804,
+    "matched_entities": [],
+    "evidence": " Delhi. Transferred to Mount Elizabeth Hospital, Singapore on 26/12/2012. Victim succumbed to injuries on 29/12/2012.\n\nREGISTERED SECTIONS:\n- IPC Section 302 (murder)\n- IPC Section 376D (gang rape)\n- …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR106",
+    "source": "FIR_043",
+    "relevance_score": 0.5659,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00043\nDate: 16/05/2008\nPolice Station: Noida\nReporting Officer: Training Academy Staff\nCase Reference: FIR_043\n\nINCIDENT REPORT:\nDouble murder at L-32 Jalvay…[truncated]",
+    "timestamp": null
+  }
+]

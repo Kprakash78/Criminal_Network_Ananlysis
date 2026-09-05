@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "FIR_037",
+    "source": "FIR134",
+    "relevance_score": 0.6315,
+    "matched_entities": [],
+    "evidence": "ka mobile 9321098765 par call aaya tha.\nPolice ne Suresh Patil ko Hazratganj, Lucknow se giraftaar kiya.\n\n        Further, it is reported that S. Sharma (phone: 9123456789) was in contact with the acc…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_037",
+    "source": "FIR146",
+    "relevance_score": 0.6262,
+    "matched_entities": [],
+    "evidence": "on Co. ka maal chura liya.\nPriya N. ki gaadi KA05GH3456 CCTV mein pakdi gayi Lajpat Nagar, Delhi ke paas.\n\n        Further, it is reported that Rakesh Yadav (phone: 9543210987) was in contact with the…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_037",
+    "source": "FIR_043",
+    "relevance_score": 0.6224,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00043\nDate: 16/05/2008\nPolice Station: Noida\nReporting Officer: Training Academy Staff\nCase Reference: FIR_043\n\nINCIDENT REPORT:\nDouble murder at L-32 Jalvay…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_037",
+    "source": "FIR_036",
+    "relevance_score": 0.6156,
+    "matched_entities": [],
+    "evidence": ", Uttar Pradesh.\n5. Akshay Kumar Singh, approximately 28 years old, resident of Aurangabad, Bihar.\n6. One juvenile accused, name withheld per Juvenile Justice Act.\n\nVEHICLE DETAILS:\nVehicle registrati…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_037",
+    "source": "FIR_048",
+    "relevance_score": 0.6095,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00048\nDate: 27/01/1996\nPolice Station: Patna\nReporting Officer: Training Academy Staff\nCase Reference: FIR_048\n\nINCIDENT REPORT:\nEmbezzlement of 940 Crores f…[truncated]",
+    "timestamp": null
+  }
+]

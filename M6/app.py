@@ -1,0 +1,1474 @@
+"""
+M6 — Investigator Dashboard
+PS 26152 — AI-Powered Criminal Network Analysis System
+
+Run with:
+    streamlit run M6/app.py  (from repo root)
+
+This file implements all 10 milestones (M6.1–M6.10):
+  M6.1  Basic Streamlit shell + upload widget
+  M6.2  Result rendering (summary, evidence, confidence, human-review flag)
+  M6.3  Graph visualization (PyVis interactive graph from M2 query layer)
+  M6.4  Search & filter (entity search + date range filter)
+  M6.5  Key players view (ranked by M3 priority score)
+  M6.6  Follow-up question / conversational UI within a session
+  M6.7  Export (CSV, JSON, PDF)
+  M6.8  Real vs mock flag (USE_REAL_MODULES env var, surfaced in sidebar)
+  M6.9  Full demo walkthrough (same script a judge would see, invokable in-app)
+  M6.10 Polish (confidence color-coding, type icons, clean layout)
+
+Language discipline: no word in this file implies guilt/criminality.
+Banned words: criminal, guilty, confirmed, suspect (when used as a verdict),
+prove, proof, convicted — see BANNED_WORDS in ui_helpers section.
+"""
+
+import os
+import sys
+import logging
+import tempfile
+import json
+import io
+from datetime import datetime, timedelta
+from pathlib import Path
+
+import streamlit as st
+import pandas as pd
+
+# ---------------------------------------------------------------------------
+# Ensure repo root is on sys.path for imports from M5/M6/etc.
+# ---------------------------------------------------------------------------
+_REPO_ROOT = str(Path(__file__).resolve().parent.parent)
+if _REPO_ROOT not in sys.path:
+    sys.path.insert(0, _REPO_ROOT)
+
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# Imports — backend call layer (never import M5/M2/M3 directly here)
+# ---------------------------------------------------------------------------
+from M6.backend_calls import (
+    call_m5, call_m2_subgraph, call_m2_search, call_m3_key_players,
+    USE_REAL_MODULES, get_backend_status,
+)
+from M6.export import export_csv, export_json, export_pdf
+
+# M5 request types — needed for type instantiation
+try:
+    from M5.models import NewCaseUpload, FollowUpQuestion
+except ImportError:
+    # Fallback lightweight shims so UI loads even without M5 installed
+    from dataclasses import dataclass
+
+    @dataclass
+    class NewCaseUpload:
+        case_id: str
+        case_text: str
+        source_dir: str = ""
+
+    @dataclass
+    class FollowUpQuestion:
+        question: str
+
+
+# ===========================================================================
+# M6.10 — Color / style helpers (polished, non-accusatory)
+# ===========================================================================
+
+# Confidence color-coding: green ≥ 0.7 | amber 0.5–0.7 | red < 0.5
+def confidence_color(score: float) -> str:
+    if score >= 0.7:
+        return "#2ECC71"   # green
+    elif score >= 0.5:
+        return "#F39C12"   # amber
+    else:
+        return "#E74C3C"   # red
+
+
+def confidence_label(score: float) -> str:
+    if score >= 0.7:
+        return "High"
+    elif score >= 0.5:
+        return "Moderate"
+    else:
+        return "Low — requires human review"
+
+
+# Entity type to emoji icon (for visual scannability)
+TYPE_ICONS = {
+    "PERSON": "🧑",
+    "PHONE": "📱",
+    "ACCOUNT": "🏦",
+    "LOCATION": "📍",
+    "VEHICLE": "🚗",
+    "ORGANIZATION": "🏢",
+    "UNKNOWN": "❓",
+}
+
+BANNED_WORDS = {"criminal", "guilty", "confirmed", "convicted", "proven", "proof"}
+
+FLAG_LABELS = {
+    "COMMUNICATION_SPIKE": "Communication Spike",
+    "HIGH_TRANSACTION_FREQUENCY": "High Transaction Frequency",
+    "MULTI_SUSPECT_SHARED_ACCOUNT": "Shared Account (Multiple Persons)",
+    "RAPID_FUND_MOVEMENT": "Rapid Fund Movement",
+    "INCIDENT_TIMING_CLUSTER": "Incident Timing Cluster",
+    "DENSE_CLUSTER_MEMBERSHIP": "Dense Network Cluster",
+}
+
+
+# ===========================================================================
+# M6.3 — Graph visualization helper (PyVis)
+# ===========================================================================
+
+def build_pyvis_html(graph_data: dict, filter_from: datetime = None, filter_to: datetime = None, show_all_orgs: bool = False, show_weak_links: bool = False, selected_types: list = None) -> str:
+    """
+    Convert {nodes, edges} dict to an interactive PyVis HTML string.
+    Applies date-range filter to edges (M6.4).
+    Color-codes nodes by entity type.
+    Bug 3 fix: cap edges at MAX_VIS_EDGES to prevent browser blank-render.
+    Bug 3 fix: use a proper temp file path (Windows NamedTemporaryFile can't
+               be read while open on some systems).
+    """
+    from pyvis.network import Network
+    import os
+
+    MAX_VIS_EDGES = 300  # beyond this browsers freeze / render blank
+
+    TYPE_COLORS = {
+        "PERSON":       "#3498DB",   # blue
+        "PHONE":        "#27AE60",   # green
+        "ACCOUNT":      "#F39C12",   # amber
+        "LOCATION":     "#9B59B6",   # purple
+        "VEHICLE":      "#E67E22",   # orange
+        "ORGANIZATION": "#1ABC9C",   # teal
+        "UNKNOWN":      "#95A5A6",   # grey
+    }
+
+    # height must match iframe height in st.components.v1.html()
+    net = Network(height="580px", width="100%", directed=True,
+                  bgcolor="#1a1a2e", font_color="#ECEFF4",
+                  notebook=False)
+    net.set_options("""
+    {
+      "nodes": {"borderWidth": 2, "shadow": true},
+      "edges": {"smooth": {"type": "curvedCW", "roundness": 0.2},
+                "arrows": {"to": {"enabled": true, "scaleFactor": 0.8}}},
+      "physics": {"stabilization": {"iterations": 80}, "barnesHut": {"gravitationalConstant": -8000}},
+      "interaction": {"hover": true, "tooltipDelay": 100}
+    }
+    """)
+
+    nodes = graph_data.get("nodes", [])
+    edges = graph_data.get("edges", [])
+
+    # Collect IDs of nodes that actually appear in edges (after capping) so we
+    # don't render isolated nodes for invisible edges.
+    # Check if there are ANY strong edges in the entire graph data
+    has_strong_edges = any(e.get("type") != "APPEARS_IN_CASE" for e in edges)
+
+    # First: filter + cap edges
+    filtered_edges = []
+    for edge in edges:
+        ts_str = edge.get("timestamp", "")
+        if ts_str and (filter_from or filter_to):
+            try:
+                ts = datetime.strptime(ts_str[:16], "%Y-%m-%d %H:%M")
+                if filter_from and ts < filter_from:
+                    continue
+                if filter_to and ts > filter_to:
+                    continue
+            except ValueError:
+                pass
+                
+        # D2 Fix: Filter weak links by default, UNLESS there are no strong links at all (fallback)
+        if not show_weak_links and edge.get("type") == "APPEARS_IN_CASE":
+            if has_strong_edges:
+                continue
+            
+        filtered_edges.append(edge)
+
+    # Cap by weight descending so we keep the most significant connections
+    if len(filtered_edges) > MAX_VIS_EDGES:
+        filtered_edges = sorted(
+            filtered_edges, key=lambda e: e.get("weight", 1.0), reverse=True
+        )[:MAX_VIS_EDGES]
+
+    # Determine which node IDs appear in capped edges
+    connected_ids: set[str] = set()
+    for edge in filtered_edges:
+        connected_ids.add(edge["source"])
+        connected_ids.add(edge["target"])
+
+    # Add nodes (only those connected, or all if no edges)
+    nodes_to_show = nodes if not connected_ids else [
+        n for n in nodes if n["id"] in connected_ids
+    ]
+    
+    # Filter by selected_types
+    if selected_types is not None:
+        nodes_to_show = [n for n in nodes_to_show if n.get("type", "UNKNOWN") in selected_types]
+
+    # Always show at least the first 80 nodes if no connections
+    if not nodes_to_show and not selected_types:
+        nodes_to_show = nodes[:80]
+        
+    # D1 Fix: Filter organizations by default
+    if not show_all_orgs:
+        # A "seriously involved" organization might be in key_players or have strong links.
+        # For simplicity, if it's an ORGANIZATION and we are hiding them, only keep it if it has >1 connection.
+        # Count connections for each node:
+        degree = {}
+        for edge in filtered_edges:
+            degree[edge["source"]] = degree.get(edge["source"], 0) + 1
+            degree[edge["target"]] = degree.get(edge["target"], 0) + 1
+            
+        filtered_nodes = []
+        for n in nodes_to_show:
+            if n.get("type") == "ORGANIZATION":
+                if degree.get(n["id"], 0) >= 2:
+                    filtered_nodes.append(n)
+            else:
+                filtered_nodes.append(n)
+        nodes_to_show = filtered_nodes
+
+    # Re-filter edges to ensure we don't add edges for nodes we just removed
+    final_node_ids = {n["id"] for n in nodes_to_show}
+    final_edges = [
+        e for e in filtered_edges
+        if e["source"] in final_node_ids and e["target"] in final_node_ids
+    ]
+
+    for node in nodes_to_show:
+        ntype = node.get("type", "UNKNOWN")
+        icon = TYPE_ICONS.get(ntype, "❓")
+        color = TYPE_COLORS.get(ntype, "#95A5A6")
+        conf = node.get("confidence", 1.0)
+        label_text = node.get("name", node.get("label", node.get("id", "")))
+        tooltip = (
+            f"<b>{icon} {label_text}</b><br>"
+            f"Type: {ntype}<br>"
+            f"Confidence: {conf:.0%}"
+        )
+        net.add_node(
+            node["id"],
+            label=f"{icon} {label_text}",
+            title=tooltip,
+            color=color,
+            size=20,
+        )
+
+    # Add capped, filtered edges
+    for edge in final_edges:
+        rel = edge.get("type", "")
+        conf = edge.get("confidence", 1.0)
+        weight = edge.get("weight", 1.0)
+        tooltip = f"<b>{rel}</b><br>Confidence: {conf:.0%}<br>Weight: {weight}"
+        width = min(weight * 2, 8)
+        net.add_edge(
+            edge["source"], edge["target"],
+            title=tooltip,
+            width=width,
+            color={"color": "#7F8C8D", "highlight": "#E74C3C"},
+        )
+
+    # Bug 3 fix: on Windows, NamedTemporaryFile cannot be read while open.
+    # Write to a named path, close the handle first, then read.
+    tmp_path = os.path.join(tempfile.gettempdir(), f"pyvis_{os.getpid()}.html")
+    try:
+        net.save_graph(tmp_path)
+        html = Path(tmp_path).read_text(encoding="utf-8")
+    finally:
+        try:
+            os.remove(tmp_path)
+        except OSError:
+            pass
+    return html
+
+
+# ===========================================================================
+# Streamlit page setup  (M6.1)
+# ===========================================================================
+
+st.set_page_config(
+    page_title="Investigator Dashboard — PS 26152",
+    page_icon="🔍",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+# ---------------------------------------------------------------------------
+# Inline CSS — M6.10 polish
+# ---------------------------------------------------------------------------
+st.markdown("""
+<style>
+/* Global */
+body, [data-testid="stApp"] {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    color: #ECEFF4;
+}
+[data-testid="stSidebar"] * { color: #ECEFF4 !important; }
+[data-testid="stSidebar"] .stButton > button {
+    background: #0f3460;
+    border: 1px solid #e94560;
+    color: #ECEFF4;
+    border-radius: 6px;
+    width: 100%;
+}
+[data-testid="stSidebar"] .stButton > button:hover {
+    background: #e94560;
+}
+
+/* Tab styling */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 2px;
+    background: #f0f2f6;
+    border-radius: 8px;
+    padding: 4px;
+}
+.stTabs [data-baseweb="tab"] {
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 8px 16px;
+}
+
+/* Metric cards */
+div[data-testid="metric-container"] {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+/* Chat bubbles */
+.chat-investigator {
+    background: #dbeafe;
+    color: #1e293b;
+    border-radius: 12px 12px 2px 12px;
+    padding: 10px 14px;
+    margin: 6px 0;
+    max-width: 85%;
+    margin-left: auto;
+    font-size: 0.95em;
+}
+.chat-system {
+    background: #f0fdf4;
+    color: #1e293b;
+    border-radius: 12px 12px 12px 2px;
+    padding: 10px 14px;
+    margin: 6px 0;
+    max-width: 85%;
+    font-size: 0.95em;
+    border-left: 3px solid #2ECC71;
+}
+.chat-label {
+    font-size: 0.75em;
+    font-weight: 600;
+    color: #6B7280;
+    margin-bottom: 4px;
+}
+
+/* Flag badges */
+.flag-badge {
+    display: inline-block;
+    background: #FEF3C7;
+    border: 1px solid #F59E0B;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    margin: 2px;
+    color: #92400E;
+}
+
+/* Priority score bar */
+.priority-bar-outer {
+    background: #E5E7EB;
+    border-radius: 4px;
+    height: 8px;
+    width: 100%;
+}
+.priority-bar-inner {
+    border-radius: 4px;
+    height: 8px;
+}
+
+/* Human review alert */
+.review-alert {
+    background: #FEF2F2;
+    color: #991B1B;
+    border: 1px solid #EF4444;
+    border-left: 4px solid #EF4444;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 8px 0;
+}
+
+/* Relationship item */
+.relationship-item {
+    background: #1e293b;
+    color: #e2e8f0;
+    border-left: 3px solid #3B82F6;
+    padding: 8px 12px;
+    margin: 4px 0;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+# ===========================================================================
+# Session state initialization  (M6.1, M6.6)
+# ===========================================================================
+
+def _init_state():
+    defaults = {
+        "session_id": None,
+        "case_id": None,
+        "final_response": None,
+        "graph_data": None,
+        "key_players": None,
+        "conversation_history": [],
+        "active_tab": "Upload & Analyze",
+        "search_results": [],
+        "last_search_query": "",
+        "date_filter_from": None,
+        "date_filter_to": None,
+        "demo_mode": False,
+    }
+    for k, v in defaults.items():
+        if k not in st.session_state:
+            st.session_state[k] = v
+
+_init_state()
+
+
+# ===========================================================================
+# M6.2 helper — render the FINAL RESPONSE
+# ===========================================================================
+
+def render_final_response(response_dict: dict):
+    """Render analysis result (summary, confidence, evidence, human-review flag)."""
+    confidence = response_dict.get("confidence", 0.0)
+    requires_review = response_dict.get("requires_human_review", False)
+
+    # Human review alert banner
+    if requires_review:
+        st.markdown(
+            '<div class="review-alert">'
+            '<b>⚠️ Requires Human Review</b> — The automated analysis confidence is low. '
+            'Please escalate this case to a senior investigator for manual verification.'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
+    # Confidence metric
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        color = confidence_color(confidence)
+        label = confidence_label(confidence)
+        st.markdown(f"""
+        <div style="background:#f8f9fa;border-radius:8px;padding:16px;border:1px solid #dee2e6;text-align:center;">
+            <div style="font-size:0.85em;color:#6B7280;font-weight:600;">Confidence Score</div>
+            <div style="font-size:2.2em;font-weight:700;color:{color};">{confidence:.0%}</div>
+            <div style="font-size:0.8em;color:{color};font-weight:500;">{label}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        with st.expander("ℹ️ What does this mean?"):
+            st.caption("This score represents data connectivity — how strongly this document links to already known accounts, entities, or historical cases. It is not a prediction of guilt.")
+    with col2:
+        evidence_count = len(response_dict.get("evidence", []))
+        st.markdown(f"""
+        <div style="background:#f8f9fa;border-radius:8px;padding:16px;border:1px solid #dee2e6;text-align:center;">
+            <div style="font-size:0.85em;color:#6B7280;font-weight:600;">Evidence References</div>
+            <div style="font-size:2.2em;font-weight:700;color:#3B82F6;">{evidence_count}</div>
+            <div style="font-size:0.8em;color:#6B7280;">items cited</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col3:
+        review_icon = "⚠️" if requires_review else "✅"
+        review_text = "Requires Review" if requires_review else "Threshold Met"
+        review_color = "#E74C3C" if requires_review else "#2ECC71"
+        st.markdown(f"""
+        <div style="background:#f8f9fa;border-radius:8px;padding:16px;border:1px solid #dee2e6;text-align:center;">
+            <div style="font-size:0.85em;color:#6B7280;font-weight:600;">Review Status</div>
+            <div style="font-size:1.8em;">{review_icon}</div>
+            <div style="font-size:0.8em;color:{review_color};font-weight:600;">{review_text}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # Summary text
+    st.markdown("#### 📋 Analysis Summary")
+    summary_text = response_dict.get("response_text", "")
+    # Check for banned words in summary (M6 language enforcement — flag internally)
+    found_banned = [w for w in BANNED_WORDS if w.lower() in summary_text.lower()]
+    if found_banned:
+        st.warning(f"⚠️ Internal language check: summary contains flagged words: {found_banned}. Please review.")
+    st.info(summary_text)
+
+    # Linked Entities & Relationships
+    edges = st.session_state.graph_data.get("edges", []) if getattr(st.session_state, "graph_data", None) else []
+    if edges:
+        with st.expander(f"🔗 Linked Entities & Relationships ({len(edges)} links)", expanded=True):
+            # Build a lookup for node names
+            nodes = st.session_state.graph_data.get("nodes", [])
+            node_names = {n["id"]: n.get("name", n.get("label", n["id"])) for n in nodes}
+            
+            # Dropdown to filter by entity
+            unique_names = sorted(list({name for name in node_names.values() if name}))
+            selected_entity = st.selectbox("Filter relationships by Entity:", options=["All"] + unique_names)
+            
+            strong_edges = [e for e in edges if e.get("type") != "APPEARS_IN_CASE"]
+            weak_edges = [e for e in edges if e.get("type") == "APPEARS_IN_CASE"]
+            
+            # Fallback logic: if no strong edges exist but weak ones do, show the weak ones
+            display_edges = strong_edges
+            showing_fallback = False
+            if not strong_edges and weak_edges:
+                display_edges = weak_edges
+                showing_fallback = True
+                st.markdown(
+                    "<div style='margin-bottom:12px;'>"
+                    "<span style='color:#9CA3AF;font-size:0.95em;font-style:italic;'>"
+                    "No strong relationships found. Showing co-occurrence (weak) links instead."
+                    "</span></div>", 
+                    unsafe_allow_html=True
+                )
+            
+            displayed_edges = 0
+            for edge in display_edges:
+                src_id = edge["source"]
+                tgt_id = edge["target"]
+                
+                # Resolve names
+                src_name = node_names.get(src_id) or src_id
+                tgt_name = node_names.get(tgt_id) or tgt_id
+                
+                if selected_entity != "All" and selected_entity not in (src_name, tgt_name):
+                    continue
+                
+                displayed_edges += 1
+                rel = edge["type"].replace("_", " ").title()
+                src_rec = edge.get("source_record", "Unknown")
+                
+                if showing_fallback:
+                    st.markdown(
+                        f'<div class="relationship-item" style="color:#6B7280;">🔗 **{src_name}** ⟷ **{rel}** ⟷ **{tgt_name}** <br><span style="font-size:0.85em;color:#9CA3AF;">(weak/co-occurrence link — same document only: {src_rec})</span></div>',
+                        unsafe_allow_html=True
+                    )
+                else:
+                    st.markdown(
+                        f'<div class="relationship-item">🔗 **{src_name}** ⟷ **{rel}** ⟷ **{tgt_name}** (via {src_rec})</div>',
+                        unsafe_allow_html=True
+                    )
+            
+            if displayed_edges == 0:
+                st.caption(f"No relationships found involving '{selected_entity}'.")
+    else:
+        st.caption("No relationships recorded for this analysis.")
+
+    st.caption(
+        f"*Session ID: {response_dict.get('session_id', 'N/A')}  |  "
+        f"All findings require investigator verification before any action is taken.*"
+    )
+
+
+# ===========================================================================
+# M6.3 — Graph visualization tab
+# ===========================================================================
+
+def render_graph_tab():
+    st.markdown("### 🕸️ Relationship Network")
+
+    if not st.session_state.graph_data:
+        st.info("Upload and analyze a case first to see the network graph.")
+        return
+
+    graph_data = st.session_state.graph_data
+    nodes = graph_data.get("nodes", [])
+    edges = graph_data.get("edges", [])
+
+    if not nodes:
+        st.warning("No network data found for this case.")
+        return
+
+    # --- M6.4 Date & View filter controls ---
+    st.markdown("#### 🗓️ Filters & Views")
+    
+    all_types = list(TYPE_ICONS.keys())
+    selected_types = st.multiselect(
+        "Filter Entity Types to Display", 
+        options=all_types, 
+        default=[t for t in all_types if t != "UNKNOWN"], 
+        key="graph_entity_types"
+    )
+
+    col_from, col_to, col_orgs, col_edges = st.columns([2, 2, 2, 2])
+    with col_from:
+        date_from = st.date_input("From date", value=None, key="graph_date_from")
+    with col_to:
+        date_to = st.date_input("To date", value=None, key="graph_date_to")
+    with col_orgs:
+        st.markdown("<br>", unsafe_allow_html=True)
+        show_all_orgs = st.checkbox("Show all Organizations", value=False, help="Include all organizations, not just highly connected ones.", key="graph_show_orgs")
+    with col_edges:
+        st.markdown("<br>", unsafe_allow_html=True)
+        show_weak_links = st.checkbox("Show 'Appears In Case' links", value=False, help="Include weak document co-occurrence links.", key="graph_show_edges")
+        
+    def reset_filters():
+        for k in ["graph_date_from", "graph_date_to", "graph_show_orgs", "graph_show_edges", "graph_entity_types"]:
+            if k in st.session_state:
+                del st.session_state[k]
+
+    if st.button("Reset Filters", key="graph_reset_date", on_click=reset_filters):
+        pass
+
+    filter_from = datetime.combine(date_from, datetime.min.time()) if date_from else None
+    filter_to = datetime.combine(date_to, datetime.max.time()) if date_to else None
+
+    # Stats strip
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.metric("Entities", len(nodes))
+    with col_b:
+        st.metric("Relationships", len(edges))
+
+    # Legend
+    st.markdown("""
+    **Legend:**
+    🧑 Person &nbsp;&nbsp; 📱 Phone &nbsp;&nbsp; 🏦 Account &nbsp;&nbsp;
+    📍 Location &nbsp;&nbsp; 🚗 Vehicle &nbsp;&nbsp; 🏢 Organisation &nbsp;&nbsp; ❓ Unknown
+    """)
+
+    # Build and embed graph
+    with st.spinner("Rendering network graph…"):
+        try:
+            html = build_pyvis_html(graph_data, filter_from, filter_to, show_all_orgs, show_weak_links, selected_types)
+            st.components.v1.html(html, height=600, scrolling=False)
+        except Exception as e:
+            st.error(f"Graph rendering failed: {e}")
+            return
+
+    # Node table below graph
+    with st.expander("📋 Show Entity Table"):
+        df_nodes = pd.DataFrame([
+            {
+                "Entity ID": n["id"],
+                "Name": n.get("label", n["id"]),
+                "Type": TYPE_ICONS.get(n.get("type", "UNKNOWN"), "") + " " + n.get("type", ""),
+                "Confidence": f"{n.get('confidence', 1.0):.0%}",
+            }
+            for n in nodes
+        ])
+        st.dataframe(df_nodes, use_container_width=True, hide_index=True)
+
+
+# ===========================================================================
+# M6.4 — Search & filter tab
+# ===========================================================================
+
+def render_search_tab():
+    st.markdown("### 🔎 Search Entities")
+
+    query = st.text_input(
+        "Search by name, phone number, or account number",
+        placeholder="e.g. Ravi Kumar or 9876543210",
+        key="search_input",
+    )
+
+    if st.button("Search", key="search_btn") and query.strip():
+        with st.spinner("Searching…"):
+            try:
+                results = call_m2_search(None, query.strip())
+                st.session_state.search_results = results
+                st.session_state.last_search_query = query.strip()
+            except Exception as e:
+                st.error(f"Search failed: {e}")
+                st.session_state.search_results = []
+                return
+
+    results = st.session_state.search_results
+    query_label = st.session_state.last_search_query
+
+    if query_label and not results:
+        st.warning(f'No matching entities found for "{query_label}".')
+        return
+
+    if results:
+        st.markdown(f"**{len(results)} result(s)** for *\"{query_label}\"*")
+        for r in results:
+            ntype = r.get("type", "UNKNOWN")
+            icon = TYPE_ICONS.get(ntype, "❓")
+            confidence = r.get("confidence", r.get("score", 0) / 100)
+            with st.container():
+                c1, c2, c3 = st.columns([1, 3, 1])
+                with c1:
+                    st.markdown(f"### {icon}")
+                with c2:
+                    st.markdown(f"**{r.get('name', r.get('entity_id', 'Unknown'))}**")
+                    st.caption(f"ID: {r.get('entity_id', '')}  |  Type: {ntype}")
+                with c3:
+                    color = confidence_color(confidence)
+                    st.markdown(
+                        f"<span style='color:{color};font-weight:700;'>{confidence:.0%}</span>",
+                        unsafe_allow_html=True
+                    )
+                
+                entity_id = r.get("entity_id")
+                if entity_id:
+                    with st.expander("🔗 Linked Entities"):
+                        try:
+                            from M6.backend_calls import call_m2_neighbors
+                            nb_list = call_m2_neighbors(None, entity_id)
+                            if not nb_list:
+                                st.write("No linked entities found.")
+                            else:
+                                for nb in nb_list:
+                                    rel = nb.get("relationship", "Linked").replace("_", " ").title()
+                                    nb_name = nb.get("name")
+                                    if not nb_name:
+                                        nb_name = nb.get("entity_id", "Unknown")
+                                    nb_id = nb.get("entity_id", "")
+                                    st.markdown(f"- **{rel}**: {nb_name} `{nb_id}`")
+                        except Exception as e:
+                            st.write("Could not load linked entities.")
+
+                st.divider()
+    elif not query_label:
+        st.caption("Enter a search term above and click Search.")
+
+
+# ===========================================================================
+# M6.5 — Key players view
+# ===========================================================================
+
+def render_key_players_tab():
+    st.markdown("### 🏆 Key Entities by Priority Score")
+    st.caption(
+        "Entities ranked by M3's analytical priority score. "
+        "Higher scores indicate more connections and flagged patterns — "
+        "all findings require investigator verification."
+    )
+
+    if not st.session_state.key_players:
+        st.info("Upload and analyze a case to see the key entities ranking.")
+        return
+
+    # Add toggle for system-wide vs case-scoped
+    show_system_wide = st.checkbox(
+        "Show system-wide key entities across all cases", 
+        value=False, 
+        help="By default, this panel only shows entities involved in the currently viewed case. Check this to see the top-ranked entities across the entire system."
+    )
+
+    players = st.session_state.key_players
+    
+    # Filter by case if not system-wide
+    if not show_system_wide:
+        # Determine case entities by checking current graph nodes
+        case_entity_ids = {n["id"] for n in st.session_state.graph_data.get("nodes", [])}
+        players = [p for p in players if p.get("entity_id") in case_entity_ids]
+        if not players:
+            st.info("No entities in this case have elevated priority scores or pattern flags.")
+            return
+
+    for i, player in enumerate(players, 1):
+        entity_id = player.get("entity_id", "")
+        name = player.get("name", entity_id)
+        priority = player.get("priority_score", 0.0)
+        flags = player.get("flags", [])
+        evidence_items = player.get("evidence", [])
+
+        # Determine implied type from entity_id prefix for icon
+        if "PER" in entity_id:
+            icon = "🧑"
+        elif "PHN" in entity_id:
+            icon = "📱"
+        elif "ACC" in entity_id:
+            icon = "🏦"
+        elif "LOC" in entity_id:
+            icon = "📍"
+        else:
+            icon = "❓"
+
+        # Extract case prefix for display
+        case_prefix = "Historical"
+        if "_" in entity_id:
+            parts = entity_id.split("_")
+            if len(parts) >= 3 and parts[0].startswith("CAS"):
+                case_prefix = parts[0]
+            elif len(parts) >= 2 and not parts[0].startswith("ACC") and not parts[0].startswith("PER") and not parts[0].startswith("LOC") and not parts[0].startswith("PHN") and not parts[0].startswith("DAT") and not parts[0].startswith("ORG"):
+                # Handle old unstandardized prefixes
+                case_prefix = parts[0]
+
+        bar_color = confidence_color(priority)
+
+        with st.container():
+            st.markdown(
+                f"**#{i} &nbsp; {icon} {name}** &nbsp; "
+                f"<code>{entity_id}</code> &nbsp; <span style='font-size:0.8em;color:#6B7280;background:#E5E7EB;padding:2px 6px;border-radius:4px;'>Case: {case_prefix}</span>",
+                unsafe_allow_html=True,
+            )
+            # Priority score bar
+            bar_pct = int(priority * 100)
+            st.markdown(f"""
+            <div class="priority-bar-outer">
+              <div class="priority-bar-inner" style="width:{bar_pct}%;background:{bar_color};"></div>
+            </div>
+            <div style="font-size:0.85em;color:{bar_color};font-weight:600;margin-bottom:4px;">
+              Priority Score: {priority:.2f}
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Flag badges
+            if flags:
+                badge_html = "".join(
+                    f'<span class="flag-badge">⚑ {FLAG_LABELS.get(f, f)}</span>'
+                    for f in flags
+                )
+                st.markdown(badge_html, unsafe_allow_html=True)
+
+            # Evidence (collapsible)
+            if evidence_items:
+                with st.expander(f"Evidence ({len(evidence_items)} items)"):
+                    for ev in evidence_items:
+                        st.markdown(f'<div class="evidence-item">📎 {ev}</div>', unsafe_allow_html=True)
+
+            st.divider()
+
+
+# ===========================================================================
+# M6.6 — Follow-up conversation tab
+# ===========================================================================
+
+def render_conversation_tab():
+    st.markdown("### 💬 Follow-Up Questions")
+
+    if not st.session_state.session_id:
+        st.info("Upload and analyze a case first to start a conversation.")
+        return
+
+    st.caption(
+        f"Active session: `{st.session_state.session_id}` | "
+        f"Case: `{st.session_state.case_id}` | "
+        "All responses are analytical findings — verify before acting."
+    )
+
+    # Display conversation history
+    history = st.session_state.conversation_history
+    if history:
+        st.markdown("#### Conversation History")
+        for turn in history:
+            role = turn.get("role", "")
+            content = turn.get("content", "")
+            if role == "investigator":
+                st.markdown(
+                    f'<div class="chat-label">🧑 You</div>'
+                    f'<div class="chat-investigator">{content}</div>',
+                    unsafe_allow_html=True,
+                )
+            elif role == "system":
+                st.markdown(
+                    f'<div class="chat-label">🤖 System Analysis</div>'
+                    f'<div class="chat-system">{content}</div>',
+                    unsafe_allow_html=True,
+                )
+        st.markdown("")
+
+    # Input area
+    st.markdown("#### Ask a Follow-Up Question")
+    with st.form("followup_form", clear_on_submit=True):
+        question = st.text_area(
+            "Your question",
+            placeholder=(
+                "e.g. What are the known connections of P001? "
+                "or: Are there any unusual patterns in the financial transactions?"
+            ),
+            height=80,
+        )
+        submitted = st.form_submit_button("Ask Question →")
+
+    if submitted and question.strip():
+        with st.spinner("Analyzing your question…"):
+            try:
+                req = FollowUpQuestion(question=question.strip())
+                resp = call_m5(st.session_state.session_id, req)
+                resp_dict = resp.to_dict() if hasattr(resp, "to_dict") else resp
+
+                # Update state
+                st.session_state.final_response = resp_dict
+                st.session_state.conversation_history.append(
+                    {"role": "investigator", "content": question.strip()}
+                )
+                st.session_state.conversation_history.append(
+                    {"role": "system", "content": resp_dict.get("response_text", "")}
+                )
+                st.rerun()
+
+            except Exception as e:
+                st.error(
+                    "The follow-up analysis could not be completed. "
+                    "Please try again or escalate for manual review. "
+                    f"(Detail: {type(e).__name__})"
+                )
+                logger.error(f"[UI] Follow-up question failed: {e}", exc_info=True)
+
+
+# ===========================================================================
+# M6.7 — Export tab
+# ===========================================================================
+
+def render_export_tab():
+    st.markdown("### 📤 Export Results")
+
+    if not st.session_state.final_response:
+        st.info("Upload and analyze a case first to enable export.")
+        return
+
+    case_id = st.session_state.case_id or "UNKNOWN"
+    resp = st.session_state.final_response
+    graph = st.session_state.graph_data or {"nodes": [], "edges": []}
+    players = st.session_state.key_players or []
+
+    st.markdown(
+        f"Export case **{case_id}** — confidence **{resp.get('confidence', 0):.0%}** — "
+        f"{len(graph.get('nodes', []))} entities, {len(graph.get('edges', []))} relationships"
+    )
+    st.markdown("---")
+
+    col1, col2, col3 = st.columns(3)
+
+    # CSV
+    with col1:
+        st.markdown("#### 📊 CSV")
+        st.caption("Structured spreadsheet — entities, relationships, evidence, key entities.")
+        if st.button("Generate CSV", key="gen_csv"):
+            try:
+                data, fname = export_csv(case_id, resp, graph, players)
+                st.download_button(
+                    "⬇️ Download CSV", data=data,
+                    file_name=fname, mime="text/csv", key="dl_csv"
+                )
+                st.success(f"Ready: {fname}")
+            except Exception as e:
+                st.error(f"CSV export failed: {e}")
+
+    # JSON
+    with col2:
+        st.markdown("#### 📋 JSON")
+        st.caption("Full structured data — suitable for programmatic processing.")
+        if st.button("Generate JSON", key="gen_json"):
+            try:
+                data, fname = export_json(case_id, resp, graph, players)
+                st.download_button(
+                    "⬇️ Download JSON", data=data,
+                    file_name=fname, mime="application/json", key="dl_json"
+                )
+                st.success(f"Ready: {fname}")
+            except Exception as e:
+                st.error(f"JSON export failed: {e}")
+
+    # PDF
+    with col3:
+        st.markdown("#### 📄 PDF Report")
+        st.caption("Formatted investigation report with summary, evidence, and key entities.")
+        if st.button("Generate PDF", key="gen_pdf"):
+            try:
+                data, fname = export_pdf(case_id, resp, graph, players)
+                st.download_button(
+                    "⬇️ Download PDF", data=data,
+                    file_name=fname, mime="application/pdf", key="dl_pdf"
+                )
+                st.success(f"Ready: {fname}")
+            except Exception as e:
+                st.error(f"PDF export failed: {e}")
+
+
+# ===========================================================================
+# M6.1 + M6.2 — Upload & Analyze tab
+# ===========================================================================
+
+def render_upload_tab():
+    st.markdown("### 📁 Upload & Analyze Case Document")
+
+    with st.form("upload_form"):
+        case_id_input = st.text_input(
+            "Case Reference Number",
+            placeholder="e.g. FIR103",
+            max_chars=30,
+        )
+        uploaded_files = st.file_uploader(
+            "Upload case document(s) (.txt or .pdf)",
+            type=["txt", "pdf"],
+            help="Plain text (.txt) is recommended. PDF text will be extracted.",
+            accept_multiple_files=True,
+        )
+        submit_btn = st.form_submit_button("🔍 Analyze Case")
+
+    if submit_btn:
+        # --- Validation (M6 FR11 — pre-processing validation) ---
+        if not case_id_input.strip():
+            st.error("Please enter a Case Reference Number before analyzing.")
+            return
+        if not uploaded_files:
+            st.error("Please upload at least one case document (.txt or .pdf).")
+            return
+
+        # --- Extract text ---
+        case_texts = []
+        for file in uploaded_files:
+            if file.type == "text/plain" or file.name.endswith(".txt"):
+                case_texts.append(file.read().decode("utf-8", errors="replace"))
+            elif file.name.endswith(".pdf"):
+                try:
+                    import io as _io
+                    raw = file.read()
+                    try:
+                        import pypdf
+                        reader = pypdf.PdfReader(_io.BytesIO(raw))
+                        case_texts.append("\n".join(page.extract_text() or "" for page in reader.pages))
+                    except ImportError:
+                        decoded = raw.decode("latin-1", errors="replace")
+                        case_texts.append("".join(c for c in decoded if c.isprintable() or c in "\n\r\t"))
+                        st.warning(f"PDF text extraction for {file.name} is limited without pypdf.")
+                except Exception as e:
+                    st.error(f"Could not read the PDF file {file.name}: {e}")
+                    return
+            else:
+                st.error(f"Unsupported file type: {file.name}")
+                return
+        
+        case_text = "\n\n--- NEXT DOCUMENT ---\n\n".join(case_texts)
+
+        if not case_text.strip():
+            st.error(
+                "The uploaded file appears to be empty or contains no readable text. "
+                "Please check the file and try again."
+            )
+            return
+
+        case_id = case_id_input.strip().upper()
+
+        # --- Call M5 ---
+        with st.spinner(f"Analyzing case {case_id}… (this may take up to 60 seconds for the first case)"):
+            try:
+                req = NewCaseUpload(case_id=case_id, case_text=case_text)
+                resp = call_m5(None, req)
+                resp_dict = resp.to_dict() if hasattr(resp, "to_dict") else resp
+            except Exception as e:
+                st.error(
+                    "Analysis could not complete. Please try again or escalate for manual review. "
+                    f"(Error: {type(e).__name__}: {e})"
+                )
+                logger.error(f"[UI] M5 call failed for case {case_id}: {e}", exc_info=True)
+                return
+
+        # --- Bug 2 fix: build graph_data from entities extracted from the uploaded doc ---
+        # Previously this called call_m2_subgraph(case_id) which falls back to the full
+        # 247-node static graph when case_id isn't in the pre-built index. That caused
+        # entities from unrelated FIRs (Fatima Begum, Kolkata etc.) to appear.
+        extracted_entities = resp_dict.get("extracted_entities", [])
+        if extracted_entities:
+            # Build graph_data from extracted entities + neighbors from the real graph
+            logger.info(f"[UI] Using {len(extracted_entities)} extracted entities for graph display")
+            # Nodes from extraction
+            graph_nodes = [
+                {
+                    "id": e["entity_id"],
+                    "label": e.get("name", e["entity_id"]),
+                    "type": e.get("type", "UNKNOWN"),
+                    "confidence": e.get("confidence", 0.75),
+                }
+                for e in extracted_entities
+            ]
+            # Try to get edges from the real graph for extracted entity IDs
+            graph_edges = []
+            try:
+                from M6.backend_calls import _get_graph
+                real_g = _get_graph()
+                if real_g is not None:
+                    extracted_ids = {e["entity_id"] for e in extracted_entities}
+                    neighbor_ids = set()
+                    for u, v, data in real_g.edges(data=True):
+                        # Include edges connected to ANY extracted entity
+                        if u in extracted_ids or v in extracted_ids:
+                            graph_edges.append({
+                                "source": u, "target": v,
+                                "type": data.get("relationship", ""),
+                                "confidence": data.get("confidence", 1.0),
+                                "weight": data.get("weight", 1.0),
+                                "timestamp": data.get("timestamp", ""),
+                                "source_record": data.get("source_record", "Unknown"),
+                            })
+                            neighbor_ids.add(u)
+                            neighbor_ids.add(v)
+                    
+                    # Add any missing historical neighbor nodes to graph_nodes
+                    for nid in neighbor_ids:
+                        if nid not in {n["id"] for n in graph_nodes}:
+                            if nid in real_g:
+                                node_data = real_g.nodes[nid]
+                                graph_nodes.append({
+                                    "id": nid,
+                                    "label": node_data.get("name", nid),
+                                    "type": node_data.get("type", "UNKNOWN"),
+                                    "confidence": node_data.get("confidence", 1.0),
+                                })
+            except Exception as eg:
+                logger.warning(f"[UI] Could not pull graph edges for extracted entities: {eg}")
+                
+            # Synthesize co-occurrence edges for the newly extracted entities
+            # so they are connected by APPEARS_IN_CASE in the graph
+            extracted_ids_list = list({e["entity_id"] for e in extracted_entities})
+            for i in range(len(extracted_ids_list)):
+                for j in range(i + 1, len(extracted_ids_list)):
+                    # Avoid adding duplicates if the real graph somehow already had them
+                    if not any((e["source"] == extracted_ids_list[i] and e["target"] == extracted_ids_list[j]) or 
+                               (e["source"] == extracted_ids_list[j] and e["target"] == extracted_ids_list[i]) 
+                               for e in graph_edges):
+                        graph_edges.append({
+                            "source": extracted_ids_list[i],
+                            "target": extracted_ids_list[j],
+                            "type": "APPEARS_IN_CASE",
+                            "confidence": 1.0,
+                            "weight": 1.0,
+                            "timestamp": "",
+                            "source_record": case_id,
+                        })
+
+            graph_data = {"nodes": graph_nodes, "edges": graph_edges}
+        else:
+            # Fallback: use the subgraph query (for follow-ups or when M1 extraction was skipped)
+            with st.spinner("Loading network data…"):
+                try:
+                    graph_data = call_m2_subgraph(None, case_id)
+                    # If it returned the full graph (>100 nodes) and we have no extracted
+                    # entities, warn the user rather than silently showing unrelated data.
+                    if len(graph_data.get("nodes", [])) > 100:
+                        st.warning(
+                            "⚠️ Network graph is showing the full historical dataset because "
+                            "the uploaded document's entities could not be matched. "
+                            "The entity table above shows only extracted entities from your document."
+                        )
+                except Exception as e:
+                    logger.warning(f"[UI] Graph load failed: {e}")
+                    graph_data = {"nodes": [], "edges": []}
+
+        with st.spinner("Ranking key entities…"):
+            try:
+                key_players = call_m3_key_players()
+            except Exception as e:
+                logger.warning(f"[UI] Key players load failed: {e}")
+                key_players = []
+
+        # --- Store in session state ---
+        new_session_id = resp_dict.get("session_id", None)
+        st.session_state.session_id = new_session_id
+        st.session_state.case_id = case_id
+        st.session_state.final_response = resp_dict
+        st.session_state.graph_data = graph_data
+        st.session_state.key_players = key_players
+        st.session_state.conversation_history = [
+            {"role": "investigator", "content": f"[Uploaded: {case_id}]"},
+            {"role": "system", "content": resp_dict.get("response_text", "")},
+        ]
+        st.session_state._just_analyzed = True
+        st.success(f"✅ Case {case_id} analyzed. See tabs below for results.")
+        st.rerun()
+
+    # --- Show results if available ---
+    if st.session_state.final_response:
+        if st.session_state.get("auto_switch_graph") and st.session_state.get("_just_analyzed"):
+            st.session_state._just_analyzed = False
+            import streamlit.components.v1 as components
+            components.html(
+                """
+                <script>
+                window.parent.document.querySelectorAll('button[data-baseweb="tab"]')[1].click();
+                </script>
+                """,
+                height=0
+            )
+
+        st.markdown("---")
+        st.markdown(f"#### Results — Case `{st.session_state.case_id}`")
+        render_final_response(st.session_state.final_response)
+
+        # Bug 2 fix: show entity table drawn from extracted_entities (doc-specific)
+        extracted = st.session_state.final_response.get("extracted_entities", [])
+        if extracted:
+            st.markdown("#### 🏷️ Entities Extracted from This Document")
+            # Filter out junk: skip entities whose name looks like a doc header/metadata
+            JUNK_PATTERNS = {
+                "fir", "case no", "date", "information", "police station",
+                "reporting officer", "first information", "under section",
+                "ipc", "crpc", "ps 26152",
+            }
+            filtered = [
+                e for e in extracted
+                if len(e.get("name", "")) > 2
+                and not any(j in e.get("name", "").lower() for j in JUNK_PATTERNS)
+            ]
+            if filtered:
+                df_extracted = pd.DataFrame([
+                    {
+                        "Entity ID": e["entity_id"],
+                        "Name": e.get("name", e["entity_id"]),
+                        "Type": TYPE_ICONS.get(e.get("type", "UNKNOWN"), "❓") + " " + e.get("type", ""),
+                        "Confidence": f"{e.get('confidence', 0.75):.0%}",
+                    }
+                    for e in filtered
+                ])
+                st.dataframe(df_extracted, use_container_width=True, hide_index=True)
+            else:
+                st.caption("No named entities were extracted from this document.")
+
+
+# ===========================================================================
+# M6.8 + M6.9 — Sidebar controls
+# ===========================================================================
+
+def render_sidebar():
+    st.sidebar.markdown("## 🔍 PS 26152")
+    st.sidebar.markdown("**Investigator Dashboard**")
+    st.sidebar.markdown("*AI-Powered Network Analysis System*")
+    st.sidebar.divider()
+
+    # Backend status
+    status = get_backend_status()
+    if status["use_real_modules"]:
+        st.sidebar.markdown("**Backend:** 🟢 Real Modules")
+        graph_ok = status["graph_loaded"]
+        pipeline_ok = status["pipeline_loaded"]
+        m3_ok = status["m3_flags_available"]
+        st.sidebar.markdown(
+            f"{'✅' if graph_ok else '❌'} Graph: "
+            f"{status['graph_nodes']:,} nodes / {status['graph_edges']:,} edges"
+        )
+        st.sidebar.markdown(
+            f"{'✅' if pipeline_ok else '❌'} M4 RAG Pipeline"
+        )
+        st.sidebar.markdown(
+            f"{'✅' if m3_ok else '❌'} M3 Pattern Flags"
+        )
+        if status["init_error"]:
+            st.sidebar.warning(f"⚠️ Init error: {status['init_error'][:80]}")
+    else:
+        st.sidebar.markdown("**Backend:** 🟡 Mock Mode")
+        st.sidebar.caption(
+            "Using mock M5/M2/M3 backends. "
+            "Set `CRIMINAL_USE_REAL_MODULES=1` to use real modules."
+        )
+    st.sidebar.divider()
+
+    # Active session info
+    if st.session_state.session_id:
+        st.sidebar.markdown(f"**Active Case:** `{st.session_state.case_id}`")
+        st.sidebar.markdown(f"**Session:** `{st.session_state.session_id}`")
+        if st.sidebar.button("Clear Session / New Case"):
+            for key in ["session_id", "case_id", "final_response", "graph_data",
+                        "key_players", "conversation_history", "search_results"]:
+                st.session_state[key] = None if key not in ["conversation_history", "search_results"] else []
+            st.rerun()
+        st.sidebar.divider()
+
+    # M6.9 — Demo script launcher
+    st.sidebar.markdown("#### 🎬 Demo Script")
+    st.sidebar.caption("Auto-runs the full demo flow: upload → graph → question → export")
+    if st.sidebar.button("▶ Run Demo", key="run_demo"):
+        st.session_state.demo_mode = True
+        st.rerun()
+
+    # Disclaimer
+    st.sidebar.divider()
+    
+    st.sidebar.markdown("#### ⚙️ Settings")
+    st.session_state["auto_switch_graph"] = st.sidebar.checkbox(
+        "Auto-switch to Graph Tab", 
+        value=False,
+        help="Automatically switch to the Network Graph tab after case analysis."
+    )
+    # The auto-switch-to-Network-Graph-tab is intentionally configurable based on demo script needs.
+
+    st.sidebar.divider()
+    st.sidebar.caption(
+        "⚖️ *All findings are investigative leads requiring verification. "
+        "This system does not determine guilt or legal liability.*"
+    )
+
+
+# ===========================================================================
+# M6.9 — Demo mode auto-script
+# ===========================================================================
+
+def run_demo_script():
+    """
+    Executes the full intended demo flow automatically:
+    Upload → Analyze → View graph → Ask follow-up → Ready for export.
+    Displayed inline so a judge can follow along step by step.
+    """
+    st.markdown("## 🎬 Demo Script: Full Investigator Workflow")
+    st.info(
+        "This demo runs the complete workflow: case upload → analysis → "
+        "network graph → follow-up question. Export is available on the Export tab."
+    )
+
+    DEMO_CASE_ID = "FIR103"
+    DEMO_TEXT = """
+Case No.: FIR103
+Date: 15-Jan-2024
+Reporting Officer: Inspector A. Sharma
+
+Details:
+Ravi Kumar (DOB: 12-Mar-1985, ID: DL-20199874) was identified at three ATMs
+on the day of the incident. Phone 9876543210 registered to Ravi Kumar
+was used repeatedly within a 2-hour window between 10:00 and 12:00.
+Account ACC00102 received INR 200,000 from an unknown sender at 11:45.
+
+Associate Meena Rao (DOB: 4-Jun-1988, ID: DL-20234561) was seen near the
+ATM at Lajpat Nagar at 11:30. Phone 9123456789 shows 14 calls to the
+first number in a 2-hour window.
+
+Suresh Patel was mentioned in two prior cases in the same locality.
+""".strip()
+
+    progress = st.progress(0, text="Starting demo…")
+
+    # Step 1: Upload
+    st.markdown("### Step 1 — Upload case document")
+    progress.progress(10, text="Uploading case FIR103…")
+    req = NewCaseUpload(case_id=DEMO_CASE_ID, case_text=DEMO_TEXT)
+    try:
+        resp = call_m5(None, req)
+        resp_dict = resp.to_dict() if hasattr(resp, "to_dict") else resp
+        progress.progress(35, text="Case uploaded and analyzed.")
+        st.success(f"✅ Case {DEMO_CASE_ID} analyzed")
+    except Exception as e:
+        st.error(f"Demo failed at Step 1 (M5 call): {e}")
+        progress.progress(0)
+        return
+
+    # Step 2: Load graph + key players
+    progress.progress(50, text="Loading network data…")
+    graph_data = call_m2_subgraph(None, DEMO_CASE_ID)
+    key_players = call_m3_key_players()
+
+    # Save to session state
+    st.session_state.session_id = resp_dict.get("session_id")
+    st.session_state.case_id = DEMO_CASE_ID
+    st.session_state.final_response = resp_dict
+    st.session_state.graph_data = graph_data
+    st.session_state.key_players = key_players
+    st.session_state.conversation_history = [
+        {"role": "investigator", "content": f"[Uploaded: {DEMO_CASE_ID}]"},
+        {"role": "system", "content": resp_dict.get("response_text", "")},
+    ]
+
+    # Step 3: Show result
+    st.markdown("### Step 2 — Analysis Result")
+    render_final_response(resp_dict)
+    progress.progress(65, text="Analysis displayed.")
+
+    # Step 4: Show graph
+    st.markdown("### Step 3 — Relationship Network")
+    try:
+        html = build_pyvis_html(graph_data)
+        st.components.v1.html(html, height=500)
+        progress.progress(80, text="Network graph rendered.")
+    except Exception as e:
+        st.warning(f"Graph rendering failed: {e}")
+
+    # Step 5: Follow-up question
+    st.markdown("### Step 4 — Follow-Up Question")
+    followup = "What connections does Ravi Kumar have to financial accounts?"
+    st.info(f"📨 Investigator: *\"{followup}\"*")
+    try:
+        req2 = FollowUpQuestion(question=followup)
+        resp2 = call_m5(st.session_state.session_id, req2)
+        resp2_dict = resp2.to_dict() if hasattr(resp2, "to_dict") else resp2
+        st.success("🤖 System Response:")
+        st.info(resp2_dict.get("response_text", ""))
+        st.session_state.conversation_history.append(
+            {"role": "investigator", "content": followup}
+        )
+        st.session_state.conversation_history.append(
+            {"role": "system", "content": resp2_dict.get("response_text", "")}
+        )
+        progress.progress(95, text="Follow-up answered.")
+    except Exception as e:
+        st.warning(f"Follow-up question demo step failed: {e}")
+
+    progress.progress(100, text="Demo complete. Use the Export tab to download results.")
+    st.success(
+        "🎉 Demo complete! Use the **Export** tab to download results as CSV, JSON, or PDF. "
+        "Use the **Follow-Up** tab to ask more questions."
+    )
+    st.session_state.demo_mode = False
+
+
+# ===========================================================================
+# Main layout
+# ===========================================================================
+
+def main():
+    render_sidebar()
+
+    # Title bar
+    st.markdown("""
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+        <div style="font-size:2.2em;">🔍</div>
+        <div>
+            <div style="font-size:1.6em;font-weight:700;line-height:1.2;">
+                Investigator Dashboard
+            </div>
+            <div style="font-size:0.9em;color:#6B7280;">
+                PS 26152 — AI-Powered Criminal Network Analysis System &nbsp;|&nbsp;
+                <em>All findings require investigator verification</em>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.divider()
+
+    # Demo mode takes over the whole page
+    if st.session_state.demo_mode:
+        run_demo_script()
+        return
+
+    # Tab navigation (M6.1–M6.9)
+    tabs = st.tabs([
+        "📁 Upload & Analyze",
+        "🕸️ Network Graph",
+        "🔎 Search",
+        "🏆 Key Entities",
+        "💬 Follow-Up",
+        "📤 Export",
+    ])
+
+    with tabs[0]:
+        render_upload_tab()
+    with tabs[1]:
+        render_graph_tab()
+    with tabs[2]:
+        render_search_tab()
+    with tabs[3]:
+        render_key_players_tab()
+    with tabs[4]:
+        render_conversation_tab()
+    with tabs[5]:
+        render_export_tab()
+
+
+if __name__ == "__main__":
+    main()

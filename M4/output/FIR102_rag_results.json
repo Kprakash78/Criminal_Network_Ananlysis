@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "FIR102",
+    "source": "FIR156",
+    "relevance_score": 0.6711,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR156\n        Date: 24-06-2025\n        Police Station: [Synthetic]\n\n        On 24-06-2025, a complaint was received at Police Station regarding an incident …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR102",
+    "source": "FIR107",
+    "relevance_score": 0.6552,
+    "matched_entities": [],
+    "evidence": "nita S., also known as S. Sharma, was apprehended at Park Street, Kolkata. During search, a mobile phone bearing SIM with number 9123456789 was recovered.\n\n        Call record se pata chala ki 9123456…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR102",
+    "source": "FIR129",
+    "relevance_score": 0.6508,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR129\n        Date: 08-10-2024\n        Police Station: [Synthetic]\n\n        On 08-10-2024, a complaint was received at Police Station regarding an incident …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR102",
+    "source": "FIR108",
+    "relevance_score": 0.6505,
+    "matched_entities": [],
+    "evidence": "Yadav contacted the complainant via phone number 9543210987 and demanded money under false pretenses. The accused was last seen driving vehicle HR26MN6789 near Park Street, Kolkata.\n\n        R. Yadav …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR102",
+    "source": "FIR101",
+    "relevance_score": 0.6254,
+    "matched_entities": [],
+    "evidence": "ount number ACC00104 suspect hai.\n\n        Further, it is reported that Rakesh Yadav (phone: 9543210987) was in contact with the accused and was seen at Koramangala, Bengaluru.\n\n        Action is bein…[truncated]",
+    "timestamp": null
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "case_id": "FIR_2026_00931",
+  "summary_text": "Case ID: FIR_2026_00931 NEW CASE DOCUMENT: FIRST INFORMATION REPORT (FIR) FIR No: FIR/2026/00931 Police Station: Sector 22 Police Station, Noida, Gautam Buddh Nagar Date of Report: 28/08/2026 Date/Time of Occurrence: 26/08/2026, approx 23:40 hrs Complainant Name: Suresh Chandra Yadav Complainant Address: House No. 14, Block C, Sector 22, Noida Complainant Phone: +91-9871123456 Nature of Offence: Suspected involvement in illegal betting operation and money laundering under IPC Sections 420, 120B and relevant provisions of the Prevention of Money Laundering Act. Details of Incident (as narrated by complainant): Maine dekha ki mera padosi, jiska naam Ravi Kumar hai (also known as Ravi K., resides at House No. 22, Block C, Sector 22, Noida), raat ko kai log uske ghar aate hain aur bahar khadi gaadi mein cash ka lena-dena hota hai. ...[truncated]\n\nAll findings require investigator verification before any action is taken.",
+  "evidence_used": [
+    "RAG_RESULT_1",
+    "RAG_RESULT_2",
+    "RAG_RESULT_3",
+    "RAG_RESULT_4",
+    "RAG_RESULT_5",
+    "PATTERN_FLAG_LOC_81a8afca",
+    "GRAPH_EDGE_LOC_81a8afca_PER_90746251",
+    "GRAPH_EDGE_LOC_81a8afca_PER_fb236640",
+    "GRAPH_EDGE_LOC_81a8afca_LOC_fb236640",
+    "GRAPH_EDGE_LOC_81a8afca_PHN_bdf9248c",
+    "GRAPH_EDGE_LOC_81a8afca_PHN_5e2e2898",
+    "GRAPH_EDGE_LOC_81a8afca_ACC_9543ca06",
+    "GRAPH_EDGE_LOC_81a8afca_PER_7d3cf0ca",
+    "GRAPH_EDGE_LOC_81a8afca_PER_2ed27c83",
+    "GRAPH_EDGE_LOC_81a8afca_PER_f1e6dbfd",
+    "GRAPH_EDGE_LOC_81a8afca_ORG_5a0a8754"
+  ],
+  "confidence": 0.0846
+}

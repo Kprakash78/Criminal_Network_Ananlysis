@@ -1,0 +1,23 @@
+{
+  "case_id": "FIR_HIGH",
+  "summary_text": "Case ID: FIR_052 INCIDENT REPORT: Massive financial fraud larger than Saradha, collecting over 15000 Crores illegally.\n\nAll findings require investigator verification before any action is taken.",
+  "evidence_used": [
+    "RAG_RESULT_1",
+    "RAG_RESULT_2",
+    "RAG_RESULT_3",
+    "RAG_RESULT_4",
+    "RAG_RESULT_5",
+    "PATTERN_FLAG_ACC_dac31588",
+    "GRAPH_EDGE_ACC_dac31588_ACC_ac8fbfd6",
+    "GRAPH_EDGE_ACC_dac31588_DAT_60f2f4fe",
+    "GRAPH_EDGE_ACC_dac31588_ACC_b2210d1b",
+    "GRAPH_EDGE_ACC_dac31588_ACC_56faaa35",
+    "GRAPH_EDGE_ACC_dac31588_DAT_b63ecd47",
+    "GRAPH_EDGE_ACC_dac31588_DAT_f0408f4d",
+    "GRAPH_EDGE_ACC_dac31588_ACC_3413aed9",
+    "GRAPH_EDGE_ACC_dac31588_ACC_a49a1677",
+    "GRAPH_EDGE_ACC_dac31588_DAT_3475fba0",
+    "GRAPH_EDGE_ACC_dac31588_DAT_158a323a"
+  ],
+  "confidence": 0.4988
+}

@@ -1,0 +1,23 @@
+{
+  "case_id": "FIR101",
+  "summary_text": "On the evening of 1st September 2026, a major cyber-heist and extortion attempt was reported at the headquarters of TechNova Solutions in Gurugram. At approximately 18:45 hours, the server administrator, Mr. Alok Verma, noticed unauthorized data exfiltration originating from a suspicious IP address. During the internal investigation, the company's CEO, Mrs. Kavita Menon, received a ransom call on her personal phone (9876543210). The caller, identifying himself as 'Raka', demanded a transfer of 50 Lakh Rupees to a bank account (Accoun...\n\nAll findings require investigator verification before any action is taken.",
+  "evidence_used": [
+    "RAG_RESULT_1",
+    "RAG_RESULT_2",
+    "RAG_RESULT_3",
+    "RAG_RESULT_4",
+    "RAG_RESULT_5",
+    "PATTERN_FLAG_ORG_5651b0a3",
+    "GRAPH_EDGE_ORG_5651b0a3_LOC_97a44d8c",
+    "GRAPH_EDGE_ORG_5651b0a3_LOC_282f96b0",
+    "GRAPH_EDGE_ORG_5651b0a3_PER_0acfe764",
+    "GRAPH_EDGE_ORG_5651b0a3_PER_fb236640",
+    "GRAPH_EDGE_ORG_5651b0a3_PER_2ed27c83",
+    "GRAPH_EDGE_ORG_5651b0a3_ORG_5a0a8754",
+    "GRAPH_EDGE_ORG_5651b0a3_PER_4658b44a",
+    "GRAPH_EDGE_ORG_5651b0a3_ORG_ab86d0dc",
+    "GRAPH_EDGE_ORG_5651b0a3_LOC_51c1795a",
+    "GRAPH_EDGE_ORG_5651b0a3_ORG_e0cc86d1"
+  ],
+  "confidence": 0.0965
+}

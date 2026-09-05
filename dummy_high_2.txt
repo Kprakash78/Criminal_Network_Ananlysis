@@ -1,0 +1,21 @@
+FIRST INFORMATION REPORT
+FIR No.: FIR_2026_HIGH_02
+Date: 05/09/2026
+Police Station: Cyber Cell, Mumbai
+Reporting Officer: Inspector Kavita Sharma
+Case Reference: DUMMY_HIGH_2
+
+INCIDENT REPORT:
+A massive phishing syndicate operating out of a fake call center in Malad, Mumbai was busted on 5th September 2026. The syndicate targeted elderly citizens, convincing them to transfer their life savings under the guise of fake IRS tax penalties.
+
+The stolen funds were immediately split and routed through a complex web of mule accounts. The primary receiving accounts were identified as ACC_3413aed9 and ACC_49c380ba. Both accounts exhibit classic signs of rapid fund movement and dense cluster membership within known cybercrime networks.
+
+PRIMARY ACCUSED:
+1. Rakesh Kumar (Alias), Call Center Manager.
+2. Amit Singh, suspected mule account operator.
+
+EVIDENCE:
+- Bank statements for ACC_3413aed9 showing 300+ incoming transfers in 7 days.
+- Cross-transfers to ACC_49c380ba for laundering.
+
+All findings require investigator verification before any action is taken.

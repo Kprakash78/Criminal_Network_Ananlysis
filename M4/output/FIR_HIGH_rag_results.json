@@ -1,0 +1,52 @@
+[
+  {
+    "case_id": "FIR_HIGH",
+    "source": "FIR_049",
+    "relevance_score": 0.6891,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00049\nDate: 23/04/1992\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_049\n\nINCIDENT REPORT:\nStock market manipulation u…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_HIGH",
+    "source": "FIR_050",
+    "relevance_score": 0.6585,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00050\nDate: 30/03/2001\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_050\n\nINCIDENT REPORT:\nCircular trading and market…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_HIGH",
+    "source": "FIR_039",
+    "relevance_score": 0.6559,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00039\nDate: 09/01/2009\nPolice Station: Hyderabad\nReporting Officer: Training Academy Staff\nCase Reference: FIR_039\n\nINCIDENT REPORT:\nCorporate fraud of 7136 …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_HIGH",
+    "source": "FIR119",
+    "relevance_score": 0.6492,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR119\n        Date: 24-12-2025\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Mohammed Iqbal alleges that Sunita Sharma and a…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_HIGH",
+    "source": "FIR_052",
+    "relevance_score": 0.6458,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00052\nDate: 05/03/2014\nPolice Station: Kolkata\nReporting Officer: Training Academy Staff\nCase Reference: FIR_052\n\nINCIDENT REPORT:\nMassive financial fraud la…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_HIGH",
+    "source": "M3_FLAGS_ACC_dac31588",
+    "relevance_score": 0.5579,
+    "matched_entities": [
+      "ACC_dac31588"
+    ],
+    "evidence": "Degree centrality 0.289 — entity connects to 28.9% of the network relative to maximum possible | Betweenness centrality 0.059 — entity lies on 5.9% of shortest paths between other entities",
+    "timestamp": null
+  }
+]

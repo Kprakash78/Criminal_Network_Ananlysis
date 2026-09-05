@@ -1,0 +1,62 @@
+[
+  {
+    "case_id": "FIR_INJECT",
+    "source": "FIR106",
+    "relevance_score": 0.6052,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR106\n        Date: 04-06-2025\n        Police Station: [Synthetic]\n\n        This First Information Report is registered on the complaint of Mohammed Iqbal, …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_INJECT",
+    "source": "FIR104",
+    "relevance_score": 0.5571,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR104\n        Date: 27-09-2025\n        Police Station: [Synthetic]\n\n        This First Information Report is registered on the complaint of Deepak Verma, re…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_INJECT",
+    "source": "FIR109",
+    "relevance_score": 0.5427,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR109\n        Date: 16-08-2024\n        Police Station: [Synthetic]\n\n        This First Information Report is registered on the complaint of Fatima Begum, re…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_INJECT",
+    "source": "FIR101",
+    "relevance_score": 0.5313,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR101\n        Date: 23-01-2025\n        Police Station: [Synthetic]\n\n        Vide complaint no. FIR101, dated 23-01-2025, the undersigned officer has registe…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_INJECT",
+    "source": "FIR156",
+    "relevance_score": 0.5212,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR156\n        Date: 12-10-2024\n        Police Station: [Synthetic]\n\n        Vide complaint no. FIR156, dated 12-10-2024, the undersigned officer has registe…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_INJECT",
+    "source": "M3_FLAGS_PER_a7ca11a0",
+    "relevance_score": 0.2152,
+    "matched_entities": [
+      "PER_a7ca11a0"
+    ],
+    "evidence": "Degree centrality 0.317 — entity connects to 31.7% of the network relative to maximum possible | Betweenness centrality 0.003 — entity lies on 0.3% of shortest paths between other entities",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_INJECT",
+    "source": "M3_FLAGS_ORG_a7ca11a0",
+    "relevance_score": 0.1876,
+    "matched_entities": [
+      "ORG_a7ca11a0"
+    ],
+    "evidence": "Degree centrality 0.138 — entity connects to 13.8% of the network relative to maximum possible | Betweenness centrality 0.000 — entity lies on 0.0% of shortest paths between other entities",
+    "timestamp": null
+  }
+]

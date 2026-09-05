@@ -1,0 +1,12 @@
+{
+  "case_id": "FIR_MED",
+  "summary_text": "FIR134 (relevance: 0.64) ka mobile 9321098765 par call aaya tha.\n\nAll findings require investigator verification before any action is taken.",
+  "evidence_used": [
+    "RAG_RESULT_1",
+    "RAG_RESULT_2",
+    "RAG_RESULT_3",
+    "RAG_RESULT_4",
+    "RAG_RESULT_5"
+  ],
+  "confidence": 0.314
+}

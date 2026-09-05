@@ -1,0 +1,37 @@
+# PS 26152 — AI-Powered Criminal Network Analysis System
+# Root requirements: superset of all modules (M1 data/NER, M2 graph, M3 analytics,
+# M4 local LLM + RAG, M5 LangGraph orchestrator, M6 Streamlit dashboard).
+# Floors match the versions this codebase was actually developed and tested against.
+
+# M1 — Data + NER
+spacy>=3.8.16
+transformers>=5.15.1
+torch>=2.13.0
+rapidfuzz>=3.14.5
+
+# M2 — Knowledge Graph / M3 — Graph Analytics / M6 graph rendering
+networkx>=3.6.1
+
+# M4 — Local LLM + RAG
+sentence-transformers>=6.0.0
+faiss-cpu>=1.15.0
+numpy>=2.4.4
+
+# M5 — Agentic AI
+langgraph>=1.2.11
+
+# M6 — Dashboard
+streamlit>=1.62.0
+pyvis>=0.3.2
+
+# Shared data / schemas
+pandas>=3.0.2
+pydantic>=2.13.4
+
+# Tests
+pytest>=9.1.1
+
+# NOTE: the spaCy English model is not a pip package. Install separately:
+#   python -m spacy download en_core_web_sm
+# M4's flan-t5-large and sentence-transformer models are downloaded once from
+# Hugging Face and cached/stored locally for offline use (see M4/Backend.md).

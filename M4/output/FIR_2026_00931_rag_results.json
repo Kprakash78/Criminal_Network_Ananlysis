@@ -1,0 +1,52 @@
+[
+  {
+    "case_id": "FIR_2026_00931",
+    "source": "FIR108",
+    "relevance_score": 0.6732,
+    "matched_entities": [],
+    "evidence": "Yadav contacted the complainant via phone number 9543210987 and demanded money under false pretenses. The accused was last seen driving vehicle HR26MN6789 near Park Street, Kolkata.\n\n        R. Yadav …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_2026_00931",
+    "source": "FIR109",
+    "relevance_score": 0.6671,
+    "matched_entities": [],
+    "evidence": "et, Kolkata.\n\n        The accused Ravi Kumar contacted the complainant via phone number 9876543210 and demanded money under false pretenses. The accused was last seen driving vehicle DL01AB1234 near L…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_2026_00931",
+    "source": "FIR154",
+    "relevance_score": 0.6594,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR154\n        Date: 30-07-2024\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Suresh Patil alleges that S. Sharma and associa…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_2026_00931",
+    "source": "FIR104",
+    "relevance_score": 0.6576,
+    "matched_entities": [],
+    "evidence": "Chandigarh.\n\n        Investigations revealed that Ravi Kumar is associated with Reddy Construction Co. and has been receiving suspicious funds in account ACC00101. The accused operates from T. Nagar, …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_2026_00931",
+    "source": "FIR109",
+    "relevance_score": 0.6527,
+    "matched_entities": [],
+    "evidence": " record se pata chala ki 9876543210 se 9432109876 par baar baar call hua.\nRavi Kumar ne Metro Logistics Pvt. Ltd. ke through paisa bheja, account ACC00101 mein.\nAankhon dekha gawah ne kaha ki Ravi Kum…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_2026_00931",
+    "source": "M3_FLAGS_LOC_81a8afca",
+    "relevance_score": 0.2116,
+    "matched_entities": [
+      "LOC_81a8afca"
+    ],
+    "evidence": "Degree centrality 0.293 — entity connects to 29.3% of the network relative to maximum possible | Betweenness centrality 0.003 — entity lies on 0.3% of shortest paths between other entities",
+    "timestamp": null
+  }
+]

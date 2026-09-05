@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "FIR_036",
+    "source": "FIR_058",
+    "relevance_score": 0.6754,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00058\nDate: 10/10/2026\nPolice Station: Academy\nReporting Officer: Training Academy Staff\nCase Reference: FIR_058\n\nINCIDENT REPORT:\nTraining case: Victim kidn…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_036",
+    "source": "FIR_057",
+    "relevance_score": 0.6663,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00057\nDate: 03/03/1991\nPolice Station: Delhi\nReporting Officer: Training Academy Staff\nCase Reference: FIR_057\n\nINCIDENT REPORT:\nBribery using hawala channel…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_036",
+    "source": "FIR146",
+    "relevance_score": 0.6577,
+    "matched_entities": [],
+    "evidence": "on Co. ka maal chura liya.\nPriya N. ki gaadi KA05GH3456 CCTV mein pakdi gayi Lajpat Nagar, Delhi ke paas.\n\n        Further, it is reported that Rakesh Yadav (phone: 9543210987) was in contact with the…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_036",
+    "source": "FIR106",
+    "relevance_score": 0.6497,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR106\n        Date: 04-06-2025\n        Police Station: [Synthetic]\n\n        This First Information Report is registered on the complaint of Mohammed Iqbal, …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR_036",
+    "source": "FIR129",
+    "relevance_score": 0.649,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR129\n        Date: 08-10-2024\n        Police Station: [Synthetic]\n\n        On 08-10-2024, a complaint was received at Police Station regarding an incident …[truncated]",
+    "timestamp": null
+  }
+]

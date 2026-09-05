@@ -1,0 +1,21 @@
+FIRST INFORMATION REPORT
+FIR No.: FIR_2026_MED_01
+Date: 03/09/2026
+Police Station: Bandra West, Mumbai
+Reporting Officer: Inspector Anil Deshmukh
+Case Reference: DUMMY_MED_CONF
+
+INCIDENT REPORT:
+On the morning of 3rd September 2026, a local businessman reported receiving extortion calls. The caller claimed to be affiliated with the Chhota Rajan gang and demanded protection money of 15 Lakh Rupees. 
+
+The calls were made from the mobile number 9876541111, which matches historical records of extortion networks in the area. The victim was instructed to drop the cash at a designated spot in Andheri East, Mumbai. No bank accounts were provided by the caller.
+
+PRIMARY ACCUSED:
+1. Unknown caller using number 9876541111.
+2. Rajendra Sadashiv Nikalje (mentioned by caller, likely a proxy).
+
+EVIDENCE:
+- Call recordings from 9876541111.
+- Location data places the caller in Andheri East during the call.
+
+All findings require investigator verification before any action is taken.

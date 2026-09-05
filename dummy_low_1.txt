@@ -1,0 +1,18 @@
+FIRST INFORMATION REPORT
+FIR No.: FIR_2026_LOW_01
+Date: 04/09/2026
+Police Station: EOW, New Delhi
+Reporting Officer: Inspector Rajiv Sharma
+Case Reference: DUMMY_LOW_1
+
+INCIDENT REPORT:
+A petty theft occurred at a local grocery store. A person named John Doe walked out without paying for bread and milk.
+There is no evidence of financial fraud or shell companies. 
+
+PRIMARY ACCUSED:
+1. John Doe, an unknown individual.
+
+EVIDENCE:
+- CCTV footage of the grocery store showing the theft.
+
+All findings require investigator verification before any action is taken.

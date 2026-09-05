@@ -1,0 +1,24 @@
+{
+  "case_id": "FIR_001",
+  "summary_text": "No strong evidence found linking this case to prior records.\n\nAll findings require investigator verification before any action is taken.",
+  "evidence_used": [
+    "RAG_RESULT_1",
+    "RAG_RESULT_2",
+    "RAG_RESULT_3",
+    "RAG_RESULT_4",
+    "RAG_RESULT_5",
+    "PATTERN_FLAG_PER_a7ca11a0",
+    "PATTERN_FLAG_ACC_9543ca06",
+    "GRAPH_EDGE_PER_a7ca11a0_ORG_71819417",
+    "GRAPH_EDGE_PER_a7ca11a0_ORG_5a0a8754",
+    "GRAPH_EDGE_PER_a7ca11a0_PER_4658b44a",
+    "GRAPH_EDGE_PER_a7ca11a0_PER_81f5348a",
+    "GRAPH_EDGE_PER_a7ca11a0_ORG_a7ca11a0",
+    "GRAPH_EDGE_PER_a7ca11a0_ORG_e0cc86d1",
+    "GRAPH_EDGE_PER_a7ca11a0_LOC_da3431ef",
+    "GRAPH_EDGE_PER_a7ca11a0_PER_ebc0e467",
+    "GRAPH_EDGE_PER_a7ca11a0_PHN_7619ee8c",
+    "GRAPH_EDGE_PER_a7ca11a0_PHN_0cfda16c"
+  ],
+  "confidence": 0.221
+}
