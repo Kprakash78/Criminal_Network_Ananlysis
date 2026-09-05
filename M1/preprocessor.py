@@ -16,14 +16,70 @@ _FIELD_LABEL_RE = re.compile(r"^\s*[A-Z][a-zA-Z\s]+:\s*.*$")
 def strip_structural_noise(text: str) -> str:
     """
     Preprocess document text to strip lines that are clearly structural or formatting
-    artifacts before they reach the NER model.
+    artifacts before they reach the NER model. Also handles table parsing by extracting
+    only the 'Name' column from tabular data.
     """
     cleaned_lines = []
     lines = text.splitlines()
     
+    in_table = False
+    name_col_idx = None
+    table_row_idx = 1
+    
     for line in lines:
         stripped = line.strip()
         
+        # Strip trailing meta-content blocks entirely
+        if "--- END OF DOCUMENT" in stripped.upper() or "NOTE FOR TESTING PURPOSES" in stripped.upper():
+            break
+            
+        # Check table state first
+        if in_table:
+            if not stripped:
+                in_table = False
+                cleaned_lines.append(line)
+                continue
+                
+            parts = line.split('\t')
+            if len(parts) == 1:
+                parts = line.split('|')
+            if len(parts) == 1:
+                parts = re.split(r'\s{2,}', line)
+                
+            if len(parts) > 1 and name_col_idx is not None and name_col_idx < len(parts):
+                name_val = parts[name_col_idx].strip()
+                if name_val and not name_val.startswith("---") and not name_val.startswith("==="):
+                    # Output as a numbered bullet so extract_bulleted_names regex catches it reliably
+                    cleaned_lines.append(f"{table_row_idx}. {name_val}")
+                    table_row_idx += 1
+                continue
+            else:
+                # If it doesn't look like a row anymore, end the table
+                in_table = False
+
+        if not in_table and stripped:
+            # Check if this line is a table header containing 'Name', 'Full Name', 'Witness', 'Person'
+            parts = line.split('\t')
+            if len(parts) == 1:
+                parts = line.split('|')
+            if len(parts) == 1:
+                parts = re.split(r'\s{2,}', line)
+                
+            if len(parts) > 1:
+                parts_lower = [p.strip().lower() for p in parts]
+                # Find the first column header that looks like a person's name column
+                found_idx = -1
+                for idx, p in enumerate(parts_lower):
+                    if any(kw in p for kw in ('name', 'person', 'witness', 'suspect', 'individual')):
+                        found_idx = idx
+                        break
+                        
+                if found_idx != -1:
+                    in_table = True
+                    name_col_idx = found_idx
+                    table_row_idx = 1
+                    continue # Skip the header row
+                    
         # Skip empty lines
         if not stripped:
             cleaned_lines.append(line)

@@ -56,6 +56,14 @@ class TestStructuralNoisePreprocessor(unittest.TestCase):
         self.assertIn("The Ramesh Chander Case Group held a meeting.", cleaned)
         self.assertIn("We reviewed the Annual Report Center.", cleaned)
         
+    def test_table_parsing(self):
+        text = "ID\tName\tAge\tRelationship\nP01\tMeena Kulkarni\t52\tDirector\nP02\tSolapur\t40\tWitness"
+        cleaned = strip_structural_noise(text)
+        self.assertIn("99. Meena Kulkarni", cleaned)
+        self.assertIn("99. Solapur", cleaned)
+        self.assertNotIn("Director", cleaned)
+        self.assertNotIn("Witness", cleaned)
+        
     def test_title_case_headings(self):
         text = "Entity Search\nM2 Knowledge Graph\nRAG Pipeline\nJohn Smith was seen today.\nThe system uses M3 for Analysis."
         cleaned = strip_structural_noise(text)

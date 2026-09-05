@@ -79,8 +79,8 @@ _MATCH_THRESHOLDS = {
 
 def _make_entity_id(entity_type: str, canonical: str, case_prefix: str = "") -> str:
     """
-    Deterministic entity ID: type-prefix + first 8 hex chars of SHA-256(canonical).
-    Satisfies the NFR: same canonical → same ID across runs.
+    Deterministic entity ID: type-prefix + first 8 hex chars of SHA-256(type + canonical).
+    Satisfies the NFR: same canonical and type → same ID across runs.
     """
     prefix = _TYPE_PREFIX.get(entity_type, "ENT")
     
@@ -89,7 +89,8 @@ def _make_entity_id(entity_type: str, canonical: str, case_prefix: str = "") -> 
     if re.fullmatch(rf"{prefix}_[a-fA-F0-9]{{8}}", canonical):
         return canonical
         
-    hash_hex = hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:8]
+    hash_source = f"{entity_type}:{canonical}"
+    hash_hex = hashlib.sha256(hash_source.encode("utf-8")).hexdigest()[:8]
     if case_prefix:
         return f"{case_prefix}_{prefix}_{hash_hex}"
     return f"{prefix}_{hash_hex}"
@@ -103,15 +104,39 @@ def _fuzzy_match(
 ) -> Optional[str]:
     """
     Try to match `candidate` against `existing_canonicals`.
-    Uses token_sort_ratio for PERSON (handles "Ravi Kumar" vs "R. Kumar"),
-    plain ratio for others.
-    Returns the best-matching canonical if score ≥ threshold, else None.
+    Uses custom strict token_sort_ratio for PERSON to avoid false-positive substring merges,
+    while still handling initials (e.g. "R. Kumar" ~ "Ravi Kumar").
+    Returns the best-matching canonical if score >= threshold, else None.
     """
     if not existing_canonicals:
         return None
 
     if entity_type == "PERSON":
-        scorer = fuzz.partial_ratio    # handles initials: "R. Kumar" ~ "Ravi Kumar"
+        best_match = None
+        best_score = 0
+        for existing in existing_canonicals:
+            # Using token_sort_ratio prevents substring overlap from scoring 100
+            # e.g., token_sort_ratio("Reshma Solapur", "Solapur") = 66
+            score = fuzz.token_sort_ratio(candidate, existing)
+            
+            if score < threshold:
+                # Custom logic to handle "R. Kumar" ~ "Ravi Kumar"
+                c_parts = candidate.lower().split()
+                e_parts = existing.lower().split()
+                if len(c_parts) == 2 and len(e_parts) == 2 and c_parts[-1] == e_parts[-1]:
+                    c_first, e_first = c_parts[0], e_parts[0]
+                    if (len(c_first) <= 2 and e_first.startswith(c_first[0])) or \
+                       (len(e_first) <= 2 and c_first.startswith(e_first[0])):
+                        score = max(score, 85)
+                        
+            if score > best_score:
+                best_score = score
+                best_match = existing
+                
+        if best_score >= threshold:
+            return best_match
+        return None
+        
     elif entity_type == "ORGANIZATION":
         scorer = fuzz.partial_ratio
     else:
@@ -126,7 +151,7 @@ def _fuzzy_match(
     )
     if result is None:
         return None
-    return result[0]   # matched canonical string
+    return result[0]
 
 
 # ---------------------------------------------------------------------------

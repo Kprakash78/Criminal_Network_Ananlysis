@@ -1,0 +1,61 @@
+INVESTIGATIVE CASE RECORD
+Case ID: FIR_2026_TEST_DUAL
+Case Type: Suspected Financial Fraud Network
+Location: Nagpur, Maharashtra
+Date of Report: 05/09/2026
+
+1. BACKGROUND
+
+A complaint was filed regarding a suspected shell-company fraud
+operation. During investigation, officers identified a recurring name,
+"Solapur", which appears in the case both as a place reference and,
+separately, as a person's surname — this is a deliberately ambiguous
+case designed to test whether the extraction system can distinguish
+context correctly rather than merging both meanings under one ID.
+
+Investigating officers first encountered the term "Solapur" as a city
+reference: several fraudulent transactions were routed through a
+shell company registered in Solapur, Maharashtra.
+
+Later in witness statements, officers recorded a statement from a man
+identified only by his surname, Solapur, who claimed to be a former
+employee of the shell company and provided information about its
+internal structure.
+
+2. PERSON DATABASE
+
+The following individuals are referenced in this investigation:
+
+ID	Name	Age	Relationship / Role
+P01	Meena Kulkarni	52	Company director (suspected)
+P02	Solapur	40	Former employee, witness
+P03	Arjun Patwardhan	35	Accountant
+P04	Reshma Solapur	29	Company director's relative, uninvolved
+
+Source caution: entity P02 (surname "Solapur") and the earlier city
+reference "Solapur" are intentionally the same text string used in two
+different senses, to test entity-type disambiguation.
+
+3. ADDITIONAL NOTES
+
+Officers also noted that entity P04 ("Reshma Solapur, 29, Company
+director's relative, uninvolved") should be extracted as a single
+PERSON entity with full name "Reshma Solapur" — not concatenated with
+her age or relationship description into one malformed string.
+
+--- END OF DOCUMENT ---
+
+NOTE FOR TESTING PURPOSES:
+This is a synthetic/fictional document with no real persons or events.
+It is designed specifically to test two known bugs:
+1. The same text ("Solapur") appearing legitimately as both a
+   LOCATION and a PERSON surname in different contexts — the system
+   should NOT assign both types to the same entity_id; it should
+   either correctly disambiguate by context or, at minimum, assign
+   two clearly DIFFERENT entity_ids for the two distinct real-world
+   referents, never reuse one ID across two types.
+2. Table-style person records (ID | Name | Age | Relationship) should
+   extract ONLY the Name column as the PERSON entity value — age and
+   relationship-description text should never be concatenated into
+   the entity name itself (e.g., must not produce a garbled entity
+   like "Reshma Solapur 29 Company director's relative").

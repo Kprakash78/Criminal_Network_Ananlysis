@@ -179,6 +179,11 @@ def _normalize_text(entity_type: str, raw_text: str) -> Optional[str]:
         if norm.count('"') % 2 != 0 or norm.count("'") % 2 != 0:
             return None
             
+        # Reject common junk words that leak from headers or doc metadata
+        JUNK_WORDS = {"the", "a", "an", "this", "that", "entity", "name", "id", "entity_id", "entity_ids", "none", "null", "undefined"}
+        if norm_lower in JUNK_WORDS:
+            return None
+            
         return norm
 
     if entity_type == "DATE":
