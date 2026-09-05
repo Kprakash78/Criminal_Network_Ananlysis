@@ -122,6 +122,63 @@ def _normalize_text(entity_type: str, raw_text: str) -> Optional[str]:
         # Discard pure-digit "names"
         if re.fullmatch(r"\d+", norm):
             return None
+            
+        norm_lower = norm.lower()
+        
+        # Discard document structural terms that spaCy hallucinates as entities
+        JUNK_EXACT = {
+            "psychological", "communications", "timeline", "authorship",
+            "network graph", "identity", "relationship", "possible",
+            "physical", "who", "family", "documentary", "hypothesis",
+            "document", "location", "evidence", "activity", "organization",
+            "person", "vehicle", "account", "date", "information", "fir"
+        }
+        JUNK_SUBSTRING = {
+            "case no", "police station", "reporting officer",
+            "first information", "under section", "ipc", "crpc", "ps 26152",
+            "evidence database", "activity database", "initial fir", "network graph"
+        }
+        
+        if norm_lower in JUNK_EXACT:
+            return None
+        if any(j in norm_lower for j in JUNK_SUBSTRING):
+            return None
+            
+        # Reject generalized tech/UI structural terms (broadened filter instead of just exact strings)
+        TECH_VOCAB = {
+            "dashboard", "search", "graph", "export", "review", "pipeline",
+            "upload", "extract", "system", "engine", "module", "analysis",
+            "workflow", "documentation", "centrality", "detection", "nlp", "llm", "rag",
+            "ui", "streamlit", "scorer", "normalizer", "langgraph", "players", "interactive",
+            "csv", "pdf", "louvain", "community"
+        }
+        
+        # Words that strongly indicate a legitimate organization/location name
+        LEGIT_ORG_WORDS = {
+            "board", "center", "group", "department", "association", "company",
+            "inc", "ltd", "corp", "agency", "council", "commission", "force", "police",
+            "bank", "hospital", "school", "university", "court", "station", "ministry"
+        }
+        
+        words = re.sub(r"[^\w\s]", "", norm_lower).split()
+        if len(words) <= 7:
+            # If it contains a tech word, but DOES NOT contain any legit org word
+            if any(tech_word in words for tech_word in TECH_VOCAB):
+                if not any(org_word in words for org_word in LEGIT_ORG_WORDS):
+                    return None
+                
+        # Also drop if it has dangling commas or weird trailing stuff
+        if norm.endswith(",") or norm.endswith(":"):
+            return None
+                
+        # Reject version/project-code-like tokens (e.g. "PS 26152", "CAS 123")
+        if re.match(r"^[A-Za-z]{2,4}\s?\d{3,6}$", norm):
+            return None
+            
+        # Reject malformed/truncated fragments (unbalanced quotes)
+        if norm.count('"') % 2 != 0 or norm.count("'") % 2 != 0:
+            return None
+            
         return norm
 
     if entity_type == "DATE":

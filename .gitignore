@@ -27,7 +27,7 @@ M1/output/
 M3/output/
 M4/data/FAISS/
 *.db
-*.sqlite
+*.sqlite    
 *.sqlite3
 
 # Logs

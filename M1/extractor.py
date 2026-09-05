@@ -412,16 +412,20 @@ def extract_all(doc_id: str, text: str) -> list[RawEntity]:
     """
     entities: list[RawEntity] = []
 
+    # 0. Preprocessing: Strip structural noise before extraction
+    from M1.preprocessor import strip_structural_noise
+    clean_text = strip_structural_noise(text)
+
     # English NER (always)
-    entities.extend(extract_entities_spacy(doc_id, text))
+    entities.extend(extract_entities_spacy(doc_id, clean_text))
 
     # Hinglish/Hindi NER (only when text looks code-mixed)
-    entities.extend(extract_entities_indicbert(doc_id, text))
+    entities.extend(extract_entities_indicbert(doc_id, clean_text))
 
     # Regex extractors (always — they're fast and high-precision)
-    entities.extend(extract_phones(doc_id, text))
-    entities.extend(extract_vehicles(doc_id, text))
-    entities.extend(extract_accounts(doc_id, text))
-    entities.extend(extract_bulleted_names(doc_id, text))
+    entities.extend(extract_phones(doc_id, clean_text))
+    entities.extend(extract_vehicles(doc_id, clean_text))
+    entities.extend(extract_accounts(doc_id, clean_text))
+    entities.extend(extract_bulleted_names(doc_id, clean_text))
 
     return entities

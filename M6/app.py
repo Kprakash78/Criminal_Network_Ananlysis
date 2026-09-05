@@ -1209,17 +1209,7 @@ def render_upload_tab():
         extracted = st.session_state.final_response.get("extracted_entities", [])
         if extracted:
             st.markdown("#### 🏷️ Entities Extracted from This Document")
-            # Filter out junk: skip entities whose name looks like a doc header/metadata
-            JUNK_PATTERNS = {
-                "fir", "case no", "date", "information", "police station",
-                "reporting officer", "first information", "under section",
-                "ipc", "crpc", "ps 26152",
-            }
-            filtered = [
-                e for e in extracted
-                if len(e.get("name", "")) > 2
-                and not any(j in e.get("name", "").lower() for j in JUNK_PATTERNS)
-            ]
+            filtered = [e for e in extracted if len(e.get("name", "")) > 2]
             if filtered:
                 df_extracted = pd.DataFrame([
                     {
