@@ -53,5 +53,46 @@ $env:CRIMINAL_USE_REAL_MODULES="1"; streamlit run M6/app.py
 CRIMINAL_USE_REAL_MODULES=1 streamlit run M6/app.py
 ```
 
+## New Features (v2.0)
+
+### 🎯 Top-3 Suspect Ranking (`M3_feature/top3.py`)
+Identifies the top 3 highest-risk entities using a transparent, weighted risk scoring formula:
+```
+risk_score = 0.20×degree + 0.20×temporal + 0.15×colocation + 0.20×call_pattern + 0.25×transaction
+```
+Each suspect includes plain-English explanations backed by exact evidence line references.
+
+### 🔎 Case Search (`M6_feature/search_api.py`)
+Semantic search across all case documents with exact `file:line` provenance for every finding. Uses sentence-transformers (all-MiniLM-L6-v2) with TF-IDF fallback for offline use.
+
+### ⏱️ Timeline Player (`M6_feature/timeline_player.py`)
+Animated playback of all case events (calls, transactions, FIR filings) in chronological order with network graph visualization. Includes Play/Pause/Speed controls.
+
+### 📦 Evidence Exporter (`M6_feature/exporter.py`)
+One-click court evidence ZIP packaging with:
+- SHA-256 integrity hashes for every file
+- RSA-2048 digital signature of manifest
+- Optional AES-256 encryption
+- Step-by-step verification guide
+
+### Running the New Dashboard
+```bash
+# Quick start with demo data
+chmod +x run_demo.sh && ./run_demo.sh
+
+# Or manually
+python3 demo_dataset/generate_demo_outputs.py
+python3 -m M3_feature.top3
+CRIMINAL_USE_REAL_MODULES=0 streamlit run M6_feature/search_ui.py --server.headless true
+```
+
+See [demo_instructions.md](demo_instructions.md) for the full 5-minute demo walkthrough.
+
 ## Security & Privacy
 This application is explicitly designed for secure, offline environments. All graph analytics (M3) and LLM summarization (M4) run locally. No case data is transmitted to external API providers like OpenAI or Anthropic during analysis.
+
+### Data Handling
+- **All data in this repo is synthetic** — see [demo_dataset/SYNTHETIC_DATA_NOTICE.md](demo_dataset/SYNTHETIC_DATA_NOTICE.md)
+- **DO NOT commit real FIRs/CDRs** — see [PII_POLICY.md](PII_POLICY.md)
+- **No API keys required** — see [SECRETS_README.md](SECRETS_README.md)
+- Evidence packages are **cryptographically signed** for integrity verification
