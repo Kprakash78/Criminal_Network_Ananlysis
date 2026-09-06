@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "FIR111",
+    "source": "FIR_049",
+    "relevance_score": 0.6185,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00049\nDate: 23/04/1992\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_049\n\nINCIDENT REPORT:\nStock market manipulation u…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR111",
+    "source": "FIR106",
+    "relevance_score": 0.5814,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR106\n        Date: 04-06-2025\n        Police Station: [Synthetic]\n\n        This First Information Report is registered on the complaint of Mohammed Iqbal, …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR111",
+    "source": "FIR130",
+    "relevance_score": 0.5748,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR130\n        Date: 07-05-2024\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Anjali Singh alleges that Mohammed Iqbal and as…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR111",
+    "source": "FIR_050",
+    "relevance_score": 0.5718,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00050\nDate: 30/03/2001\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_050\n\nINCIDENT REPORT:\nCircular trading and market…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR111",
+    "source": "FIR_039",
+    "relevance_score": 0.5642,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00039\nDate: 09/01/2009\nPolice Station: Hyderabad\nReporting Officer: Training Academy Staff\nCase Reference: FIR_039\n\nINCIDENT REPORT:\nCorporate fraud of 7136 …[truncated]",
+    "timestamp": null
+  }
+]

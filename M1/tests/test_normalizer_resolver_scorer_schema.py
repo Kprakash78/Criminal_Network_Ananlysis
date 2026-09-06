@@ -226,14 +226,16 @@ class TestResolver:
             canonical = p[0]
             aliases = p[1]
             # First: add canonical
-            resolve_entities([_make_norm(canonical, "PERSON", docs=["D1"])], store)
+            resolve_entities([_make_norm(canonical, "PERSON", docs=["FIR_001"])], store)
             pre_count = len([e for e in store.all() if e.entity_type == "PERSON"])
             # Then: add each alias — should merge, not add new
             for alias in aliases[:2]:   # test first 2 aliases per person
-                resolve_entities([_make_norm(alias, "PERSON", docs=["D2"])], store)
+                resolve_entities([_make_norm(alias, "PERSON", docs=["FIR_002"])], store)
                 post_count = len([e for e in store.all() if e.entity_type == "PERSON"])
                 if post_count == pre_count:
                     merge_count += 1
+                else:
+                    pre_count = post_count
 
         assert merge_count >= 3, f"Expected ≥3 successful merges, got {merge_count}"
 

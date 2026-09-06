@@ -118,24 +118,73 @@ def _fuzzy_match(
             # Using token_sort_ratio prevents substring overlap from scoring 100
             # e.g., token_sort_ratio("Reshma Solapur", "Solapur") = 66
             score = fuzz.token_sort_ratio(candidate, existing)
-            
+
             if score < threshold:
-                # Custom logic to handle "R. Kumar" ~ "Ravi Kumar"
-                c_parts = candidate.lower().split()
-                e_parts = existing.lower().split()
-                if len(c_parts) == 2 and len(e_parts) == 2 and c_parts[-1] == e_parts[-1]:
-                    c_first, e_first = c_parts[0], e_parts[0]
-                    if (len(c_first) <= 2 and e_first.startswith(c_first[0])) or \
-                       (len(e_first) <= 2 and c_first.startswith(e_first[0])):
-                        score = max(score, 85)
-                        
+                # Extended initials/abbreviation logic:
+                # Handles cases like:
+                #   "Ravi K."    ↔ "Ravi Kumar"        (abbreviated last name)
+                #   "R. Kumar"   ↔ "Ravi Kumar"        (abbreviated first name)
+                #   "S. Verma"   ↔ "Suresh Verma"      (abbreviated first name, 2-word)
+                #   "S. Verma"   ↔ "Suresh K. Verma"   (abbreviated first, middle initial)
+                c_parts = [p.rstrip('.') for p in candidate.split()]
+                e_parts = [p.rstrip('.') for p in existing.split()]
+
+                def _initial_matches(short_name: str, full_name: str) -> bool:
+                    """
+                    Check if short_name could be an abbreviated form of full_name.
+                    'short_name' is 2 words, 'full_name' is 2 or 3 words.
+                    An initial is a 1-char string (after stripping dots).
+                    """
+                    s = [p.rstrip('.') for p in short_name.split()]
+                    f = [p.rstrip('.') for p in full_name.split()]
+
+                    if len(s) != 2:
+                        return False
+
+                    # Case: last names match, first name is initial of full first name
+                    # e.g. "R. Kumar" ↔ "Ravi Kumar": s=["R","Kumar"], f=["Ravi","Kumar"]
+                    if len(f) == 2 and s[-1].lower() == f[-1].lower():
+                        if (len(s[0]) == 1 and f[0].lower().startswith(s[0].lower())) or \
+                           (len(f[0]) == 1 and s[0].lower().startswith(f[0].lower())):
+                            return True
+
+                    # Case: last names match, first name is partial first name
+                    # e.g. "Ravi K." ↔ "Ravi Kumar": s=["Ravi","K"], f=["Ravi","Kumar"]
+                    if len(f) == 2 and s[0].lower() == f[0].lower():
+                        if (len(s[1]) == 1 and f[1].lower().startswith(s[1].lower())) or \
+                           (len(f[1]) == 1 and s[1].lower().startswith(f[1].lower())):
+                            return True
+
+                    # Case: 3-word full name; short name is abbreviated form
+                    # e.g. "S. Verma" ↔ "Suresh K. Verma" or "Suresh Verma"
+                    if len(f) == 3:
+                        # Try matching short against (f[0], f[2]) — drop middle
+                        reduced_full = f"{f[0]} {f[2]}"
+                        if _initial_matches(short_name, reduced_full):
+                            return True
+                        # Try matching short against (f[0][0], f[2]) — abbrev first
+                        abbrev_full = f"{f[0][0]} {f[2]}"
+                        if s[-1].lower() == f[-1].lower() and \
+                           len(s[0]) == 1 and f[0].lower().startswith(s[0].lower()):
+                            return True
+
+                    return False
+
+                candidate_str = candidate
+                existing_str = existing
+
+                if _initial_matches(candidate_str, existing_str) or \
+                   _initial_matches(existing_str, candidate_str):
+                    score = max(score, 85)
+
             if score > best_score:
                 best_score = score
                 best_match = existing
-                
+
         if best_score >= threshold:
             return best_match
         return None
+
         
     elif entity_type == "ORGANIZATION":
         scorer = fuzz.partial_ratio
@@ -224,16 +273,15 @@ def resolve_entities(
     for norm in new_entities:
         threshold = _MATCH_THRESHOLDS.get(norm.entity_type, 85)
         
-        # Isolate by case if possible (doc_id format CAS001_FIR01 -> CAS001)
-        case_prefix = ""
+        # Isolate by case/document. The full doc_id serves as the case identifier.
+        case_id = ""
         if norm.source_doc_ids:
-            first_doc = norm.source_doc_ids[0]
-            case_prefix = first_doc.split("_")[0]
+            case_id = norm.source_doc_ids[0]
             
-        # Only fuzzy match against entities that belong to the same case prefix
+        # Only fuzzy match against entities that belong to the same case_id
         existing_in_case = [
             c for c, eid in store._index.get(norm.entity_type, [])
-            if not case_prefix or eid.startswith(f"{case_prefix}_")
+            if not case_id or eid.startswith(f"{case_id}_")
         ]
 
         matched_canonical = _fuzzy_match(
@@ -247,7 +295,7 @@ def resolve_entities(
             # Merge into existing
             eid = None
             for c, candidate_eid in store._index.get(norm.entity_type, []):
-                if c == matched_canonical and (not case_prefix or candidate_eid.startswith(f"{case_prefix}_")):
+                if c == matched_canonical and (not case_id or candidate_eid.startswith(f"{case_id}_")):
                     eid = candidate_eid
                     break
             if eid:
@@ -256,7 +304,7 @@ def resolve_entities(
         else:
             # Create new resolved entity
             canonical = norm.normalized_text
-            eid = _make_entity_id(norm.entity_type, canonical, case_prefix)
+            eid = _make_entity_id(norm.entity_type, canonical, case_id)
 
             # Handle (unlikely) hash collision: append a counter
             if eid in store._entities:

@@ -406,26 +406,68 @@ def extract_all(doc_id: str, text: str) -> list[RawEntity]:
     """
     Run all extractors on `text` and return the combined list of RawEntity objects.
 
-    Per PRD Section 11: regex-validated structured fields (phone/vehicle/account)
-    take precedence — but here we just collect everything; deduplication/precedence
-    is handled in the normaliser (M1.6).
+    Uses the document structure classifier (M1.doc_structure) to route each
+    block through a dedicated extraction path:
+
+      HEADER_FIELD   → NER on VALUE only (isolated, never concatenated with label)
+      TABLE_ROW      → direct PERSON entity from name column (NER bypassed)
+      STRUCTURAL_NOISE → discarded, never reaches any extractor
+      NARRATIVE      → existing spaCy + IndicBERT NER pipeline, unchanged
+
+    Regex extractors (phone / vehicle / account) run on the full original text
+    because they are precise enough and numbers can appear anywhere in a document.
     """
+    from M1.doc_structure import classify_document_structure
+
     entities: list[RawEntity] = []
 
-    # 0. Preprocessing: Strip structural noise before extraction
-    from M1.preprocessor import strip_structural_noise
-    clean_text = strip_structural_noise(text)
+    # ---- Step 1: Classify the document structure ----
+    blocks = classify_document_structure(text)
 
-    # English NER (always)
-    entities.extend(extract_entities_spacy(doc_id, clean_text))
+    # ---- Step 2: Route each block to its extraction path ----
+    for block in blocks:
 
-    # Hinglish/Hindi NER (only when text looks code-mixed)
-    entities.extend(extract_entities_indicbert(doc_id, clean_text))
+        if block.type == "STRUCTURAL_NOISE":
+            # Discard entirely — never reaches NER
+            continue
 
-    # Regex extractors (always — they're fast and high-precision)
-    entities.extend(extract_phones(doc_id, clean_text))
-    entities.extend(extract_vehicles(doc_id, clean_text))
-    entities.extend(extract_accounts(doc_id, clean_text))
-    entities.extend(extract_bulleted_names(doc_id, clean_text))
+        elif block.type == "HEADER_FIELD":
+            # Extract entities from the VALUE ONLY — isolated, not the full line.
+            # This prevents "Case Type: Suspected Financial Fraud Network" from
+            # being fed as "Case Type Suspected Financial Fraud Network" to NER.
+            value = block.parsed_fields.get("value", "").strip() if block.parsed_fields else ""
+            if value and len(value) >= 2:
+                entities.extend(extract_entities_spacy(doc_id, value))
+                # IndicBERT on header values: only if they look Hinglish
+                entities.extend(extract_entities_indicbert(doc_id, value))
+
+        elif block.type == "TABLE_ROW":
+            # The column header already told us this is a PERSON name field.
+            # Bypass NER entirely — running NER on "Solapur" would hallucinate
+            # or fail; we already know the semantic type from the table structure.
+            name = block.parsed_fields.get("name", "").strip() if block.parsed_fields else ""
+            if name and len(name) >= 2:
+                entities.append(RawEntity(
+                    text=name,
+                    entity_type="PERSON",
+                    source_doc_id=doc_id,
+                    extraction_method="table",
+                    raw_confidence=0.88,
+                ))
+
+        elif block.type == "NARRATIVE":
+            # Existing NER pipeline — spaCy + IndicBERT, unchanged.
+            # Also extract bulleted names from narrative (e.g. "PRIMARY ACCUSED:\n1. Raka")
+            narrative_text = block.raw_text
+            entities.extend(extract_entities_spacy(doc_id, narrative_text))
+            entities.extend(extract_entities_indicbert(doc_id, narrative_text))
+            entities.extend(extract_bulleted_names(doc_id, narrative_text))
+
+    # ---- Step 3: Regex extractors on full original text ----
+    # Regex is precise enough that it doesn't need structural filtering.
+    # Phone/vehicle/account numbers appear anywhere in documents.
+    entities.extend(extract_phones(doc_id, text))
+    entities.extend(extract_vehicles(doc_id, text))
+    entities.extend(extract_accounts(doc_id, text))
 
     return entities

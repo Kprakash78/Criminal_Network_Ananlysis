@@ -12,8 +12,8 @@ class TestEntityIdGeneration(unittest.TestCase):
         self.assertTrue(per_id.startswith("PER_"))
         
         # Test hash suffix differs
-        loc_hash = loc_id.split("_")[1]
-        per_hash = per_id.split("_")[1]
+        loc_hash = loc_id.split("_")[-1]
+        per_hash = per_id.split("_")[-1]
         self.assertNotEqual(loc_hash, per_hash, "Hash suffixes must differ to prevent collision")
 
 if __name__ == '__main__':

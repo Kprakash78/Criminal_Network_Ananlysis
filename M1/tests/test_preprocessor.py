@@ -59,10 +59,14 @@ class TestStructuralNoisePreprocessor(unittest.TestCase):
     def test_table_parsing(self):
         text = "ID\tName\tAge\tRelationship\nP01\tMeena Kulkarni\t52\tDirector\nP02\tSolapur\t40\tWitness"
         cleaned = strip_structural_noise(text)
-        self.assertIn("99. Meena Kulkarni", cleaned)
-        self.assertIn("99. Solapur", cleaned)
+        # New behavior: name column values are emitted as plain text, not "99. Name" format
+        self.assertIn("Meena Kulkarni", cleaned)
+        self.assertIn("Solapur", cleaned)
         self.assertNotIn("Director", cleaned)
         self.assertNotIn("Witness", cleaned)
+        self.assertNotIn("P01", cleaned)
+        self.assertNotIn("P02", cleaned)
+
         
     def test_title_case_headings(self):
         text = "Entity Search\nM2 Knowledge Graph\nRAG Pipeline\nJohn Smith was seen today.\nThe system uses M3 for Analysis."

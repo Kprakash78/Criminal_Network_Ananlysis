@@ -804,12 +804,17 @@ def render_key_players_tab():
 
         # Extract case prefix for display
         case_prefix = "Historical"
-        if "_" in entity_id:
+        import re
+        type_match = re.search(r"_(PER|PHN|ACC|LOC|ORG|VEH|DAT|CAS)_", entity_id)
+        if type_match:
+            idx = type_match.start()
+            if idx > 0:
+                case_prefix = entity_id[:idx]
+        elif "_" in entity_id:
             parts = entity_id.split("_")
             if len(parts) >= 3 and parts[0].startswith("CAS"):
                 case_prefix = parts[0]
-            elif len(parts) >= 2 and not parts[0].startswith("ACC") and not parts[0].startswith("PER") and not parts[0].startswith("LOC") and not parts[0].startswith("PHN") and not parts[0].startswith("DAT") and not parts[0].startswith("ORG"):
-                # Handle old unstandardized prefixes
+            elif len(parts) >= 2 and not any(parts[0].startswith(p) for p in ["ACC", "PER", "LOC", "PHN", "DAT", "ORG", "VEH", "CAS"]):
                 case_prefix = parts[0]
 
         bar_color = confidence_color(priority)
