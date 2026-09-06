@@ -1,0 +1,16 @@
+{
+  "case_id": "demo_case",
+  "description": "Synthetic demo case for Criminal Network Analysis system demonstration",
+  "data_sources": {
+    "firs": "data/firs/",
+    "cdrs": "data/cdrs/cdr.csv",
+    "transactions": "data/transactions/transactions.csv"
+  },
+  "generated_outputs": {
+    "entities": "demo_dataset/M1_output/entities.json",
+    "relationships": "demo_dataset/M1_output/relationships.json",
+    "top3_results": "M3_feature/top3_results.json"
+  },
+  "is_synthetic": true,
+  "created_at": "2026-09-06T00:00:00+05:30"
+}
