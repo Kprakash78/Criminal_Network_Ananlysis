@@ -1,0 +1,94 @@
+{
+  "benchmark": "latency",
+  "n_runs": 20,
+  "modules": {
+    "parse": {
+      "median_ms": 0.05,
+      "p95_ms": 0.05,
+      "min_ms": 0.05,
+      "max_ms": 0.05,
+      "n_runs": 20,
+      "file": "demo_dataset/fir_files/case_A.txt"
+    },
+    "graph_build": {
+      "median_ms": 0.02,
+      "p95_ms": 0.02,
+      "min_ms": 0.02,
+      "max_ms": 0.03,
+      "n_runs": 20,
+      "n_nodes": 7,
+      "n_edges": 14
+    },
+    "search": {
+      "median_ms": 0.0,
+      "p95_ms": 0.01,
+      "min_ms": 0.0,
+      "max_ms": 0.05,
+      "n_runs": 20,
+      "query": "financial transfer suspicious account",
+      "n_results": 3
+    },
+    "top3": {
+      "median_ms": 0.13,
+      "p95_ms": 0.14,
+      "min_ms": 0.13,
+      "max_ms": 0.15,
+      "n_runs": 20,
+      "top3_names": [
+        "Anjali Singh",
+        "Fatima Begum",
+        "Sunita Sharma"
+      ]
+    },
+    "candidate_coverage": {
+      "candidate_coverage": 1.0,
+      "n_cases": 3,
+      "n_hits": 3,
+      "note": "Coverage = fraction of cases where \u22651 elevated-priority candidate appears in top-3. Requires investigator verification.",
+      "per_case": [
+        {
+          "case_id": "case_A",
+          "top3_predicted": [
+            "Anjali Singh",
+            "Fatima Begum",
+            "Sunita Sharma"
+          ],
+          "top3_expected_candidates": [
+            "Fatima Begum",
+            "Anjali Singh",
+            "Sunita Sharma"
+          ],
+          "hit": true
+        },
+        {
+          "case_id": "case_B",
+          "top3_predicted": [
+            "Deepak Verma",
+            "Mohammed Iqbal",
+            "Ravi Kumar"
+          ],
+          "top3_expected_candidates": [
+            "Ravi Kumar",
+            "Mohammed Iqbal",
+            "Deepak Verma"
+          ],
+          "hit": true
+        },
+        {
+          "case_id": "case_C",
+          "top3_predicted": [
+            "Rakesh Yadav",
+            "Priya Nair",
+            "Suresh Patil"
+          ],
+          "top3_expected_candidates": [
+            "Rakesh Yadav",
+            "Priya Nair",
+            "Suresh Patil"
+          ],
+          "hit": true
+        }
+      ]
+    }
+  }
+}

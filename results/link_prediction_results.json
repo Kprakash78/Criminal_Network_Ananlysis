@@ -1,0 +1,103 @@
+{
+  "benchmark": "link_prediction",
+  "n_cases": 3,
+  "per_case": [
+    {
+      "case_id": "case_A",
+      "n_total_edges": 8,
+      "n_held_out_positives": 4,
+      "n_train_edges": 4,
+      "n_negative_edges": 32,
+      "auc_roc": 0.7852,
+      "precision_at_5": 0.4,
+      "top5_predicted": [
+        [
+          "ACC00101",
+          "ACC00108"
+        ],
+        [
+          "ACC00106",
+          "ACC00108"
+        ],
+        [
+          "ACC00101",
+          "ACC00106"
+        ],
+        [
+          "ACC00102",
+          "ACC00108"
+        ],
+        [
+          "ACC00106",
+          "ACC00101"
+        ]
+      ]
+    },
+    {
+      "case_id": "case_B",
+      "n_total_edges": 8,
+      "n_held_out_positives": 4,
+      "n_train_edges": 4,
+      "n_negative_edges": 32,
+      "auc_roc": 0.3281,
+      "precision_at_5": 0.2,
+      "top5_predicted": [
+        [
+          "ACC00104",
+          "ACC00101"
+        ],
+        [
+          "ACC00101",
+          "ACC00102"
+        ],
+        [
+          "ACC00102",
+          "ACC00101"
+        ],
+        [
+          "ACC00104",
+          "ACC00102"
+        ],
+        [
+          "ACC00101",
+          "ACC00103"
+        ]
+      ]
+    },
+    {
+      "case_id": "case_C",
+      "n_total_edges": 8,
+      "n_held_out_positives": 4,
+      "n_train_edges": 4,
+      "n_negative_edges": 32,
+      "auc_roc": 0.7891,
+      "precision_at_5": 0.6,
+      "top5_predicted": [
+        [
+          "ACC00110",
+          "ACC00107"
+        ],
+        [
+          "ACC00107",
+          "ACC00109"
+        ],
+        [
+          "ACC00104",
+          "ACC00109"
+        ],
+        [
+          "ACC00104",
+          "ACC00110"
+        ],
+        [
+          "ACC00109",
+          "ACC00104"
+        ]
+      ]
+    }
+  ],
+  "aggregate": {
+    "mean_auc_roc": 0.6341,
+    "mean_precision_at_5": 0.4
+  }
+}

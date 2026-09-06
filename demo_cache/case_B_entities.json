@@ -1,0 +1,56 @@
+{
+  "amounts": [
+    "800000",
+    "920000"
+  ],
+  "dates": [
+    "03-03-2024",
+    "03-03-2024",
+    "07-03-2024",
+    "12-03-2024",
+    "03-03-2024",
+    "07-03-2024"
+  ],
+  "persons": [
+    {
+      "confidence": 0.9,
+      "entity_id": "person_ravi_kumar",
+      "extraction_method": "regex_phone",
+      "name": "Ravi Kumar",
+      "phone": "9876543210",
+      "type": "PERSON"
+    },
+    {
+      "confidence": 0.9,
+      "entity_id": "person_mohammed_iqbal",
+      "extraction_method": "regex_phone",
+      "name": "Mohammed Iqbal",
+      "phone": "9988776655",
+      "type": "PERSON"
+    },
+    {
+      "confidence": 0.9,
+      "entity_id": "person_deepak_verma",
+      "extraction_method": "regex_phone",
+      "name": "Deepak Verma",
+      "phone": "7766554433",
+      "type": "PERSON"
+    },
+    {
+      "confidence": 0.9,
+      "entity_id": "person_sunita_sharma",
+      "extraction_method": "regex_phone",
+      "name": "Sunita Sharma",
+      "phone": "9123456789",
+      "type": "PERSON"
+    },
+    {
+      "confidence": 0.9,
+      "entity_id": "person_priya_nair",
+      "extraction_method": "regex_phone",
+      "name": "Priya Nair",
+      "phone": "8877665544",
+      "type": "PERSON"
+    }
+  ]
+}

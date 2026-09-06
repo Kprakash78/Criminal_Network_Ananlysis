@@ -1,0 +1,29 @@
+FIRST INFORMATION REPORT
+Case No.: FIR00078
+Date of Filing: 03-03-2024
+
+SUMMARY
+This report documents findings related to FIR-2024-0078: Colocation Pattern Analysis.
+Investigative analysis identified communication and financial patterns
+that require further verification by assigned officers.
+
+PERSONS OF INTEREST (requires investigator verification):
+  - Ravi Kumar (Phone: 9876543210, Vehicle: DL01AB1234, Account: ACC00101)
+  - Mohammed Iqbal (Phone: 9988776655, Vehicle: UP32EF9012, Account: ACC00103)
+  - Deepak Verma (Phone: 7766554433, Vehicle: RJ14IJ7890, Account: ACC00105)
+
+ADDITIONAL WITNESSES / CONTACTS:
+  - Sunita Sharma (Phone: 9123456789)
+  - Priya Nair (Phone: 8877665544)
+
+TIMELINE OF OBSERVATIONS:
+  03-03-2024: Initial communication pattern detected between Ravi Kumar and Mohammed Iqbal.
+  07-03-2024: Financial transfer of Rs. 800000 observed between accounts ACC00101 and ACC00103.
+  12-03-2024: Secondary transfer of Rs. 920000 flagged for review.
+
+VEHICLE OBSERVATIONS:
+  Vehicle DL01AB1234 sighted near Tower TOWER_DEL_01 on 03-03-2024.
+  Vehicle UP32EF9012 sighted near Tower TOWER_MUM_02 on 07-03-2024.
+
+NOTE: All findings are preliminary. No determinations of liability have been made.
+This report is for investigative use only.

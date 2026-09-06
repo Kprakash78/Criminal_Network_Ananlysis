@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "generated_at": "2026-09-06T20:10:21.356409Z",
+    "git_commit": "47bc07f",
+    "seed": 42,
+    "model_versions": {
+      "extraction": "regex-based (no ML model)",
+      "link_prediction": "common-neighbour heuristic (no ML model)",
+      "top3_scoring": "weighted 3-factor formula (degree, temporal, transaction)",
+      "search": "TF-IDF token index (offline, no sentence-transformers for bench)"
+    }
+  },
+  "metrics": {
+    "extraction": {
+      "names": {
+        "macro_precision": 0.7333,
+        "macro_recall": 0.9167,
+        "macro_f1": 0.8148
+      },
+      "phones": {
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "macro_f1": 1.0
+      },
+      "dates": {
+        "macro_precision": 1.0,
+        "macro_recall": 1.0,
+        "macro_f1": 1.0
+      },
+      "amounts": {
+        "macro_precision": 1.0,
+        "macro_recall": 0.8889,
+        "macro_f1": 0.9333
+      }
+    },
+    "link_prediction": {
+      "mean_auc_roc": 0.6341,
+      "mean_precision_at_5": 0.4
+    },
+    "candidate_coverage": {
+      "value": 1.0,
+      "n_cases": 3,
+      "n_hits": 3,
+      "note": "Coverage = fraction of cases where \u22651 elevated-priority candidate appears in top-3. Requires investigator verification."
+    },
+    "latency_ms": {
+      "parse": {
+        "median_ms": 0.05,
+        "p95_ms": 0.05
+      },
+      "graph_build": {
+        "median_ms": 0.02,
+        "p95_ms": 0.02
+      },
+      "search": {
+        "median_ms": 0.0,
+        "p95_ms": 0.01
+      },
+      "top3": {
+        "median_ms": 0.13,
+        "p95_ms": 0.14
+      }
+    },
+    "determinism": {
+      "pass": true,
+      "n_files_checked": 7,
+      "n_passed": 7
+    }
+  },
+  "thresholds": {
+    "extraction_f1_names_min": 0.8,
+    "extraction_f1_phones_min": 0.9,
+    "link_prediction_auc_min": 0.55,
+    "candidate_coverage_min": 0.67,
+    "latency_parse_ms_max": 50,
+    "latency_graph_build_ms_max": 100,
+    "latency_search_ms_max": 20,
+    "latency_top3_ms_max": 100,
+    "determinism_pass": true
+  },
+  "acceptance_checks": {
+    "extraction_names_f1": {
+      "pass": true,
+      "actual": 0.8148,
+      "threshold": 0.8,
+      "op": ">="
+    },
+    "extraction_phones_f1": {
+      "pass": true,
+      "actual": 1.0,
+      "threshold": 0.9,
+      "op": ">="
+    },
+    "link_auc": {
+      "pass": true,
+      "actual": 0.6341,
+      "threshold": 0.55,
+      "op": ">="
+    },
+    "candidate_coverage": {
+      "pass": true,
+      "actual": 1.0,
+      "threshold": 0.67,
+      "op": ">="
+    },
+    "latency_parse": {
+      "pass": true,
+      "actual": 0.05,
+      "threshold": 50,
+      "op": "<="
+    },
+    "latency_graph_build": {
+      "pass": true,
+      "actual": 0.02,
+      "threshold": 100,
+      "op": "<="
+    },
+    "latency_search": {
+      "pass": true,
+      "actual": 0.0,
+      "threshold": 20,
+      "op": "<="
+    },
+    "latency_top3": {
+      "pass": true,
+      "actual": 0.13,
+      "threshold": 100,
+      "op": "<="
+    },
+    "determinism": {
+      "pass": true,
+      "actual": true,
+      "threshold": true,
+      "op": "=="
+    }
+  },
+  "overall_pass": true
+}

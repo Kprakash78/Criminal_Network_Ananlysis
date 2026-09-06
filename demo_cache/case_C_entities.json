@@ -1,0 +1,56 @@
+{
+  "amounts": [
+    "340000",
+    "1100000"
+  ],
+  "dates": [
+    "06-03-2024",
+    "06-03-2024",
+    "08-03-2024",
+    "15-03-2024",
+    "06-03-2024",
+    "08-03-2024"
+  ],
+  "persons": [
+    {
+      "confidence": 0.9,
+      "entity_id": "person_rakesh_yadav",
+      "extraction_method": "regex_phone",
+      "name": "Rakesh Yadav",
+      "phone": "9543210987",
+      "type": "PERSON"
+    },
+    {
+      "confidence": 0.9,
+      "entity_id": "person_priya_nair",
+      "extraction_method": "regex_phone",
+      "name": "Priya Nair",
+      "phone": "8877665544",
+      "type": "PERSON"
+    },
+    {
+      "confidence": 0.9,
+      "entity_id": "person_suresh_patil",
+      "extraction_method": "regex_phone",
+      "name": "Suresh Patil",
+      "phone": "9321098765",
+      "type": "PERSON"
+    },
+    {
+      "confidence": 0.9,
+      "entity_id": "person_ravi_kumar",
+      "extraction_method": "regex_phone",
+      "name": "Ravi Kumar",
+      "phone": "9876543210",
+      "type": "PERSON"
+    },
+    {
+      "confidence": 0.9,
+      "entity_id": "person_sunita_sharma",
+      "extraction_method": "regex_phone",
+      "name": "Sunita Sharma",
+      "phone": "9123456789",
+      "type": "PERSON"
+    }
+  ]
+}

@@ -1,0 +1,1260 @@
+{
+  "docs": {
+    "case_A": {
+      "file": "demo_dataset/fir_files/case_A.txt",
+      "n_tokens": 125
+    },
+    "case_B": {
+      "file": "demo_dataset/fir_files/case_B.txt",
+      "n_tokens": 125
+    },
+    "case_C": {
+      "file": "demo_dataset/fir_files/case_C.txt",
+      "n_tokens": 126
+    }
+  },
+  "inv_index": {
+    "0042": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "0078": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "0091": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "1100000": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "1500000": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "2024": [
+      {
+        "doc": "case_A",
+        "tf": 0.056
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.056
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.055556
+      }
+    ],
+    "340000": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "750000": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "7766554433": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "800000": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "8877665544": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "9123456789": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "920000": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "9321098765": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "9432109876": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "9543210987": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "9654321098": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "9876543210": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "9988776655": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "acc00101": [
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      }
+    ],
+    "acc00102": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "acc00103": [
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      }
+    ],
+    "acc00104": [
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "acc00105": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "acc00106": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      }
+    ],
+    "acc00107": [
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "acc00108": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      }
+    ],
+    "acc00109": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "account": [
+      {
+        "doc": "case_A",
+        "tf": 0.024
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.024
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.02381
+      }
+    ],
+    "accounts": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "additional": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "analysis": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "anjali": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      }
+    ],
+    "assigned": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "begum": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      }
+    ],
+    "between": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "case": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "colocation": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "communication": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.02381
+      }
+    ],
+    "contacts": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "date": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "deepak": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "del": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "detected": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "determinations": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "dl01ab1234": [
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      }
+    ],
+    "documents": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "fatima": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      }
+    ],
+    "filing": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "financial": [
+      {
+        "doc": "case_A",
+        "tf": 0.024
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "findings": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "fir": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "fir00042": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "fir00078": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "fir00091": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "first": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "flagged": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "further": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "gj01kl2345": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      }
+    ],
+    "hr26mn6789": [
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "identified": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "information": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "initial": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "interest": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "investigative": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "investigator": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "iqbal": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      }
+    ],
+    "irregularities": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "ka05gh3456": [
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "kumar": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "liability": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "made": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "mh12cd5678": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "mixed": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "mohammed": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      }
+    ],
+    "mp07qr4567": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "mum": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "nair": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "near": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "note": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "observations": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "observed": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "officers": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "only": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "patil": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "pattern": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "patterns": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "persons": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "phone": [
+      {
+        "doc": "case_A",
+        "tf": 0.04
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.04
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.039683
+      }
+    ],
+    "preliminary": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "priya": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "rakesh": [
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "ravi": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "related": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "report": [
+      {
+        "doc": "case_A",
+        "tf": 0.024
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.024
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.02381
+      }
+    ],
+    "require": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "requires": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "review": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "rj14ij7890": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "secondary": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "sharma": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "sighted": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "singh": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      }
+    ],
+    "summary": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "sunita": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "suresh": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "suspected": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      }
+    ],
+    "timeline": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "tn09op0123": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      }
+    ],
+    "tower": [
+      {
+        "doc": "case_A",
+        "tf": 0.032
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.032
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.031746
+      }
+    ],
+    "transaction": [
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "transfer": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "up32ef9012": [
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      }
+    ],
+    "use": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "vehicle": [
+      {
+        "doc": "case_A",
+        "tf": 0.048
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.048
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.047619
+      }
+    ],
+    "verification": [
+      {
+        "doc": "case_A",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.016
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ],
+    "verma": [
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      }
+    ],
+    "witnesses": [
+      {
+        "doc": "case_A",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_B",
+        "tf": 0.008
+      },
+      {
+        "doc": "case_C",
+        "tf": 0.007937
+      }
+    ],
+    "yadav": [
+      {
+        "doc": "case_C",
+        "tf": 0.015873
+      }
+    ]
+  }
+}
