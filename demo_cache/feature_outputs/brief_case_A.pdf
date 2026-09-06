@@ -1,0 +1,155 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [2 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Length 3163 >>
+stream
+BT
+/F2 14 Tf
+50 774 Td
+(TACTICAL INVESTIGATION BRIEF) Tj
+-50 -774 Td
+/F2 11 Tf
+50 761 Td
+(Case: FIR-2024-0042: Suspected Financial Irregularities) Tj
+-50 -761 Td
+/F1 8 Tf
+50 751 Td
+(Generated: 2026-09-06 21:51 UTC   |   Seed: 42) Tj
+-50 -751 Td
+50 741 Td
+(------------------------------------------------------------------------------) Tj
+-50 -741 Td
+/F2 9 Tf
+50 728 Td
+(DISCLAIMER:) Tj
+-50 -728 Td
+/F1 8 Tf
+50 720 Td
+(DISCLAIMER: This brief is an AI-assisted investigative tool. All findings are preliminary) Tj
+-50 -720 Td
+50 712 Td
+(and require independent investigator verification before any operational use. No guilt) Tj
+-50 -712 Td
+50 704 Td
+(determination is made.) Tj
+-50 -704 Td
+/F1 4 Tf
+50 700 Td
+() Tj
+-50 -700 Td
+/F2 11 Tf
+50 683 Td
+(1. ELEVATED-PRIORITY CANDIDATES \(require investigator verification\)) Tj
+-50 -683 Td
+/F2 9 Tf
+50 671 Td
+(  1. Sunita Sharma ? elevated-priority candidate ? requires investigator verification) Tj
+-50 -671 Td
+/F1 8 Tf
+50 663 Td
+(     Risk score: 23.9/100  |  Degree: 0.40  Temporal: 0.48  Txn: 0.00) Tj
+-50 -663 Td
+/F2 9 Tf
+50 651 Td
+(  2. Fatima Begum ? elevated-priority candidate ? requires investigator verification) Tj
+-50 -651 Td
+/F1 8 Tf
+50 643 Td
+(     Risk score: 21.7/100  |  Degree: 0.40  Temporal: 0.39  Txn: 0.00) Tj
+-50 -643 Td
+/F2 9 Tf
+50 631 Td
+(  3. Anjali Singh ? elevated-priority candidate ? requires investigator verification) Tj
+-50 -631 Td
+/F1 8 Tf
+50 623 Td
+(     Risk score: 17.9/100  |  Degree: 0.40  Temporal: 0.24  Txn: 0.00) Tj
+-50 -623 Td
+/F1 4 Tf
+50 619 Td
+() Tj
+-50 -619 Td
+/F2 11 Tf
+50 604 Td
+(2. ORDERED EVENT TIMELINE \(top chain\)) Tj
+-50 -604 Td
+/F1 8 Tf
+50 595 Td
+(  [2024-03-02 08:00] 9123456789 ? transfer ? 9432109876 ? PIVOT   [demo_dataset/transaction_files/case_A_transactions.csv:L20]) Tj
+-50 -595 Td
+50 586 Td
+(  [2024-03-02 08:00] 9123456789 ? transfer ? 9654321098   [demo_dataset/transaction_files/case_A_transactions.csv:L24]) Tj
+-50 -586 Td
+/F1 4 Tf
+50 582 Td
+() Tj
+-50 -582 Td
+/F2 11 Tf
+50 567 Td
+(3. TEMPORAL ANOMALIES DETECTED) Tj
+-50 -567 Td
+/F1 8 Tf
+50 558 Td
+(  ? Fatima Begum \(9432109876\): 2.5× off-hour baseline  [demo_dataset/cdr_files/case_A_cdr.csv]) Tj
+-50 -558 Td
+50 549 Td
+(  ? Sunita Sharma \(9123456789\): 1.5× off-hour baseline  [demo_dataset/cdr_files/case_A_cdr.csv]) Tj
+-50 -549 Td
+/F1 4 Tf
+50 545 Td
+() Tj
+-50 -545 Td
+/F2 11 Tf
+50 530 Td
+(4. SUGGESTED INVESTIGATOR NEXT STEPS) Tj
+-50 -530 Td
+/F1 8 Tf
+50 521 Td
+(  ? Verify identity and associations of all elevated-priority candidates.) Tj
+-50 -521 Td
+50 512 Td
+(  ? Request call records and financial statements for pivotal event dates.) Tj
+-50 -512 Td
+50 503 Td
+(  ? Cross-reference ghost-node suggestions with known entity databases.) Tj
+-50 -503 Td
+50 494 Td
+(  ? Assess off-hour communication patterns against operational schedules.) Tj
+-50 -494 Td
+50 485 Td
+(  ? Ensure all findings are independently corroborated before action.) Tj
+-50 -485 Td
+/F1 4 Tf
+50 481 Td
+() Tj
+-50 -481 Td
+/F1 8 Tf
+50 473 Td
+(------------------------------------------------------------------------------) Tj
+-50 -473 Td
+50 463 Td
+(End of Tactical Brief ? FOR AUTHORISED INVESTIGATOR USE ONLY) Tj
+-50 -463 Td
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 1 0 R /Resources << /Font << /F1 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> /F2 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >> >> >> >>
+endobj
+xref
+0 5
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000003330 00000 n 
+trailer
+<< /Size 5 /Root 1 0 R >>
+startxref
+3569
+%%EOF
