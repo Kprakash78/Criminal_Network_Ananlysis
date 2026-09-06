@@ -1,0 +1,42 @@
+{
+  "pass": true,
+  "n_files_checked": 7,
+  "n_passed": 7,
+  "files": {
+    "case_A_entities.json": {
+      "expected_sha256": "13b5e96ee158167e315d798bdd796d9e6bfd9bff2713b768e7dabb594e630842",
+      "actual_sha256": "13b5e96ee158167e315d798bdd796d9e6bfd9bff2713b768e7dabb594e630842",
+      "pass": true
+    },
+    "case_A_top3.json": {
+      "expected_sha256": "5a4652006caa5caa5bc7a8c82fa1c15d8d219aa0b8ba98cd7485f9f5b37b4aa6",
+      "actual_sha256": "5a4652006caa5caa5bc7a8c82fa1c15d8d219aa0b8ba98cd7485f9f5b37b4aa6",
+      "pass": true
+    },
+    "case_B_entities.json": {
+      "expected_sha256": "4e39da9ee2af99cbed75dec30a1ddc8f209acf46c464f3474259ec4142514dfb",
+      "actual_sha256": "4e39da9ee2af99cbed75dec30a1ddc8f209acf46c464f3474259ec4142514dfb",
+      "pass": true
+    },
+    "case_B_top3.json": {
+      "expected_sha256": "7b7e8b26fb0312653e75e6bfc68c3332b56c1486a6ef2336869b50a1cbbe10be",
+      "actual_sha256": "7b7e8b26fb0312653e75e6bfc68c3332b56c1486a6ef2336869b50a1cbbe10be",
+      "pass": true
+    },
+    "case_C_entities.json": {
+      "expected_sha256": "88dc114338519c3ceb983629ac85c3b1e9ca735312fd7299419d96901c2ffc20",
+      "actual_sha256": "88dc114338519c3ceb983629ac85c3b1e9ca735312fd7299419d96901c2ffc20",
+      "pass": true
+    },
+    "case_C_top3.json": {
+      "expected_sha256": "190b574a13f593db41152e1952f7917ca4bbfa0963443c2d79b3c68913ccc1d5",
+      "actual_sha256": "190b574a13f593db41152e1952f7917ca4bbfa0963443c2d79b3c68913ccc1d5",
+      "pass": true
+    },
+    "search_index.json": {
+      "expected_sha256": "549b7b5f4a57c8d90b79945e0283a6a83e56e9acbe612ef2fa05a0d94c7db6f5",
+      "actual_sha256": "549b7b5f4a57c8d90b79945e0283a6a83e56e9acbe612ef2fa05a0d94c7db6f5",
+      "pass": true
+    }
+  }
+}

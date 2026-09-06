@@ -1,0 +1,150 @@
+{
+  "case_A": {
+    "title": "FIR-2024-0042: Suspected Financial Irregularities",
+    "extraction": {
+      "names": [
+        "Fatima Begum",
+        "Anjali Singh",
+        "Sunita Sharma",
+        "Ravi Kumar"
+      ],
+      "phones": [
+        "9432109876",
+        "9654321098",
+        "9123456789",
+        "9876543210",
+        "9988776655"
+      ],
+      "dates": [
+        "01-03-2024",
+        "05-03-2024",
+        "10-03-2024"
+      ],
+      "amounts": [
+        "1500000",
+        "750000",
+        "2200000"
+      ]
+    },
+    "top3_candidates": [
+      "Fatima Begum",
+      "Anjali Singh",
+      "Sunita Sharma"
+    ],
+    "known_edges": [
+      [
+        "ACC00108",
+        "ACC00106"
+      ],
+      [
+        "ACC00106",
+        "ACC00102"
+      ],
+      [
+        "ACC00108",
+        "ACC00101"
+      ]
+    ],
+    "fir_file": "demo_dataset/fir_files/case_A.txt",
+    "cdr_file": "demo_dataset/cdr_files/case_A_cdr.csv",
+    "txn_file": "demo_dataset/transaction_files/case_A_transactions.csv"
+  },
+  "case_B": {
+    "title": "FIR-2024-0078: Colocation Pattern Analysis",
+    "extraction": {
+      "names": [
+        "Ravi Kumar",
+        "Mohammed Iqbal",
+        "Deepak Verma",
+        "Priya Nair"
+      ],
+      "phones": [
+        "9876543210",
+        "9988776655",
+        "7766554433",
+        "9123456789",
+        "8877665544"
+      ],
+      "dates": [
+        "03-03-2024",
+        "07-03-2024",
+        "12-03-2024"
+      ],
+      "amounts": [
+        "800000",
+        "920000"
+      ]
+    },
+    "top3_candidates": [
+      "Ravi Kumar",
+      "Mohammed Iqbal",
+      "Deepak Verma"
+    ],
+    "known_edges": [
+      [
+        "ACC00101",
+        "ACC00103"
+      ],
+      [
+        "ACC00103",
+        "ACC00105"
+      ],
+      [
+        "ACC00101",
+        "ACC00104"
+      ]
+    ],
+    "fir_file": "demo_dataset/fir_files/case_B.txt",
+    "cdr_file": "demo_dataset/cdr_files/case_B_cdr.csv",
+    "txn_file": "demo_dataset/transaction_files/case_B_transactions.csv"
+  },
+  "case_C": {
+    "title": "FIR-2024-0091: Mixed Communication and Transaction Pattern",
+    "extraction": {
+      "names": [
+        "Rakesh Yadav",
+        "Priya Nair",
+        "Suresh Patil",
+        "Kavya Reddy"
+      ],
+      "phones": [
+        "9543210987",
+        "8877665544",
+        "9321098765",
+        "9876543210",
+        "9123456789"
+      ],
+      "dates": [
+        "06-03-2024",
+        "08-03-2024",
+        "15-03-2024"
+      ],
+      "amounts": [
+        "340000",
+        "1100000"
+      ]
+    },
+    "top3_candidates": [
+      "Rakesh Yadav",
+      "Priya Nair",
+      "Suresh Patil"
+    ],
+    "known_edges": [
+      [
+        "ACC00107",
+        "ACC00104"
+      ],
+      [
+        "ACC00104",
+        "ACC00109"
+      ],
+      [
+        "ACC00107",
+        "ACC00110"
+      ]
+    ],
+    "fir_file": "demo_dataset/fir_files/case_C.txt",
+    "cdr_file": "demo_dataset/cdr_files/case_C_cdr.csv",
+    "txn_file": "demo_dataset/transaction_files/case_C_transactions.csv"
+  }
+}

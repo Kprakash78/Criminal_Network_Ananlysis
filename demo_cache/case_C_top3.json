@@ -1,0 +1,29 @@
+{
+  "case_id": "case_C",
+  "top3": [
+    {
+      "degree_score": 0.4,
+      "label": "elevated-priority candidate \u2014 requires investigator verification",
+      "name": "Rakesh Yadav",
+      "risk_score": 19.81,
+      "temporal_score": 0.3125,
+      "transaction_score": 0.0
+    },
+    {
+      "degree_score": 0.4,
+      "label": "elevated-priority candidate \u2014 requires investigator verification",
+      "name": "Priya Nair",
+      "risk_score": 18.73,
+      "temporal_score": 0.2692,
+      "transaction_score": 0.0
+    },
+    {
+      "degree_score": 0.4,
+      "label": "elevated-priority candidate \u2014 requires investigator verification",
+      "name": "Suresh Patil",
+      "risk_score": 17.15,
+      "temporal_score": 0.2059,
+      "transaction_score": 0.0
+    }
+  ]
+}

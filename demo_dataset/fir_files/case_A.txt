@@ -1,0 +1,29 @@
+FIRST INFORMATION REPORT
+Case No.: FIR00042
+Date of Filing: 01-03-2024
+
+SUMMARY
+This report documents findings related to FIR-2024-0042: Suspected Financial Irregularities.
+Investigative analysis identified communication and financial patterns
+that require further verification by assigned officers.
+
+PERSONS OF INTEREST (requires investigator verification):
+  - Fatima Begum (Phone: 9432109876, Vehicle: TN09OP0123, Account: ACC00108)
+  - Anjali Singh (Phone: 9654321098, Vehicle: GJ01KL2345, Account: ACC00106)
+  - Sunita Sharma (Phone: 9123456789, Vehicle: MH12CD5678, Account: ACC00102)
+
+ADDITIONAL WITNESSES / CONTACTS:
+  - Ravi Kumar (Phone: 9876543210)
+  - Mohammed Iqbal (Phone: 9988776655)
+
+TIMELINE OF OBSERVATIONS:
+  01-03-2024: Initial communication pattern detected between Fatima Begum and Anjali Singh.
+  05-03-2024: Financial transfer of Rs. 1500000 observed between accounts ACC00108 and ACC00106.
+  10-03-2024: Secondary transfer of Rs. 750000 flagged for review.
+
+VEHICLE OBSERVATIONS:
+  Vehicle TN09OP0123 sighted near Tower TOWER_DEL_01 on 01-03-2024.
+  Vehicle GJ01KL2345 sighted near Tower TOWER_MUM_02 on 05-03-2024.
+
+NOTE: All findings are preliminary. No determinations of liability have been made.
+This report is for investigative use only.

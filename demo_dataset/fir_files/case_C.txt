@@ -1,0 +1,29 @@
+FIRST INFORMATION REPORT
+Case No.: FIR00091
+Date of Filing: 06-03-2024
+
+SUMMARY
+This report documents findings related to FIR-2024-0091: Mixed Communication and Transaction Pattern.
+Investigative analysis identified communication and financial patterns
+that require further verification by assigned officers.
+
+PERSONS OF INTEREST (requires investigator verification):
+  - Rakesh Yadav (Phone: 9543210987, Vehicle: HR26MN6789, Account: ACC00107)
+  - Priya Nair (Phone: 8877665544, Vehicle: KA05GH3456, Account: ACC00104)
+  - Suresh Patil (Phone: 9321098765, Vehicle: MP07QR4567, Account: ACC00109)
+
+ADDITIONAL WITNESSES / CONTACTS:
+  - Ravi Kumar (Phone: 9876543210)
+  - Sunita Sharma (Phone: 9123456789)
+
+TIMELINE OF OBSERVATIONS:
+  06-03-2024: Initial communication pattern detected between Rakesh Yadav and Priya Nair.
+  08-03-2024: Financial transfer of Rs. 340000 observed between accounts ACC00107 and ACC00104.
+  15-03-2024: Secondary transfer of Rs. 1100000 flagged for review.
+
+VEHICLE OBSERVATIONS:
+  Vehicle HR26MN6789 sighted near Tower TOWER_DEL_01 on 06-03-2024.
+  Vehicle KA05GH3456 sighted near Tower TOWER_MUM_02 on 08-03-2024.
+
+NOTE: All findings are preliminary. No determinations of liability have been made.
+This report is for investigative use only.
