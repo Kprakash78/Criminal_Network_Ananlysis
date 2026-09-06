@@ -1,0 +1,298 @@
+{
+  "suspects": [
+    {
+      "id": "person_fatima_begum",
+      "name": "Fatima Begum (alias: F. Begum)",
+      "risk_score": 76.1,
+      "evidence": [
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_001.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "This First Information Report is registered on the complaint of Fatima Begum, resident of Lajpat Nagar, Delhi. The complainant states that on 16-08-2024, the accused Ravi Kumar was seen near Park Stre"
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_001.txt",
+          "line_start": 11,
+          "line_end": 11,
+          "text_snippet": "Call record se pata chala ki 9876543210 se 9432109876 par baar baar call hua."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_008.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "On 31-08-2024, a complaint was received at Police Station regarding an incident involving Fatima Begum, alias F. Begum, in the area of Park Street, Kolkata."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_008.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "The accused Fatima Begum, also known as Fatima B., was apprehended at Park Street, Kolkata. During search, a mobile phone bearing SIM with number 9432109876 was recovered."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_008.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Chor Fatima Begum ne Reddy Construction Co. ka maal chura liya."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_018.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "A written complaint submitted by Mohammed Iqbal alleges that Fatima Begum and associates operating from Sector 17, Chandigarh have been involved in financial fraud using account ACC00108."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_018.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "Phone records indicate repeated calls between 9432109876 and 9876543210 during the period of the alleged offence. The subscriber of 9432109876 is identified as Fatima Begum."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_018.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Chor Fatima Begum ne Metro Logistics Pvt. Ltd. ka maal chura liya."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_028.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "Vide complaint no. FIR126, dated 14-08-2024, the undersigned officer has registered this FIR against Fatima Begum (hereinafter 'accused') for offences under relevant IPC sections."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_028.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "The accused Fatima Begum, also known as Fatima B., was apprehended at Lajpat Nagar, Delhi. During search, a mobile phone bearing SIM with number 9432109876 was recovered."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_028.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Call record se pata chala ki 9432109876 se 9876543210 par baar baar call hua."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_035.txt",
+          "line_start": 14,
+          "line_end": 14,
+          "text_snippet": "Further, it is reported that F. Begum (phone: 9432109876) was in contact with the accused and was seen at Connaught Place, Delhi."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/cdrs/cdr.csv",
+          "line_start": 3,
+          "line_end": 3,
+          "text_snippet": "9432109876,9123456789,2025-10-25T04:31:59,308,\"Camp Area, Pune\""
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/cdrs/cdr.csv",
+          "line_start": 4,
+          "line_end": 4,
+          "text_snippet": "7766554433,9432109876,2026-05-04T15:30:15,477,\"Camp Area, Pune\""
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/cdrs/cdr.csv",
+          "line_start": 5,
+          "line_end": 5,
+          "text_snippet": "9988776655,9432109876,2024-07-14T19:32:47,149,\"Bandra West, Mumbai\""
+        }
+      ],
+      "explanation": "1) Made 30 calls total, 7 during late-night hours (00:00-06:00), suggesting covert communication patterns (see data/cdrs/cdr.csv:L3). 2) Involved in 18 financial transactions totalling ₹1,610,852, including 7 large transactions exceeding ₹1,00,000. 3) Named or referenced in 5 FIR document(s), with a network connectivity score of 95% (see data/firs/FIR_001.txt:L6)."
+    },
+    {
+      "id": "person_anjali_singh",
+      "name": "Anjali Singh (alias: A. Singh)",
+      "risk_score": 73.7,
+      "evidence": [
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_006.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "A written complaint submitted by Ravi Kumar alleges that Anjali Singh and associates operating from Connaught Place, Delhi have been involved in financial fraud using account ACC00106."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_006.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "CCTV footage shows vehicle GJ01KL2345 parked outside the crime scene at Connaught Place, Delhi. The registered owner of the vehicle is Anjali Singh."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_006.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Chor Anjali Singh ne Reddy Construction Co. ka maal chura liya."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_016.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "Vide complaint no. FIR156, dated 12-10-2024, the undersigned officer has registered this FIR against Anjali S. (hereinafter 'accused') for offences under relevant IPC sections."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_016.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "The accused Anjali S., also known as Anjali S., was apprehended at Koramangala, Bengaluru. During search, a mobile phone bearing SIM with number 9654321098 was recovered."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_016.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Police ne Anjali S. ko Ellis Bridge, Ahmedabad se giraftaar kiya."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_026.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "A written complaint submitted by Mohammed Iqbal alleges that Anjali S. and associates operating from Park Street, Kolkata have been involved in financial fraud using account ACC00106."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_026.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "Investigations revealed that Anjali S. is associated with Al-Barkat Enterprises and has been receiving suspicious funds in account ACC00106. The accused operates from Park Street, Kolkata."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_026.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Anjali S. ki gaadi GJ01KL2345 CCTV mein pakdi gayi T. Nagar, Chennai ke paas."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_033.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "A written complaint submitted by Anjali Singh alleges that Mohammed Iqbal and associates operating from Ellis Bridge, Ahmedabad have been involved in financial fraud using account ACC00103."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/cdrs/cdr.csv",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "9654321098,9210987654,2026-02-20T17:24:29,339,\"Koramangala, Bengaluru\""
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/cdrs/cdr.csv",
+          "line_start": 13,
+          "line_end": 13,
+          "text_snippet": "9654321098,9210987654,2025-01-24T10:40:45,509,\"Camp Area, Pune\""
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/cdrs/cdr.csv",
+          "line_start": 16,
+          "line_end": 16,
+          "text_snippet": "9988776655,9654321098,2026-07-14T00:02:20,67,\"Sector 17, Chandigarh\""
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/cdrs/cdr.csv",
+          "line_start": 17,
+          "line_end": 17,
+          "text_snippet": "9654321098,9543210987,2025-03-17T04:15:33,431,\"Ellis Bridge, Ahmedabad\""
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/cdrs/cdr.csv",
+          "line_start": 26,
+          "line_end": 26,
+          "text_snippet": "8877665544,9654321098,2025-11-25T23:49:42,150,\"Bandra West, Mumbai\""
+        }
+      ],
+      "explanation": "1) Made 31 calls total, 8 during late-night hours (00:00-06:00), suggesting covert communication patterns (see data/cdrs/cdr.csv:L8). 2) Involved in 20 financial transactions totalling ₹2,188,079, including 10 large transactions exceeding ₹1,00,000. 3) Named or referenced in 4 FIR document(s), with a network connectivity score of 84% (see data/firs/FIR_006.txt:L6)."
+    },
+    {
+      "id": "person_sunita_sharma",
+      "name": "Sunita Sharma (alias: S. Sharma)",
+      "risk_score": 73.1,
+      "evidence": [
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_002.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "Vide complaint no. FIR107, dated 24-01-2025, the undersigned officer has registered this FIR against Sunita S. (hereinafter 'accused') for offences under relevant IPC sections."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_002.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "The accused Sunita S., also known as S. Sharma, was apprehended at Park Street, Kolkata. During search, a mobile phone bearing SIM with number 9123456789 was recovered."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_002.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Call record se pata chala ki 9123456789 se 7766554433 par baar baar call hua."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_012.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "Vide complaint no. FIR109, dated 09-02-2025, the undersigned officer has registered this FIR against Sunita Sharma (hereinafter 'accused') for offences under relevant IPC sections."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_012.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "The accused Sunita Sharma contacted the complainant via phone number 9123456789 and demanded money under false pretenses. The accused was last seen driving vehicle MH12CD5678 near Park Street, Kolkata"
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_012.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Witness ne dekha ki Sunita Sharma gaadi MH12CD5678 mein baith ke bhaag gaya."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_022.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "A written complaint submitted by Suresh Patil alleges that S. Sharma and associates operating from Hazratganj, Lucknow have been involved in financial fraud using account ACC00102."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_022.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "CCTV footage shows vehicle MH12CD5678 parked outside the crime scene at Hazratganj, Lucknow. The registered owner of the vehicle is S. Sharma."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_022.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Call record se pata chala ki 9123456789 se 7766554433 par baar baar call hua."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_023.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "This First Information Report is registered on the complaint of Sunita Sharma, resident of Hazratganj, Lucknow. The complainant states that on 30-06-2025, the accused Mohammed Iqbal was seen near Conn"
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_029.txt",
+          "line_start": 14,
+          "line_end": 14,
+          "text_snippet": "Further, it is reported that S. Sharma (phone: 9123456789) was in contact with the accused and was seen at Ellis Bridge, Ahmedabad."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_030.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "This First Information Report is registered on the complaint of Sunita Sharma, resident of Hazratganj, Lucknow. The complainant states that on 07-07-2024, the accused Kavya R. was seen near Camp Area,"
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_032.txt",
+          "line_start": 6,
+          "line_end": 6,
+          "text_snippet": "A written complaint submitted by Mohammed Iqbal alleges that Sunita Sharma and associates operating from Lajpat Nagar, Delhi have been involved in financial fraud using account ACC00102."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_032.txt",
+          "line_start": 8,
+          "line_end": 8,
+          "text_snippet": "CCTV footage shows vehicle MH12CD5678 parked outside the crime scene at Lajpat Nagar, Delhi. The registered owner of the vehicle is Sunita Sharma."
+        },
+        {
+          "file": "/Users/aakashmittal/Kshiteejgod/Criminal_Network_Ananlysis/data/firs/FIR_032.txt",
+          "line_start": 10,
+          "line_end": 10,
+          "text_snippet": "Call record se pata chala ki 9123456789 se 7766554433 par baar baar call hua."
+        }
+      ],
+      "explanation": "1) Made 34 calls total, 10 during late-night hours (00:00-06:00), suggesting covert communication patterns. 2) Involved in 11 financial transactions totalling ₹964,602, including 5 large transactions exceeding ₹1,00,000. 3) Named or referenced in 7 FIR document(s), with a network connectivity score of 74% (see data/firs/FIR_002.txt:L6)."
+    }
+  ]
+}
