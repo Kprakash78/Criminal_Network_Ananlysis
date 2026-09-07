@@ -15,6 +15,7 @@ Usage:
     events = build_timeline(cdr_path, txn_path, fir_dir)
 """
 
+from M6_feature.search_ui import case_id
 import csv
 import re
 import logging
@@ -119,20 +120,68 @@ def build_timeline(
         events.extend(_parse_fir_events(fir_dir))
 
     # --- Case Filtering ---
-    if case_id:
-        filtered_events = []
-        for e in events:
-            # For FIRs, check if the from field (which is the case_no) matches
-            if e["type"] == "fir_filing":
-                if e["from"].lower() == case_id.lower():
-                    filtered_events.append(e)
-            else:
-                # For CDRs/Txns, check if the involved entities are part of the case
-                if case_entities:
-                    if (e.get("from") in case_entities or e.get("to") in case_entities or 
-                        e.get("from_name") in case_entities or e.get("to_name") in case_entities):
-                        filtered_events.append(e)
-        events = filtered_events
+# ------------------------------------------------------------
+# CASE ISOLATION
+# ------------------------------------------------------------
+#
+# A timeline without an active case is unsafe because the
+# underlying CDR/transaction/FIR files may contain multiple
+# investigations.
+#
+# Fail closed instead of returning global events.
+
+if not case_id:
+    logger.warning(
+        "[Timeline] No active case supplied; "
+        "refusing to return global timeline events."
+    )
+    return []
+
+case_id_normalized = str(case_id).strip().lower()
+
+entity_set = {
+    str(value).strip()
+    for value in (case_entities or set())
+    if value is not None and str(value).strip()
+}
+
+filtered_events = []
+
+for event in events:
+
+    event_type = event.get("type")
+
+    # FIRs are directly associated with a case number.
+    if event_type == "fir_filing":
+
+        event_case = str(
+            event.get("from", "")
+        ).strip().lower()
+
+        if event_case == case_id_normalized:
+            filtered_events.append(event)
+
+        continue
+
+    # CDR / transaction records do not contain a case ID
+    # in the current data contract.
+    #
+    # Therefore they are included ONLY when their entities
+    # are explicitly known to belong to the active case.
+    if not entity_set:
+        continue
+
+    involved_values = {
+        str(event.get("from", "")).strip(),
+        str(event.get("to", "")).strip(),
+        str(event.get("from_name", "")).strip(),
+        str(event.get("to_name", "")).strip(),
+    }
+
+    if involved_values & entity_set:
+        filtered_events.append(event)
+
+events = filtered_events
 
     # Sort chronologically
     events.sort(key=lambda e: e.get("t", ""))

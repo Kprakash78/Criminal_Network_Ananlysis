@@ -1,42 +1,62 @@
 [
   {
     "case_id": "FIR103",
-    "source": "FIR_044",
-    "relevance_score": 0.7899,
+    "source": "FIR_049",
+    "relevance_score": 0.6108,
     "matched_entities": [],
-    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00044\nDate: 12/04/2003\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_044\n\nINCIDENT REPORT:\nExtortion calls made from p…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00049\nDate: 23/04/1992\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_049\n\nINCIDENT REPORT:\nStock market manipulation u…[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR103",
-    "source": "FIR109",
-    "relevance_score": 0.6619,
+    "source": "FIR_046",
+    "relevance_score": 0.5896,
     "matched_entities": [],
-    "evidence": "et, Kolkata.\n\n        The accused Ravi Kumar contacted the complainant via phone number 9876543210 and demanded money under false pretenses. The accused was last seen driving vehicle DL01AB1234 near L…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00046\nDate: 07/07/2013\nPolice Station: Bhopal\nReporting Officer: Training Academy Staff\nCase Reference: FIR_046\n\nINCIDENT REPORT:\nMassive admission and recru…[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR103",
-    "source": "FIR134",
-    "relevance_score": 0.6583,
+    "source": "FIR_039",
+    "relevance_score": 0.5892,
     "matched_entities": [],
-    "evidence": "ka mobile 9321098765 par call aaya tha.\nPolice ne Suresh Patil ko Hazratganj, Lucknow se giraftaar kiya.\n\n        Further, it is reported that S. Sharma (phone: 9123456789) was in contact with the acc…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00039\nDate: 09/01/2009\nPolice Station: Hyderabad\nReporting Officer: Training Academy Staff\nCase Reference: FIR_039\n\nINCIDENT REPORT:\nCorporate fraud of 7136 …[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR103",
-    "source": "FIR108",
-    "relevance_score": 0.648,
+    "source": "FIR_060",
+    "relevance_score": 0.5806,
     "matched_entities": [],
-    "evidence": "Yadav contacted the complainant via phone number 9543210987 and demanded money under false pretenses. The accused was last seen driving vehicle HR26MN6789 near Park Street, Kolkata.\n\n        R. Yadav …[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00060\nDate: 12/10/2026\nPolice Station: Academy\nReporting Officer: Training Academy Staff\nCase Reference: FIR_060\n\nINCIDENT REPORT:\nTraining case: Protection …[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR103",
-    "source": "FIR_050",
-    "relevance_score": 0.6477,
+    "source": "FIR154",
+    "relevance_score": 0.578,
     "matched_entities": [],
-    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00050\nDate: 30/03/2001\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_050\n\nINCIDENT REPORT:\nCircular trading and market…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR154\n        Date: 30-07-2024\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Suresh Patil alleges that S. Sharma and associa…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR103",
+    "source": "M3_FLAGS_ACC_3413aed9",
+    "relevance_score": 0.5284,
+    "matched_entities": [
+      "ACC_3413aed9"
+    ],
+    "evidence": "Degree centrality 0.146 — entity connects to 14.6% of the network relative to maximum possible | Betweenness centrality 0.021 — entity lies on 2.1% of shortest paths between other entities",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR103",
+    "source": "M3_FLAGS_ACC_49c380ba",
+    "relevance_score": 0.5605,
+    "matched_entities": [
+      "ACC_49c380ba"
+    ],
+    "evidence": "Degree centrality 0.297 — entity connects to 29.7% of the network relative to maximum possible | Betweenness centrality 0.064 — entity lies on 6.4% of shortest paths between other entities",
     "timestamp": null
   }
 ]

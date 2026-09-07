@@ -1,12 +1,14 @@
 {
   "case_id": "FIR103",
-  "summary_text": "Case ID: FIR103 NEW CASE DOCUMENT: Circular trading and market manipulation using pay orders from Madhavpura Mercantile Co-operative Bank.\n\nAll findings require investigator verification before any action is taken.",
+  "summary_text": "Case ID: FIR103 NEW CASE DOCUMENT: FIRST INFORMATION REPORT FIR No.: FIR_2026_HIGH_02 Date: 05/09/2026 Police Station: Cyber Cell, Mumbai Reporting Officer: Inspector Kavita Sharma Case Reference: FIR_046 INCIDENT REPORT: Corporate fraud of 7136 Crores. Falsification of bank accounts including ACC89012 and ACC99123. PRIMARY ACCUSED: 1. Rakesh Kumar (Alias), Call Center Manager. 2...\n\nAll findings require investigator verification before any action is taken.",
   "evidence_used": [
     "RAG_RESULT_1",
     "RAG_RESULT_2",
     "RAG_RESULT_3",
     "RAG_RESULT_4",
-    "RAG_RESULT_5"
+    "RAG_RESULT_5",
+    "PATTERN_FLAG_ACC_3413aed9",
+    "PATTERN_FLAG_ACC_49c380ba"
   ],
-  "confidence": 0.316
+  "confidence": 0.4685
 }

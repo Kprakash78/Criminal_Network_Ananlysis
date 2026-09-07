@@ -433,16 +433,40 @@ with tab_timeline:
     )
 
     # Build timeline events
-    if st.session_state.timeline_events is None:
-        try:
-            from M6_feature.timeline_player import build_timeline
-            events = build_timeline()
-            st.session_state.timeline_events = events
-        except Exception as e:
-            st.error(f"Failed to build timeline: {e}")
-            events = []
+    from M6_feature.timeline_player import build_timeline
+
+    case_id = st.session_state.get("selected_case")
+
+    if not case_id:
+        events = []
     else:
-        events = st.session_state.timeline_events
+        try:
+            # The active investigation must provide its entity set.
+            #
+            # Your main M6 application may already keep this in session state.
+            # Support the common names without inventing global data.
+            case_entities = (
+                st.session_state.get("case_entities")
+                or st.session_state.get("selected_case_entities")
+                or st.session_state.get("active_case_entities")
+                or set()
+            )
+
+            case_entities = set(case_entities)
+
+            events = build_timeline(
+                case_id=case_id,
+                case_entities=case_entities,
+            )
+
+            # Important:
+            # invalidate cached timeline when switching cases.
+            st.session_state.timeline_case_id = case_id
+            st.session_state.timeline_events = events
+
+        except Exception as e:
+            st.error(f"Failed to build timeline for case {case_id}: {e}")
+            events = []
 
     if events:
         st.markdown(f"**{len(events)} events** from "

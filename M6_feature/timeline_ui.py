@@ -1,607 +1,1207 @@
 """
-M6_feature — Timeline Playback UI Component
-PS 26152 — AI-Powered Criminal Network Analysis System
+M6_feature — Investigation Timeline UI
 
-Renders events as a true vertical investigation timeline:
-  - ONE continuous vertical spine via CSS ::before pseudo-element
-  - ONE marker per event, sitting on the spine
-  - Event cards alternate LEFT / RIGHT using CSS Grid (3 columns)
-  - Normal document flow — no fixed canvas, no graph layout, no coordinates
-  - Grows naturally: 2 events → short; 220 events → long vertical page
+A real chronological investigation timeline.
 
-Controls:
-  Play / Pause | Prev | Next | Reset | Speed selector
+Layout:
+    LEFT CARD  |  MARKER  |  RIGHT CARD
+                 |
+    LEFT CARD  |  MARKER  |
+                 |
+                 |  MARKER  |  RIGHT CARD
+
+No graph layout.
+No coordinates.
+No SVG graph.
+No radial positioning.
 """
 
+from __future__ import annotations
+
 import json
-import logging
-import sys
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
 
-
-def render_timeline_html(events: list[dict], width: int = 800, height: int = 600) -> str:
+def render_timeline_html(
+    events: list[dict],
+    width: int = 1100,
+    height: int = 900,
+) -> str:
     """
-    Generate a standalone HTML page with an animated vertical investigation timeline.
+    Render the investigation timeline as ordinary HTML/CSS.
 
-    The height parameter is ignored; the page grows with content.
-    The width parameter is informational only — CSS uses 100% width.
-
-    Args:
-        events: List of event dicts from timeline_player.build_timeline()
-        width:  Unused (CSS handles width with 100%)
-        height: Unused (page grows with content naturally)
-
-    Returns:
-        Complete HTML string ready for embedding via st.components.v1.html()
+    The height argument is intentionally only used as a fallback
+    by the embedding application. The timeline itself grows naturally.
     """
-    events_json = json.dumps(events, ensure_ascii=False)
 
-    type_colors = {
-        "call":        "#4A6FA5",   # muted blue
-        "transaction": "#B8860B",   # dark goldenrod
-        "fir_filing":  "#8B0000",   # dark red
-    }
-    colors_json = json.dumps(type_colors)
+    # Always chronological.
+    events = sorted(
+        events or [],
+        key=lambda e: str(e.get("t", "")),
+    )
 
-    html = f"""<!DOCTYPE html>
+    events_json = json.dumps(
+        events,
+        ensure_ascii=False,
+        default=str,
+    )
+
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-* {{ margin: 0; padding: 0; box-sizing: border-box; }}
+
+* {{
+    box-sizing: border-box;
+}}
+
+html,
+body {{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}}
 
 body {{
-    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: #F9F6F0;
-    color: #211C18;
-    /* No fixed height — the page grows with content */
+    background: #F7F2E8;
+    color: #2B211C;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 }}
 
-/* ── Sticky control bar ─────────────────────────────────────────────── */
-#controls {{
-    padding: 10px 16px;
-    background: #F9F6F0;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    border-bottom: 1px solid #DED5C8;
+/* ============================================================
+   CONTROL BAR
+   ============================================================ */
+
+.timeline-controls {{
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 50;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    padding: 14px 20px;
+
+    background: rgba(247, 242, 232, 0.97);
+    border-bottom: 1px solid #D8CEC0;
 }}
-button {{
-    background: transparent;
-    color: #211C18;
-    border: 1px solid #DED5C8;
-    padding: 6px 14px;
-    border-radius: 4px;
-    cursor: pointer;
+
+.timeline-controls button {{
+    appearance: none;
+
+    border: 1px solid #CFC3B4;
+    background: #FFFCF7;
+    color: #2B211C;
+
+    border-radius: 6px;
+
+    padding: 9px 15px;
+
     font-size: 13px;
-    transition: background 0.15s;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
 }}
-button:hover {{ background: rgba(58,42,34,0.06); }}
-button.active {{ background: #2B211C; color: #F7F2E8; border-color: #2B211C; }}
-#speed-label {{ font-size: 12px; color: #6B5D50; margin-left: 4px; }}
-select {{
-    background: transparent;
-    color: #211C18;
-    border: 1px solid #DED5C8;
-    padding: 5px 8px;
-    border-radius: 4px;
-    font-size: 12px;
+
+.timeline-controls button:hover {{
+    background: #EFE8DC;
+    border-color: #AFA092;
 }}
-#event-counter {{
+
+.timeline-controls button.active {{
+    background: #2B211C;
+    color: #F7F2E8;
+    border-color: #2B211C;
+}}
+
+.speed-label {{
+    margin-left: 4px;
+
     font-size: 12px;
     color: #6B5D50;
+}}
+
+.timeline-controls select {{
+    border: 1px solid #CFC3B4;
+    background: #FFFCF7;
+    color: #2B211C;
+
+    border-radius: 6px;
+
+    padding: 8px 10px;
+
+    font-size: 13px;
+}}
+
+.event-counter {{
     margin-left: auto;
+
+    font-size: 12px;
+    color: #6B5D50;
 }}
 
-/* ── Thin progress bar ──────────────────────────────────────────────── */
-#progress-bar {{
-    width: 100%;
+/* ============================================================
+   PROGRESS
+   ============================================================ */
+
+.timeline-progress {{
     height: 3px;
-    background: #DED5C8;
-    position: sticky;
-    top: 43px;
-    z-index: 99;
-}}
-#progress-fill {{
-    height: 100%;
-    background: linear-gradient(90deg, #9E5748, #3A2A22);
-    width: 0%;
-    transition: width 0.3s;
-}}
-
-/* ── Timeline body — grows with content ─────────────────────────────── */
-#timeline-body {{
     width: 100%;
-    background: #F9F6F0;
-    padding: 40px 20px 60px;
+
+    background: #DED5C8;
 }}
 
-/* ── Centre column container ─────────────────────────────────────────── */
-#timeline-content {{
+.timeline-progress-fill {{
+    width: 0%;
+    height: 100%;
+
+    background: #8C4F3E;
+
+    transition: width 0.25s ease;
+}}
+
+/* ============================================================
+   TIMELINE CONTAINER
+   ============================================================ */
+
+.timeline-shell {{
+    width: 100%;
+    padding: 42px 28px 70px;
+}}
+
+.timeline {{
     position: relative;
+
+    width: min(1120px, 100%);
+
+    margin: 0 auto;
+
+    /*
+     * THREE COLUMNS:
+     *
+     * LEFT CARD | SPINE | RIGHT CARD
+     */
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    max-width: 820px;
-    margin: 0 auto;
 }}
 
-/* ── THE ONE CONTINUOUS VERTICAL SPINE ──────────────────────────────── */
-/* Runs from the very top of the first event to the very bottom of the   */
-/* last event, centred on the marker column.                             */
-#timeline-content::before {{
-    content: '';
+/* ============================================================
+   THE ONE CONTINUOUS SPINE
+   ============================================================ */
+
+.timeline::before {{
+    content: "";
+
     position: absolute;
+
     top: 0;
     bottom: 0;
+
     left: 50%;
-    transform: translateX(-50%);
+
     width: 2px;
-    background: #DED5C8;
+
+    transform: translateX(-50%);
+
+    background: #C9BFB1;
+
+    z-index: 0;
+}}
+
+/* ============================================================
+   EVENT ROW
+   ============================================================ */
+
+.timeline-row {{
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        56px
+        minmax(0, 1fr);
+
+    align-items: center;
+
+    min-height: 150px;
+
     z-index: 1;
 }}
 
-/* ── 3-column grid row: [card] [marker] [card] ───────────────────────── */
-.timeline-row {{
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
-    align-items: center;
-    position: relative;
-    z-index: 2;
-    min-height: 100px;
-}}
+/* ============================================================
+   CENTER MARKER
+   ============================================================ */
 
-/* ── Centre marker ───────────────────────────────────────────────────── */
-.marker-col {{
+.timeline-marker {{
     grid-column: 2;
+
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 3;
-}}
-.node-marker {{
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #F9F6F0;
-    border: 3px solid #6B5D50;
-    transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
-    flex-shrink: 0;
-}}
-.timeline-row.active .node-marker {{
-    transform: scale(1.5);
-    box-shadow: 0 0 0 4px rgba(43,33,28,0.12);
+    justify-content: center;
+
+    width: 56px;
+    height: 100%;
+
+    position: relative;
+
+    z-index: 5;
 }}
 
-/* ── LEFT card (odd rows) ────────────────────────────────────────────── */
-.card-left {{
-    grid-column: 1;
-    padding-right: 24px;
-    position: relative;
-    text-align: right;
+.marker-dot {{
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: #F7F2E8;
+
+    border: 3px solid #6B5D50;
+
+    box-shadow:
+        0 0 0 5px #F7F2E8;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }}
-.card-left::after {{
-    content: '';
+
+.timeline-row.active .marker-dot {{
+    transform: scale(1.35);
+
+    box-shadow:
+        0 0 0 5px #F7F2E8,
+        0 0 0 8px rgba(43, 33, 28, 0.12);
+}}
+
+/* ============================================================
+   CARD WRAPPERS
+   ============================================================ */
+
+.timeline-left {{
+    grid-column: 1;
+
+    display: flex;
+    justify-content: flex-end;
+
+    padding-right: 24px;
+
+    position: relative;
+}}
+
+.timeline-right {{
+    grid-column: 3;
+
+    display: flex;
+    justify-content: flex-start;
+
+    padding-left: 24px;
+
+    position: relative;
+}}
+
+/* ============================================================
+   CONNECTORS
+   ============================================================ */
+
+.timeline-left::after {{
+    content: "";
+
     position: absolute;
+
     right: 0;
     top: 50%;
-    transform: translateY(-50%);
+
     width: 24px;
     height: 2px;
-    background: #DED5C8;
-    z-index: 1;
-}}
-/* Spacer on the right for left-side rows */
-.card-right-empty {{
-    grid-column: 3;
+
+    transform: translateY(-50%);
+
+    background: #C9BFB1;
 }}
 
-/* ── RIGHT card (even rows) ──────────────────────────────────────────── */
-.card-right {{
-    grid-column: 3;
-    padding-left: 24px;
-    position: relative;
-}}
-.card-right::before {{
-    content: '';
+.timeline-right::before {{
+    content: "";
+
     position: absolute;
+
     left: 0;
     top: 50%;
-    transform: translateY(-50%);
+
     width: 24px;
     height: 2px;
-    background: #DED5C8;
-    z-index: 1;
-}}
-/* Spacer on the left for right-side rows */
-.card-left-empty {{
-    grid-column: 1;
+
+    transform: translateY(-50%);
+
+    background: #C9BFB1;
 }}
 
-/* ── The event card ──────────────────────────────────────────────────── */
+/* ============================================================
+   EVENT CARD
+   ============================================================ */
+
 .event-card {{
-    background: #FFFFFF;
-    border: 1px solid #DED5C8;
-    border-radius: 6px;
-    padding: 14px 16px;
+    width: min(500px, 100%);
+
+    background: #FFFCF7;
+
+    border:
+        1px solid
+        #D8CEC0;
+
+    border-radius: 8px;
+
+    padding: 17px 19px;
+
     cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-    position: relative;
-    z-index: 2;
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
 }}
+
 .event-card:hover {{
     transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    border-color: #C0B5A6;
-}}
-.timeline-row.active .event-card {{
-    border-color: #3A2A22;
-    box-shadow: 0 0 0 2px rgba(58,42,34,0.2);
-    background: #FDFBF8;
+
+    border-color: #B9AA99;
+
+    box-shadow:
+        0 8px 22px rgba(43, 33, 28, 0.07);
 }}
 
-/* Card header: badge + timestamp */
-.card-header {{
+.timeline-row.active .event-card {{
+    border-color: #2B211C;
+
+    background: #FFFDF9;
+
+    box-shadow:
+        0 0 0 2px rgba(43, 33, 28, 0.10),
+        0 8px 24px rgba(43, 33, 28, 0.08);
+}}
+
+/* ============================================================
+   CARD HEADER
+   ============================================================ */
+
+.event-header {{
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 10px;
 }}
-/* Left-side cards flip the header direction */
-.card-left .card-header {{
-    flex-direction: row-reverse;
-}}
-.event-type-badge {{
-    display: inline-block;
-    padding: 2px 7px;
-    border-radius: 3px;
+
+.event-type {{
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 8px;
+
+    border-radius: 4px;
+
+    border: 1px solid currentColor;
+
     font-size: 10px;
     font-weight: 700;
-    text-transform: uppercase;
+
     letter-spacing: 0.6px;
+    text-transform: uppercase;
 }}
-.card-time {{
+
+.event-time {{
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
     font-size: 11px;
+
     color: #6B5D50;
-    font-family: monospace;
+
     white-space: nowrap;
 }}
-.card-body {{
-    font-size: 13px;
-    color: #211C18;
-    line-height: 1.5;
-    margin-bottom: 8px;
+
+.event-caption {{
+    font-size: 14px;
+
+    line-height: 1.55;
+
+    color: #2B211C;
+
+    margin-bottom: 12px;
 }}
-.card-footer {{
+
+.event-footer {{
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
-    font-size: 11px;
-    color: #8C8276;
-    gap: 8px;
+    justify-content: space-between;
+
+    gap: 10px;
+
     flex-wrap: wrap;
+
+    font-size: 11px;
+
+    color: #8A7D70;
 }}
-.card-left .card-footer {{
-    flex-direction: row-reverse;
-}}
-.confidence-badge {{
+
+.confidence {{
+    padding: 3px 7px;
+
+    border-radius: 4px;
+
     font-size: 10px;
-    font-weight: 600;
-    padding: 1px 5px;
-    border-radius: 3px;
-}}
-.conf-high   {{ background: #D4EDDA; color: #155724; }}
-.conf-medium {{ background: #FFF3CD; color: #856404; }}
-.conf-low    {{ background: #F8D7DA; color: #721C24; }}
-
-/* ── Mobile layout: spine on left, all cards on right ───────────────── */
-@media (max-width: 680px) {{
-    #timeline-content::before {{
-        left: 20px;
-        transform: none;
-    }}
-    .timeline-row {{
-        grid-template-columns: 40px minmax(0, 1fr);
-    }}
-    .marker-col    {{ grid-column: 1; }}
-    .card-left, .card-right {{
-        grid-column: 2;
-        padding-left: 20px;
-        padding-right: 0;
-        text-align: left;
-    }}
-    .card-left::after, .card-right::before {{
-        left: 0; right: auto;
-        width: 20px;
-        transform: translateY(-50%);
-    }}
-    .card-right-empty, .card-left-empty {{ display: none; }}
-    .card-left .card-header,
-    .card-left .card-footer {{ flex-direction: row; }}
+    font-weight: 700;
 }}
 
-/* ── Empty state ─────────────────────────────────────────────────────── */
-#empty-state {{
+.conf-high {{
+    background: #E5EFE5;
+    color: #35613A;
+}}
+
+.conf-medium {{
+    background: #F4EBD2;
+    color: #775C1D;
+}}
+
+.conf-low {{
+    background: #F3DFDA;
+    color: #7A3D32;
+}}
+
+.source {{
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        monospace;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    max-width: 260px;
+}}
+
+/* ============================================================
+   EMPTY
+   ============================================================ */
+
+.timeline-empty {{
+    padding: 80px 20px;
+
     text-align: center;
-    padding: 60px 20px;
+
     color: #6B5D50;
+
     font-size: 14px;
 }}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 760px) {{
+
+    .timeline-shell {{
+        padding:
+            30px 14px 50px;
+    }}
+
+    .timeline {{
+        padding-left: 34px;
+    }}
+
+    .timeline::before {{
+        left: 14px;
+        transform: none;
+    }}
+
+    .timeline-row {{
+        grid-template-columns: 34px minmax(0, 1fr);
+
+        min-height: 125px;
+    }}
+
+    .timeline-marker {{
+        grid-column: 1;
+
+        width: 34px;
+    }}
+
+    .timeline-left,
+    .timeline-right {{
+        grid-column: 2;
+
+        padding-left: 16px;
+        padding-right: 0;
+
+        justify-content: flex-start;
+    }}
+
+    .timeline-left::after,
+    .timeline-right::before {{
+        left: 0;
+        right: auto;
+
+        width: 16px;
+    }}
+
+    .event-card {{
+        width: 100%;
+    }}
+
+    .event-header {{
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 6px;
+    }}
+
+    .event-time {{
+        white-space: normal;
+    }}
+
+    .event-counter {{
+        margin-left: 0;
+    }}
+}}
+
 </style>
 </head>
+
 <body>
 
-<div id="controls">
-    <button id="btn-play" onclick="togglePlay()">▶ Play</button>
-    <button onclick="stepBack()">⏮ Prev</button>
-    <button onclick="stepForward()">⏭ Next</button>
-    <button onclick="resetTimeline()">⏹ Reset</button>
-    <span id="speed-label">Speed:</span>
-    <select id="speed-select" onchange="setSpeed(this.value)">
+<div class="timeline-controls">
+
+    <button id="playButton" onclick="togglePlay()">
+        ▶ Play
+    </button>
+
+    <button onclick="previousEvent()">
+        ⏮ Prev
+    </button>
+
+    <button onclick="nextEvent()">
+        ⏭ Next
+    </button>
+
+    <button onclick="resetTimeline()">
+        ■ Reset
+    </button>
+
+    <span class="speed-label">
+        Speed:
+    </span>
+
+    <select id="speedSelect" onchange="changeSpeed(this.value)">
         <option value="2000">0.5×</option>
         <option value="1000" selected>1×</option>
         <option value="500">2×</option>
         <option value="200">5×</option>
         <option value="100">10×</option>
     </select>
-    <span id="event-counter">0 events</span>
-</div>
-<div id="progress-bar"><div id="progress-fill"></div></div>
 
-<div id="timeline-body">
-    <div id="timeline-content">
-        <!-- rows injected by JS -->
+    <span
+        id="eventCounter"
+        class="event-counter">
+    </span>
+
+</div>
+
+<div class="timeline-progress">
+    <div
+        id="progressFill"
+        class="timeline-progress-fill">
     </div>
-    <div id="empty-state" style="display:none;">
-        No events to display. Upload and analyze a case first.
+</div>
+
+<div class="timeline-shell">
+
+    <div id="timeline" class="timeline"></div>
+
+    <div
+        id="empty"
+        class="timeline-empty"
+        style="display:none;">
+        No timeline events found for this case.
     </div>
+
 </div>
 
 <script>
-const events = {events_json};
-const typeColors = {colors_json};
 
-let currentIdx = -1;
-let isPlaying   = false;
-let playTimer   = null;
-let speed       = 1000;
+const EVENTS = {events_json};
 
-// ── Icon per event type ─────────────────────────────────────────────────
-function eventIcon(type) {{
-    if (type === 'call')        return '☎';
-    if (type === 'transaction') return '₹';
-    if (type === 'fir_filing')  return '📄';
-    return '●';
+const COLORS = {{
+    call: "#4A6FA5",
+    transaction: "#B8860B",
+    fir_filing: "#8B0000"
+}};
+
+let currentIndex = -1;
+let playing = false;
+let timer = null;
+let interval = 1000;
+
+
+function escapeHtml(value) {{
+    const div = document.createElement("div");
+    div.textContent = value ?? "";
+    return div.innerHTML;
 }}
 
-// ── Confidence badge ────────────────────────────────────────────────────
-function confBadge(conf) {{
-    const c = conf !== undefined ? conf : 0.85;
-    if (c >= 0.8) return '<span class="confidence-badge conf-high">High</span>';
-    if (c >= 0.5) return '<span class="confidence-badge conf-medium">Medium</span>';
-    return '<span class="confidence-badge conf-low">Low</span>';
+
+function eventColor(type) {{
+    return COLORS[type] || "#6B5D50";
 }}
 
-// ── Build the entire timeline DOM ───────────────────────────────────────
-function initTimeline() {{
-    const container = document.getElementById('timeline-content');
-    const emptyState = document.getElementById('empty-state');
 
-    if (events.length === 0) {{
-        container.style.display = 'none';
-        emptyState.style.display = 'block';
-        document.getElementById('event-counter').textContent = '0 events';
+function eventLabel(type) {{
+    return String(type || "event")
+        .replaceAll("_", " ")
+        .toUpperCase();
+}}
+
+
+function confidenceClass(confidence) {{
+
+    const value =
+        typeof confidence === "number"
+            ? confidence
+            : 0.85;
+
+    if (value >= 0.8)
+        return "conf-high";
+
+    if (value >= 0.5)
+        return "conf-medium";
+
+    return "conf-low";
+}}
+
+
+function confidenceLabel(confidence) {{
+
+    const value =
+        typeof confidence === "number"
+            ? confidence
+            : 0.85;
+
+    if (value >= 0.8)
+        return "High";
+
+    if (value >= 0.5)
+        return "Medium";
+
+    return "Low";
+}}
+
+
+function formatTimestamp(timestamp) {{
+
+    if (!timestamp)
+        return "";
+
+    const value = String(timestamp);
+
+    if (value.length >= 16)
+        return value
+            .replace("T", " ")
+            .substring(0, 16);
+
+    return value;
+}}
+
+
+function createCard(event, index) {{
+
+    const color = eventColor(event.type);
+
+    const card = document.createElement("div");
+
+    card.className = "event-card";
+
+    card.dataset.index = index;
+
+    const header =
+        document.createElement("div");
+
+    header.className = "event-header";
+
+    const badge =
+        document.createElement("span");
+
+    badge.className = "event-type";
+
+    badge.style.color = color;
+
+    badge.textContent =
+        eventLabel(event.type);
+
+    const time =
+        document.createElement("span");
+
+    time.className = "event-time";
+
+    time.textContent =
+        formatTimestamp(event.t);
+
+    header.appendChild(badge);
+    header.appendChild(time);
+
+
+    const caption =
+        document.createElement("div");
+
+    caption.className =
+        "event-caption";
+
+    caption.textContent =
+        event.caption ||
+        `${{eventLabel(event.type)}} event`;
+
+
+    const footer =
+        document.createElement("div");
+
+    footer.className =
+        "event-footer";
+
+
+    const confidence =
+        document.createElement("span");
+
+    confidence.className =
+        "confidence " +
+        confidenceClass(event.confidence);
+
+    confidence.textContent =
+        confidenceLabel(event.confidence);
+
+
+    const source =
+        document.createElement("span");
+
+    source.className = "source";
+
+    if (event.file) {{
+
+        source.textContent =
+            event.file +
+            (event.line
+                ? `:L${{event.line}}`
+                : "");
+    }}
+
+
+    footer.appendChild(confidence);
+
+    if (event.file)
+        footer.appendChild(source);
+
+
+    card.appendChild(header);
+    card.appendChild(caption);
+    card.appendChild(footer);
+
+
+    card.addEventListener(
+        "click",
+        () => activateEvent(index, true)
+    );
+
+    return card;
+}}
+
+
+function renderTimeline() {{
+
+    const timeline =
+        document.getElementById("timeline");
+
+    const empty =
+        document.getElementById("empty");
+
+    timeline.innerHTML = "";
+
+    if (!EVENTS.length) {{
+
+        timeline.style.display = "none";
+        empty.style.display = "block";
+
+        updateCounter();
+
         return;
     }}
 
-    events.forEach((e, idx) => {{
-        const isLeft = (idx % 2 === 0);   // even index → left card
-        const typeColor = typeColors[e.type] || '#6B5D50';
-        const typeLabel = (e.type || '').replace(/_/g, ' ').toUpperCase();
-        const icon      = eventIcon(e.type);
+    timeline.style.display = "flex";
+    empty.style.display = "none";
 
-        let dateStr = e.t || '';
-        if (dateStr.length > 10) dateStr = dateStr.replace('T', ' ').substring(0, 16);
 
-        const fromTo = e.from_name
-            ? (e.to_name ? e.from_name + ' → ' + e.to_name : e.from_name)
-            : '';
+    EVENTS.forEach((event, index) => {{
 
-        const sourceRef = (e.file && e.line)
-            ? '<span title="' + e.file + ':L' + e.line + '">📎 ' + e.file.split('/').pop() + ':L' + e.line + '</span>'
-            : '';
+        const row =
+            document.createElement("div");
 
-        const cardHTML = `
-            <div class="card-header">
-                <span class="event-type-badge"
-                      style="border:1px solid ${{typeColor}};color:${{typeColor}};">
-                    ${{icon}} ${{typeLabel}}
-                </span>
-                <span class="card-time">${{dateStr}}</span>
-            </div>
-            <div class="card-body">${{e.caption || (typeLabel + ' event')}}</div>
-            <div class="card-footer">
-                <span>${{fromTo}}</span>
-                <span style="display:flex;gap:6px;align-items:center;">
-                    ${{confBadge(e.confidence)}}
-                    ${{sourceRef}}
-                </span>
-            </div>
-        `;
+        row.className =
+            "timeline-row";
 
-        const row = document.createElement('div');
-        row.className = 'timeline-row';
-        row.id = 'row-' + idx;
+        row.id =
+            `timeline-row-${{index}}`;
 
-        // Marker — always grid-column 2
-        const markerCol = document.createElement('div');
-        markerCol.className = 'marker-col';
-        const marker = document.createElement('div');
-        marker.className = 'node-marker';
-        marker.style.borderColor = typeColor;
-        markerCol.appendChild(marker);
 
-        if (isLeft) {{
-            // LEFT: [card] [marker] [empty]
-            const cardWrap = document.createElement('div');
-            cardWrap.className = 'card-left';
-            const card = document.createElement('div');
-            card.className = 'event-card';
-            card.onclick = () => showEvent(idx);
-            card.innerHTML = cardHTML;
-            cardWrap.appendChild(card);
+        const marker =
+            document.createElement("div");
 
-            const spacer = document.createElement('div');
-            spacer.className = 'card-right-empty';
+        marker.className =
+            "timeline-marker";
 
-            row.appendChild(cardWrap);
-            row.appendChild(markerCol);
-            row.appendChild(spacer);
+
+        const dot =
+            document.createElement("div");
+
+        dot.className =
+            "marker-dot";
+
+        dot.style.borderColor =
+            eventColor(event.type);
+
+
+        marker.appendChild(dot);
+
+
+        const card =
+            createCard(event, index);
+
+
+        if (index % 2 === 0) {{
+
+            const left =
+                document.createElement("div");
+
+            left.className =
+                "timeline-left";
+
+            left.appendChild(card);
+
+            row.appendChild(left);
+            row.appendChild(marker);
+
+            const emptyRight =
+                document.createElement("div");
+
+            emptyRight.style.gridColumn = "3";
+
+            row.appendChild(emptyRight);
+
         }} else {{
-            // RIGHT: [empty] [marker] [card]
-            const spacer = document.createElement('div');
-            spacer.className = 'card-left-empty';
 
-            const cardWrap = document.createElement('div');
-            cardWrap.className = 'card-right';
-            const card = document.createElement('div');
-            card.className = 'event-card';
-            card.onclick = () => showEvent(idx);
-            card.innerHTML = cardHTML;
-            cardWrap.appendChild(card);
+            const emptyLeft =
+                document.createElement("div");
 
-            row.appendChild(spacer);
-            row.appendChild(markerCol);
-            row.appendChild(cardWrap);
+            emptyLeft.style.gridColumn = "1";
+
+            row.appendChild(emptyLeft);
+            row.appendChild(marker);
+
+            const right =
+                document.createElement("div");
+
+            right.className =
+                "timeline-right";
+
+            right.appendChild(card);
+
+            row.appendChild(right);
         }}
 
-        container.appendChild(row);
+
+        timeline.appendChild(row);
     }});
 
-    document.getElementById('event-counter').textContent =
-        events.length + ' event' + (events.length !== 1 ? 's' : '') + ' in this case';
+    updateCounter();
 }}
 
-// ── Activate an event ───────────────────────────────────────────────────
-function showEvent(idx) {{
-    if (idx < 0 || idx >= events.length) return;
 
-    // Deactivate old
-    if (currentIdx >= 0) {{
-        const oldRow = document.getElementById('row-' + currentIdx);
-        if (oldRow) {{
-            oldRow.classList.remove('active');
-            const oldMarker = oldRow.querySelector('.node-marker');
-            if (oldMarker) oldMarker.style.background = '#F9F6F0';
-        }}
+function activateEvent(index, scroll) {{
+
+    if (
+        index < 0 ||
+        index >= EVENTS.length
+    )
+        return;
+
+
+    document
+        .querySelectorAll(".timeline-row.active")
+        .forEach(row => {{
+            row.classList.remove("active");
+
+            const dot =
+                row.querySelector(".marker-dot");
+
+            if (dot)
+                dot.style.background = "#F7F2E8";
+        }});
+
+
+    const row =
+        document.getElementById(
+            `timeline-row-${{index}}`
+        );
+
+    if (!row)
+        return;
+
+
+    row.classList.add("active");
+
+
+    const dot =
+        row.querySelector(".marker-dot");
+
+    if (dot) {{
+
+        dot.style.background =
+            eventColor(EVENTS[index].type);
     }}
 
-    currentIdx = idx;
-    const e = events[idx];
-    const typeColor = typeColors[e.type] || '#211C18';
 
-    const newRow = document.getElementById('row-' + idx);
-    if (newRow) {{
-        newRow.classList.add('active');
-        const marker = newRow.querySelector('.node-marker');
-        if (marker) marker.style.background = typeColor;
-        // Scroll into view without moving to absolute top
-        newRow.scrollIntoView({{ behavior: 'smooth', block: 'nearest' }});
-    }}
+    currentIndex = index;
 
-    // Progress
-    const pct = ((idx + 1) / events.length) * 100;
-    document.getElementById('progress-fill').style.width = pct + '%';
-    document.getElementById('event-counter').textContent =
-        'Event ' + (idx + 1) + ' of ' + events.length + ' in this case';
-}}
+    const percentage =
+        ((index + 1) / EVENTS.length) * 100;
 
-// ── Playback controls ───────────────────────────────────────────────────
-function togglePlay() {{
-    if (isPlaying) {{
-        clearInterval(playTimer);
-        isPlaying = false;
-        document.getElementById('btn-play').textContent = '▶ Play';
-        document.getElementById('btn-play').classList.remove('active');
-    }} else {{
-        // If at end, restart from beginning
-        if (currentIdx >= events.length - 1) resetTimeline();
-        isPlaying = true;
-        document.getElementById('btn-play').textContent = '⏸ Pause';
-        document.getElementById('btn-play').classList.add('active');
-        playTimer = setInterval(() => {{
-            if (currentIdx >= events.length - 1) {{
-                clearInterval(playTimer);
-                isPlaying = false;
-                document.getElementById('btn-play').textContent = '▶ Play';
-                document.getElementById('btn-play').classList.remove('active');
-                return;
-            }}
-            showEvent(currentIdx + 1);
-        }}, speed);
+    document
+        .getElementById("progressFill")
+        .style.width =
+        percentage + "%";
+
+
+    updateCounter();
+
+
+    if (scroll) {{
+
+        row.scrollIntoView({{
+            behavior: "smooth",
+            block: "center"
+        }});
     }}
 }}
 
-function stepForward() {{
-    if (currentIdx < events.length - 1) showEvent(currentIdx + 1);
+
+function updateCounter() {{
+
+    const counter =
+        document.getElementById(
+            "eventCounter"
+        );
+
+    if (!EVENTS.length) {{
+
+        counter.textContent =
+            "0 events";
+
+        return;
+    }}
+
+
+    if (currentIndex < 0) {{
+
+        counter.textContent =
+            `${{EVENTS.length}} event${{
+                EVENTS.length === 1 ? "" : "s"
+            }} in this case`;
+
+        return;
+    }}
+
+
+    counter.textContent =
+        `Event ${{currentIndex + 1}} of ${{EVENTS.length}}`;
 }}
 
-function stepBack() {{
-    if (currentIdx > 0) showEvent(currentIdx - 1);
+
+function nextEvent() {{
+
+    if (!EVENTS.length)
+        return;
+
+    const next =
+        currentIndex + 1;
+
+    if (next < EVENTS.length)
+        activateEvent(next, true);
 }}
+
+
+function previousEvent() {{
+
+    if (currentIndex > 0)
+        activateEvent(
+            currentIndex - 1,
+            true
+        );
+}}
+
 
 function resetTimeline() {{
-    if (isPlaying) togglePlay();
-    if (currentIdx >= 0) {{
-        const oldRow = document.getElementById('row-' + currentIdx);
-        if (oldRow) {{
-            oldRow.classList.remove('active');
-            const m = oldRow.querySelector('.node-marker');
-            if (m) m.style.background = '#F9F6F0';
+
+    stopPlayback();
+
+    document
+        .querySelectorAll(".timeline-row.active")
+        .forEach(row => {{
+            row.classList.remove("active");
+
+            const dot =
+                row.querySelector(".marker-dot");
+
+            if (dot)
+                dot.style.background =
+                    "#F7F2E8";
+        }});
+
+
+    currentIndex = -1;
+
+    document
+        .getElementById("progressFill")
+        .style.width = "0%";
+
+    updateCounter();
+
+    window.scrollTo({{
+        top: 0,
+        behavior: "smooth"
+    }});
+}}
+
+
+function stopPlayback() {{
+
+    if (timer) {{
+
+        clearInterval(timer);
+        timer = null;
+    }}
+
+    playing = false;
+
+    const button =
+        document.getElementById(
+            "playButton"
+        );
+
+    button.textContent =
+        "▶ Play";
+
+    button.classList.remove("active");
+}}
+
+
+function togglePlay() {{
+
+    if (playing) {{
+
+        stopPlayback();
+
+        return;
+    }}
+
+
+    if (!EVENTS.length)
+        return;
+
+
+    if (
+        currentIndex >=
+        EVENTS.length - 1
+    ) {{
+        resetTimeline();
+    }}
+
+
+    playing = true;
+
+    const button =
+        document.getElementById(
+            "playButton"
+        );
+
+    button.textContent =
+        "⏸ Pause";
+
+    button.classList.add("active");
+
+
+    timer = setInterval(() => {{
+
+        if (
+            currentIndex >=
+            EVENTS.length - 1
+        ) {{
+
+            stopPlayback();
+
+            return;
         }}
-    }}
-    currentIdx = -1;
-    document.getElementById('progress-fill').style.width = '0%';
-    document.getElementById('event-counter').textContent =
-        events.length + ' event' + (events.length !== 1 ? 's' : '') + ' in this case';
-    window.scrollTo({{ top: 0, behavior: 'smooth' }});
+
+        activateEvent(
+            currentIndex + 1,
+            true
+        );
+
+    }}, interval);
 }}
 
-function setSpeed(ms) {{
-    speed = parseInt(ms);
-    if (isPlaying) {{
-        clearInterval(playTimer);
-        playTimer = setInterval(() => {{
-            if (currentIdx >= events.length - 1) {{
-                clearInterval(playTimer);
-                isPlaying = false;
-                document.getElementById('btn-play').textContent = '▶ Play';
-                document.getElementById('btn-play').classList.remove('active');
-                return;
-            }}
-            showEvent(currentIdx + 1);
-        }}, speed);
+
+function changeSpeed(value) {{
+
+    interval =
+        parseInt(value, 10);
+
+    if (playing) {{
+
+        stopPlayback();
+
+        togglePlay();
     }}
 }}
 
-// ── Boot ────────────────────────────────────────────────────────────────
-initTimeline();
+
+renderTimeline();
+
 </script>
-</body>
-</html>"""
 
-    return html
+</body>
+</html>
+"""
