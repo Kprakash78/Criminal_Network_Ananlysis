@@ -4,25 +4,25 @@
     {
       "degree_score": 0.4,
       "label": "elevated-priority candidate \u2014 requires investigator verification",
-      "name": "Anjali Singh",
-      "risk_score": 19.03,
-      "temporal_score": 0.2812,
-      "transaction_score": 0.0
-    },
-    {
-      "degree_score": 0.4,
-      "label": "elevated-priority candidate \u2014 requires investigator verification",
       "name": "Fatima Begum",
-      "risk_score": 18.82,
-      "temporal_score": 0.2727,
+      "risk_score": 19.69,
+      "temporal_score": 0.3077,
       "transaction_score": 0.0
     },
     {
       "degree_score": 0.4,
       "label": "elevated-priority candidate \u2014 requires investigator verification",
       "name": "Sunita Sharma",
-      "risk_score": 18.76,
-      "temporal_score": 0.2703,
+      "risk_score": 18.48,
+      "temporal_score": 0.2593,
+      "transaction_score": 0.0
+    },
+    {
+      "degree_score": 0.4,
+      "label": "elevated-priority candidate \u2014 requires investigator verification",
+      "name": "Anjali Singh",
+      "risk_score": 15.57,
+      "temporal_score": 0.1429,
       "transaction_score": 0.0
     }
   ]

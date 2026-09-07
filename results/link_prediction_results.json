@@ -8,15 +8,15 @@
       "n_held_out_positives": 4,
       "n_train_edges": 4,
       "n_negative_edges": 32,
-      "auc_roc": 0.7852,
+      "auc_roc": 0.6719,
       "precision_at_5": 0.4,
       "top5_predicted": [
         [
-          "ACC00101",
+          "ACC00106",
           "ACC00108"
         ],
         [
-          "ACC00106",
+          "ACC00101",
           "ACC00108"
         ],
         [
@@ -39,7 +39,7 @@
       "n_held_out_positives": 4,
       "n_train_edges": 4,
       "n_negative_edges": 32,
-      "auc_roc": 0.3281,
+      "auc_roc": 0.2812,
       "precision_at_5": 0.2,
       "top5_predicted": [
         [
@@ -70,7 +70,7 @@
       "n_held_out_positives": 4,
       "n_train_edges": 4,
       "n_negative_edges": 32,
-      "auc_roc": 0.7891,
+      "auc_roc": 0.8281,
       "precision_at_5": 0.6,
       "top5_predicted": [
         [
@@ -97,7 +97,7 @@
     }
   ],
   "aggregate": {
-    "mean_auc_roc": 0.6341,
+    "mean_auc_roc": 0.5937,
     "mean_precision_at_5": 0.4
   }
 }

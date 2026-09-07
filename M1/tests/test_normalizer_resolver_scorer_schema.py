@@ -178,13 +178,17 @@ class TestResolver:
         """
         'Ravi Kumar' and 'R. Kumar' should be merged into one entity
         (fuzzy similarity above PERSON threshold).
+
+        Both docs are from the SAME logical case (FIR_CASE_A) — e.g., primary
+        FIR and a supplementary statement. They must be grouped with case_id
+        so the resolver knows to merge across doc boundaries within one case.
         """
         store = EntityStore()
         norms1 = [_make_norm("Ravi Kumar", "PERSON", docs=["FIR_001"])]
-        resolve_entities(norms1, store)
+        resolve_entities(norms1, store, case_id="FIR_CASE_A")
 
         norms2 = [_make_norm("R. Kumar", "PERSON", docs=["FIR_002"])]
-        resolve_entities(norms2, store)
+        resolve_entities(norms2, store, case_id="FIR_CASE_A")
 
         persons = [e for e in store.all() if e.entity_type == "PERSON"]
         assert len(persons) == 1, f"Expected merge into 1 entity, got {[p.canonical for p in persons]}"
@@ -217,20 +221,25 @@ class TestResolver:
         """
         Acceptance criterion: ≥3 deliberately duplicated entities (different
         name formats) are correctly merged.
+
+        Uses case_id="CASE_ALIAS_TEST" to group all docs under one logical
+        case — simulating canonical + alias mentions across multiple documents
+        in the same FIR investigation.
         """
         from M1.generate_dataset import PERSONS
         store = EntityStore()
         merge_count = 0
+        TEST_CASE_ID = "CASE_ALIAS_TEST"
 
         for p in PERSONS:
             canonical = p[0]
             aliases = p[1]
             # First: add canonical
-            resolve_entities([_make_norm(canonical, "PERSON", docs=["FIR_001"])], store)
+            resolve_entities([_make_norm(canonical, "PERSON", docs=["FIR_001"])], store, case_id=TEST_CASE_ID)
             pre_count = len([e for e in store.all() if e.entity_type == "PERSON"])
             # Then: add each alias — should merge, not add new
             for alias in aliases[:2]:   # test first 2 aliases per person
-                resolve_entities([_make_norm(alias, "PERSON", docs=["FIR_002"])], store)
+                resolve_entities([_make_norm(alias, "PERSON", docs=["FIR_002"])], store, case_id=TEST_CASE_ID)
                 post_count = len([e for e in store.all() if e.entity_type == "PERSON"])
                 if post_count == pre_count:
                     merge_count += 1

@@ -1,0 +1,39 @@
+FIRST INFORMATION REPORT — HISTORICAL RECORD (pre-load into system before the live demo)
+FIR No: FIR/2026/00778
+Police Station: Malviya Nagar, Jaipur, Rajasthan
+Date of Report: 02/06/2026
+
+Complainant: Branch Manager, Rajasthan Cooperative Bank, Malviya Nagar Branch
+
+Nature of Offence: Suspected shell-company financial fraud, IPC Sections 420, 409.
+
+Details:
+
+A routine audit flagged unusual activity in an account held by an entity
+named "Shakti Enterprises", registered in Jaipur, Rajasthan. The account
+received repeated transfers from multiple unrelated individuals over a
+short period, followed by rapid onward transfers to an account
+associated with an individual named Vikram Oberoi (mobile number
++91-9845123456), who was named as a signatory on the Shakti Enterprises
+account.
+
+Investigation identified a recurring associate, Manish Oberoi (believed
+to be a relative of Vikram Oberoi), who was seen coordinating pickups of
+cash from investors on behalf of the scheme. Vehicle number RJ14EF9988,
+a grey Maruti Ertiga, was linked to Manish Oberoi during surveillance.
+
+No arrests made. Case remains open. Investigating officers recommended
+flagging any future FIRs mentioning "Vikram Oberoi", "Manish Oberoi",
+"Shakti Enterprises", or vehicle RJ14EF9988 for cross-reference.
+
+Recording Officer: SI Ramesh Chaudhary, Badge No. 2214
+Station: Malviya Nagar, Jaipur
+
+--- END OF DOCUMENT ---
+
+NOTE: Pre-load this document into the system (same way as your other
+historical/background case files) BEFORE the live demo begins, so the
+new case document below has something real to cross-link against via
+RAG retrieval. Do not upload this live in front of judges — it should
+already be part of the system's existing case database when the demo
+starts.

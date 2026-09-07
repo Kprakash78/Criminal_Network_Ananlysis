@@ -4,25 +4,25 @@
     {
       "degree_score": 0.4,
       "label": "elevated-priority candidate \u2014 requires investigator verification",
-      "name": "Deepak Verma",
-      "risk_score": 21.09,
-      "temporal_score": 0.3636,
+      "name": "Ravi Kumar",
+      "risk_score": 19.03,
+      "temporal_score": 0.2812,
       "transaction_score": 0.0
     },
     {
       "degree_score": 0.4,
       "label": "elevated-priority candidate \u2014 requires investigator verification",
       "name": "Mohammed Iqbal",
-      "risk_score": 19.76,
-      "temporal_score": 0.3103,
+      "risk_score": 19.03,
+      "temporal_score": 0.2812,
       "transaction_score": 0.0
     },
     {
       "degree_score": 0.4,
       "label": "elevated-priority candidate \u2014 requires investigator verification",
-      "name": "Ravi Kumar",
-      "risk_score": 19.26,
-      "temporal_score": 0.2903,
+      "name": "Deepak Verma",
+      "risk_score": 16.41,
+      "temporal_score": 0.1765,
       "transaction_score": 0.0
     }
   ]

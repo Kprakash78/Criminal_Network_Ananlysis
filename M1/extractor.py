@@ -107,10 +107,10 @@ def extract_entities_spacy(doc_id: str, text: str) -> list[RawEntity]:
 
         surface = ent.text.strip()
         surface = surface.replace("##", "")
-        
+
         sub_surfaces = re.split(r'\b(?i:aur|and)\b', surface)
         bad_tokens = {"ne", "ka", "ki", "ko", "se", "mein", "tha", "thi", "the", "hai", "kaha", "chala", "vide", "rs", "kya", "hua", "call", "kiya"}
-        
+
         for sub in sub_surfaces:
             words = sub.strip().split()
             while words and words[0].lower() in bad_tokens:
@@ -118,8 +118,12 @@ def extract_entities_spacy(doc_id: str, text: str) -> list[RawEntity]:
             while words and words[-1].lower() in bad_tokens:
                 words.pop()
             clean_surface = " ".join(words)
-            
+
             if not clean_surface or len(clean_surface) < 2:
+                continue
+
+            # Safety filter: reject if the surface is a Hindi/Hinglish stopword fragment
+            if _is_hinglish_noise_fragment(clean_surface):
                 continue
 
             results.append(RawEntity(
@@ -201,10 +205,71 @@ def _get_indicbert_pipeline():
     return None
 
 
+# ---------------------------------------------------------------------------
+# Hindi/Hinglish stopword fragment filter
+# ---------------------------------------------------------------------------
+
+# Common Hindi/Hinglish function words, conjunctions, pronouns, postpositions,
+# verbs and particles that should NEVER be entity boundaries on their own.
+# This list is intentionally conservative — only unambiguous function words.
+_HINDI_STOPWORDS = {
+    # Postpositions / case markers
+    "ke", "ka", "ki", "ko", "se", "ne", "mein", "par", "tak", "ke liye",
+    # Pronouns
+    "maine", "humein", "hume", "mujhe", "uska", "uski", "unka", "unki",
+    "woh", "yeh", "ye", "jo", "jiska", "jis", "jisme", "koi", "kuch",
+    "apna", "apni", "apne",
+    # Verbs and auxiliaries (common in fragments)
+    "hai", "hain", "tha", "thi", "the", "hoga", "hua", "hui", "hue",
+    "raha", "rahi", "rahe", "gaya", "gayi", "gaye", "kiya", "kara",
+    "bataya", "bola", "mila", "milega", "lagaya", "lagaya", "chalaya",
+    "utha", "diya", "diye", "dikha",
+    # Conjunctions / adverbs
+    "aur", "ya", "ki", "lekin", "ab", "na", "hi", "bhi", "to",
+    "jo", "jab", "tab", "toh", "phir",
+    # Nouns that appear as fragments
+    "naam", "vyakti", "dwara", "paisa", "rupaye", "phone", "return",
+    "lakh", "mahine", "scheme", "milkar", "saath", "dosto", "apne",
+    "wapas", "mil", "double",
+}
+
+
+def _is_hinglish_noise_fragment(text: str) -> bool:
+    """
+    Return True if `text` is a Hinglish/Hindi stopword fragment that
+    should be rejected as a candidate entity.
+
+    Strategy: if ALL (or all-but-one) tokens in the candidate are Hindi
+    stopwords, it's a noise fragment — not a proper noun.
+    A genuine proper noun will contain at least one token that is NOT
+    a Hindi stopword (e.g. "Vikram" in "Vikram Oberoi").
+    """
+    words = re.findall(r"[\w']+", text.lower())
+    if not words:
+        return False
+
+    # Count tokens that are Hindi stopwords
+    stopword_count = sum(1 for w in words if w in _HINDI_STOPWORDS)
+
+    # If every token is a stopword → definitely noise
+    if stopword_count == len(words):
+        return True
+
+    # If there's only one non-stopword token but the text has multiple words
+    # and starts/ends with a stopword, still treat as noise
+    # (e.g. "milkar ek scheme", "naam ke vyakti")
+    non_stop = len(words) - stopword_count
+    if len(words) >= 2 and non_stop <= 1 and stopword_count >= 1:
+        return True
+
+    return False
+
+
 def _is_hinglish(text: str) -> bool:
     """
     Heuristic: return True if text contains Devanagari script or common
-    Hindi romanisation markers. Used to decide whether to run IndicBERT.
+    Hindi romanisation markers. Used to decide whether to run IndicBERT
+    AND to suppress spaCy on Hinglish narrative blocks.
     """
     # Devanagari unicode block: U+0900–U+097F
     if re.search(r"[\u0900-\u097F]", text):
@@ -253,6 +318,11 @@ def extract_entities_indicbert(doc_id: str, text: str) -> list[RawEntity]:
         logger.warning(f"[IndicBERT] Inference failed on doc {doc_id}: {exc}")
         return []
 
+    # IndicBERT confidence threshold for code-mixed text.
+    # Low-confidence fragments from the multilingual model on Hinglish text
+    # are typically wrong boundaries — better to emit nothing than garbage.
+    _INDICBERT_MIN_CONFIDENCE = 0.70
+
     for ent in ner_output:
         entity_group = ent.get("entity_group") or ent.get("entity", "")
         mapped = _map_indicbert_label(entity_group)
@@ -260,16 +330,27 @@ def extract_entities_indicbert(doc_id: str, text: str) -> list[RawEntity]:
             continue
 
         surface = ent.get("word", "").strip()
-        
-        # --- BUG D3: Boundary detection cleanup ---
-        # 1. Clean up tokenizer artifacts
+
+        # 1. Reject spans that start with a subword token artifact ("##...").
+        #    These are always wrong boundary detections from the tokenizer.
+        if surface.startswith("##"):
+            logger.debug(f"[IndicBERT] Skipping subword artifact: {repr(surface)}")
+            continue
+
+        # 2. Clean up any residual ## artifacts within the word
         surface = surface.replace("##", "")
-        
-        # 2. Split multiple entities joined by ' aur ' (and)
+
+        # 3. Apply confidence threshold — reject low-confidence spans
+        score = float(ent.get("score", 0.0))
+        if score < _INDICBERT_MIN_CONFIDENCE:
+            logger.debug(f"[IndicBERT] Low-confidence span skipped ({score:.2f}): {repr(surface)}")
+            continue
+
+        # 4. Split multiple entities joined by ' aur ' (and)
         sub_surfaces = re.split(r'\b(?i:aur|and)\b', surface)
-        
+
         bad_tokens = {"ne", "ka", "ki", "ko", "se", "mein", "tha", "thi", "the", "hai", "kaha", "chala", "vide", "rs", "kya", "hua", "call", "kiya"}
-        
+
         for sub in sub_surfaces:
             words = sub.strip().split()
             # Strip trailing/leading bad tokens
@@ -277,12 +358,16 @@ def extract_entities_indicbert(doc_id: str, text: str) -> list[RawEntity]:
                 words.pop(0)
             while words and words[-1].lower() in bad_tokens:
                 words.pop()
-                
+
             clean_surface = " ".join(words)
             if not clean_surface or len(clean_surface) < 2:
                 continue
 
-            score = float(ent.get("score", 0.6))
+            # 5. Final safety filter: Hindi/Hinglish stopword fragment check
+            if _is_hinglish_noise_fragment(clean_surface):
+                logger.debug(f"[IndicBERT] Stopword fragment rejected: {repr(clean_surface)}")
+                continue
+
             results.append(RawEntity(
                 text=clean_surface,
                 entity_type=mapped,
@@ -456,11 +541,33 @@ def extract_all(doc_id: str, text: str) -> list[RawEntity]:
                 ))
 
         elif block.type == "NARRATIVE":
-            # Existing NER pipeline — spaCy + IndicBERT, unchanged.
-            # Also extract bulleted names from narrative (e.g. "PRIMARY ACCUSED:\n1. Raka")
+            # BUG 1 FIX: Per-block Hinglish routing.
+            #
+            # spaCy en_core_web_sm is an English-only model. When it processes
+            # Hindi/Hinglish text it produces semantically meaningless entity
+            # spans (e.g. "milkar ek scheme mein", "naam ke vyakti") because the
+            # English NER model has never seen these tokens as proper-noun
+            # patterns. These garbage entities are then promoted to nodes in the
+            # graph, producing the 700+ relationship density observed in testing.
+            #
+            # Fix: if the block is detected as Hinglish/code-mixed, skip spaCy
+            # entirely and rely only on IndicBERT (multilingual NER). If a block
+            # is pure English, skip IndicBERT (which adds nothing over spaCy on
+            # English text). Mixed-signal blocks get both models.
             narrative_text = block.raw_text
-            entities.extend(extract_entities_spacy(doc_id, narrative_text))
-            entities.extend(extract_entities_indicbert(doc_id, narrative_text))
+            block_is_hinglish = _is_hinglish(narrative_text)
+
+            if not block_is_hinglish:
+                # Pure English narrative → spaCy only
+                entities.extend(extract_entities_spacy(doc_id, narrative_text))
+            else:
+                # Hinglish/code-mixed narrative → IndicBERT only (skip spaCy)
+                # spaCy's English NER model produces hallucinated entity spans
+                # on Hindi/Hinglish text; suppressing it here is the primary fix.
+                entities.extend(extract_entities_indicbert(doc_id, narrative_text))
+
+            # Bulleted name extraction is regex-based and language-agnostic —
+            # always run it regardless of language detection result.
             entities.extend(extract_bulleted_names(doc_id, narrative_text))
 
     # ---- Step 3: Regex extractors on full original text ----

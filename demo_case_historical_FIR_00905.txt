@@ -1,0 +1,42 @@
+FIRST INFORMATION REPORT — HISTORICAL RECORD (pre-load into system before the live demo)
+FIR No: FIR/2026/00905
+Police Station: Vaishali Nagar, Jaipur, Rajasthan
+Date of Report: 19/07/2026
+
+Complainant: Branch Compliance Officer, Suryodaya Urban Bank, Vaishali Nagar Branch
+
+Nature of Offence: Suspected money-mule / structured-deposit racket, IPC
+Section 420 and provisions under the Prevention of Money Laundering Act.
+
+Details:
+
+A compliance review flagged an account (number XXXXXX2211) managed by an
+accountant named Anita Deshpande, operating out of a rented office space
+in Vaishali Nagar, Jaipur. The account showed a pattern of structured
+deposits — multiple smaller deposits made just under the reporting
+threshold, from a rotating set of depositor names, followed by
+consolidation into a single outgoing transfer.
+
+Anita Deshpande told investigators she was hired as a contract
+accountant by an unnamed client who paid her in cash and provided the
+office space rental herself. No direct evidence linked her to the
+original source of funds at the time, and the client was never
+identified. The office space itself was noted as being rented on a
+short-term, cash basis, which investigators flagged as unusual.
+
+No arrests made. Case remains open. Investigating officers recommended
+flagging any future FIRs mentioning "Anita Deshpande", account
+XXXXXX2211, or the same Vaishali Nagar office address for cross-
+reference, given the unresolved question of who the "unnamed client"
+actually was.
+
+Recording Officer: SI Deepak Solanki, Badge No. 3387
+Station: Vaishali Nagar, Jaipur
+
+--- END OF DOCUMENT ---
+
+NOTE: Pre-load this document into the system BEFORE the live demo,
+alongside demo_case_historical_FIR_00778.txt. Do not upload it live —
+it needs to already exist in the system's case database so the new
+case document can independently cross-link to it via RAG retrieval,
+separately from the FIR_00778 link.

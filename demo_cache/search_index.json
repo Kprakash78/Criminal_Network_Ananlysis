@@ -1,15 +1,15 @@
 {
   "docs": {
     "case_A": {
-      "file": "demo_dataset/fir_files/case_A.txt",
+      "file": "demo_dataset\\fir_files\\case_A.txt",
       "n_tokens": 125
     },
     "case_B": {
-      "file": "demo_dataset/fir_files/case_B.txt",
+      "file": "demo_dataset\\fir_files\\case_B.txt",
       "n_tokens": 125
     },
     "case_C": {
-      "file": "demo_dataset/fir_files/case_C.txt",
+      "file": "demo_dataset\\fir_files\\case_C.txt",
       "n_tokens": 126
     }
   },

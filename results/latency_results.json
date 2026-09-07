@@ -3,12 +3,12 @@
   "n_runs": 20,
   "modules": {
     "parse": {
-      "median_ms": 0.05,
-      "p95_ms": 0.05,
-      "min_ms": 0.05,
-      "max_ms": 0.05,
+      "median_ms": 0.06,
+      "p95_ms": 0.07,
+      "min_ms": 0.06,
+      "max_ms": 0.08,
       "n_runs": 20,
-      "file": "demo_dataset/fir_files/case_A.txt"
+      "file": "demo_dataset\\fir_files\\case_A.txt"
     },
     "graph_build": {
       "median_ms": 0.02,
@@ -23,21 +23,21 @@
       "median_ms": 0.0,
       "p95_ms": 0.01,
       "min_ms": 0.0,
-      "max_ms": 0.05,
+      "max_ms": 0.09,
       "n_runs": 20,
       "query": "financial transfer suspicious account",
       "n_results": 3
     },
     "top3": {
-      "median_ms": 0.13,
-      "p95_ms": 0.14,
-      "min_ms": 0.13,
-      "max_ms": 0.15,
+      "median_ms": 0.11,
+      "p95_ms": 0.15,
+      "min_ms": 0.11,
+      "max_ms": 0.16,
       "n_runs": 20,
       "top3_names": [
-        "Anjali Singh",
         "Fatima Begum",
-        "Sunita Sharma"
+        "Sunita Sharma",
+        "Anjali Singh"
       ]
     },
     "candidate_coverage": {
@@ -49,9 +49,9 @@
         {
           "case_id": "case_A",
           "top3_predicted": [
-            "Anjali Singh",
             "Fatima Begum",
-            "Sunita Sharma"
+            "Sunita Sharma",
+            "Anjali Singh"
           ],
           "top3_expected_candidates": [
             "Fatima Begum",
@@ -63,9 +63,9 @@
         {
           "case_id": "case_B",
           "top3_predicted": [
-            "Deepak Verma",
+            "Ravi Kumar",
             "Mohammed Iqbal",
-            "Ravi Kumar"
+            "Deepak Verma"
           ],
           "top3_expected_candidates": [
             "Ravi Kumar",
@@ -77,9 +77,9 @@
         {
           "case_id": "case_C",
           "top3_predicted": [
+            "Suresh Patil",
             "Rakesh Yadav",
-            "Priya Nair",
-            "Suresh Patil"
+            "Priya Nair"
           ],
           "top3_expected_candidates": [
             "Rakesh Yadav",

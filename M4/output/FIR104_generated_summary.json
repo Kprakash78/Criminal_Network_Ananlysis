@@ -1,0 +1,12 @@
+{
+  "case_id": "FIR104",
+  "summary_text": "Case ID: FIR104 NEW CASE DOCUMENT: INVESTIGATIVE CASE RECORD Case ID: BRR-2018-01 Case Type: Multiple Deaths / Unexplained Deaths Location: Burari, Delhi, India Date of Incident: 01 July 2018 Investigation Status: Partially resolved / historical reconstruction Source: Case-study document supplied for investigative-AI training  1. INITIAL FIR / INFORMATION REPORT On 01 July 2018, information was received regarding multiple members of a family found dead at their residence in Burari, Delhi. Police personnel attending the location found ten persons hanging from the ceiling in the central hall, while an elderly female member of the family was found deceased in the master bedroom. The unusual circumstances, number of deceased persons and arrangement of the bodies required investigation to establish the ca...[truncated] [RAG_RESULT_1] Source: FIR127 (relevance: 0.62) ACC00108 mein. Fatima Begum ki gaadi TN09OP0123 CCTV mein pakdi gayi Koramangala, Bengaluru ke paas. Further, it is reported that Ravi Kumar (phone: 9876543210) was in contact with the accused and was seen at Connaught Place, Delhi. The matter is under active investigation. Forensic...[truncated] [RAG_RESULT_2] Source: FIR043 (relevance: 0.57) FIRST INFORMATION REPORT FIR No.: FIR_2026_00043 Date: 16/05/2008 Police Station: Noida Reporting Officer: Training Academy Staff Case\n\nAll findings require investigator verification before any action is taken.",
+  "evidence_used": [
+    "RAG_RESULT_1",
+    "RAG_RESULT_2",
+    "RAG_RESULT_3",
+    "RAG_RESULT_4",
+    "RAG_RESULT_5"
+  ],
+  "confidence": 0.2472
+}

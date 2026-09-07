@@ -94,6 +94,21 @@ def _load_model(config: M4Config = DEFAULT_CONFIG) -> tuple[Any, Any]:
 
     from transformers import T5ForConditionalGeneration, AutoTokenizer
 
+    # --- RAM guard: flan-t5-large needs ~3.1GB. Skip if insufficient RAM. ---
+    try:
+        import psutil
+        avail_gb = psutil.virtual_memory().available / (1024 ** 3)
+        if avail_gb < 4.0:
+            raise RuntimeError(
+                f"[LLM] Insufficient RAM to load model safely "
+                f"({avail_gb:.1f} GB free, need ≥ 4 GB). "
+                f"Dashboard will use M5 built-in mocks for this session."
+            )
+        logger.info(f"[LLM] RAM available: {avail_gb:.1f} GB — proceeding with model load")
+    except ImportError:
+        # psutil not installed — skip check, attempt load anyway
+        logger.warning("[LLM] psutil not available — skipping RAM check")
+
     last_error: Exception | None = None
 
     for model_id in config.llm_model_candidates:
@@ -114,6 +129,10 @@ def _load_model(config: M4Config = DEFAULT_CONFIG) -> tuple[Any, Any]:
             _llm_cache["model_id"] = model_id
             logger.info(f"[LLM] Loaded '{model_id}' successfully")
             return model, tokenizer
+        except MemoryError as e:
+            logger.warning(f"[LLM] OOM loading '{model_id}': {e}")
+            last_error = e
+            continue
         except Exception as e:
             logger.warning(f"[LLM] Could not load '{model_id}': {e}")
             last_error = e

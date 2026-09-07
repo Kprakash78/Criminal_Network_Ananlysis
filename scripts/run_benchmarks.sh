@@ -32,12 +32,12 @@ echo "=============================================="
 
 # ── Python executable ─────────────────────────────────────────────────────────
 if [ "${SKIP_VENV:-0}" = "1" ]; then
-    PYTHON="python3"
-    echo "[*] SKIP_VENV=1 — using system Python: $(which python3)"
+    PYTHON="${PYTHON:-python3}"
+    echo "[*] SKIP_VENV=1 — using system Python: $(which $PYTHON || echo $PYTHON)"
 else
     echo "[1/6] Setting up Python venv ..."
     if [ ! -d "$VENV_DIR" ]; then
-        python3 -m venv "$VENV_DIR"
+        ${PYTHON:-python3} -m venv "$VENV_DIR"
     fi
     PYTHON="$VENV_DIR/bin/python"
     # Only install if numpy not present (avoids network on re-run)
@@ -307,7 +307,7 @@ All results are measured on **synthetic demo data** with deterministic seeding (
 """
 
 sc_md = RES / "scorecard.md"
-sc_md.write_text(md)
+sc_md.write_text(md, encoding="utf-8")
 print(f"  scorecard.md  written: {sc_md}")
 print(f"\n  Overall: {'✅ PASS' if all_pass else '⚠️  SOME CHECKS FAILED'}")
 PYEOF

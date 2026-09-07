@@ -6,7 +6,7 @@ endobj
 << /Type /Pages /Kids [2 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Length 3163 >>
+<< /Length 3100 >>
 stream
 BT
 /F2 14 Tf
@@ -19,7 +19,7 @@ BT
 -50 -761 Td
 /F1 8 Tf
 50 751 Td
-(Generated: 2026-09-06 21:51 UTC   |   Seed: 42) Tj
+(Generated: 2026-09-07 00:30 UTC   |   Seed: 42) Tj
 -50 -751 Td
 50 741 Td
 (------------------------------------------------------------------------------) Tj
@@ -48,11 +48,11 @@ BT
 -50 -683 Td
 /F2 9 Tf
 50 671 Td
-(  1. Sunita Sharma ? elevated-priority candidate ? requires investigator verification) Tj
+(  1. Anjali Singh ? elevated-priority candidate ? requires investigator verification) Tj
 -50 -671 Td
 /F1 8 Tf
 50 663 Td
-(     Risk score: 23.9/100  |  Degree: 0.40  Temporal: 0.48  Txn: 0.00) Tj
+(     Risk score: 17.5/100  |  Degree: 0.40  Temporal: 0.22  Txn: 0.00) Tj
 -50 -663 Td
 /F2 9 Tf
 50 651 Td
@@ -60,15 +60,15 @@ BT
 -50 -651 Td
 /F1 8 Tf
 50 643 Td
-(     Risk score: 21.7/100  |  Degree: 0.40  Temporal: 0.39  Txn: 0.00) Tj
+(     Risk score: 17.1/100  |  Degree: 0.40  Temporal: 0.21  Txn: 0.00) Tj
 -50 -643 Td
 /F2 9 Tf
 50 631 Td
-(  3. Anjali Singh ? elevated-priority candidate ? requires investigator verification) Tj
+(  3. Sunita Sharma ? elevated-priority candidate ? requires investigator verification) Tj
 -50 -631 Td
 /F1 8 Tf
 50 623 Td
-(     Risk score: 17.9/100  |  Degree: 0.40  Temporal: 0.24  Txn: 0.00) Tj
+(     Risk score: 16.3/100  |  Degree: 0.40  Temporal: 0.17  Txn: 0.00) Tj
 -50 -623 Td
 /F1 4 Tf
 50 619 Td
@@ -80,61 +80,61 @@ BT
 -50 -604 Td
 /F1 8 Tf
 50 595 Td
-(  [2024-03-02 08:00] 9123456789 ? transfer ? 9432109876 ? PIVOT   [demo_dataset/transaction_files/case_A_transactions.csv:L20]) Tj
+(  [2024-03-04 04:00] 9123456789 ? call ? 9432109876   [demo_dataset\\cdr_files\\case_A_cdr.csv:L13]) Tj
 -50 -595 Td
 50 586 Td
-(  [2024-03-02 08:00] 9123456789 ? transfer ? 9654321098   [demo_dataset/transaction_files/case_A_transactions.csv:L24]) Tj
+(  [2024-03-04 04:00] 9654321098 ? transfer ? 9123456789 ? PIVOT   [demo_dataset\\transaction_files\\case_A_transactions.csv:L6]) Tj
 -50 -586 Td
+50 577 Td
+(  [2024-03-04 04:04] 9123456789 ? call ? 9432109876   [demo_dataset\\cdr_files\\case_A_cdr.csv:L14]) Tj
+-50 -577 Td
 /F1 4 Tf
-50 582 Td
+50 573 Td
 () Tj
--50 -582 Td
+-50 -573 Td
 /F2 11 Tf
-50 567 Td
-(3. TEMPORAL ANOMALIES DETECTED) Tj
--50 -567 Td
-/F1 8 Tf
 50 558 Td
-(  ? Fatima Begum \(9432109876\): 2.5× off-hour baseline  [demo_dataset/cdr_files/case_A_cdr.csv]) Tj
+(3. TEMPORAL ANOMALIES DETECTED) Tj
 -50 -558 Td
-50 549 Td
-(  ? Sunita Sharma \(9123456789\): 1.5× off-hour baseline  [demo_dataset/cdr_files/case_A_cdr.csv]) Tj
--50 -549 Td
+/F1 8 Tf
+50 550 Td
+(  No temporal anomalies detected above threshold.) Tj
+-50 -550 Td
 /F1 4 Tf
-50 545 Td
+50 546 Td
 () Tj
--50 -545 Td
+-50 -546 Td
 /F2 11 Tf
-50 530 Td
+50 531 Td
 (4. SUGGESTED INVESTIGATOR NEXT STEPS) Tj
--50 -530 Td
+-50 -531 Td
 /F1 8 Tf
-50 521 Td
+50 522 Td
 (  ? Verify identity and associations of all elevated-priority candidates.) Tj
--50 -521 Td
-50 512 Td
+-50 -522 Td
+50 513 Td
 (  ? Request call records and financial statements for pivotal event dates.) Tj
--50 -512 Td
-50 503 Td
+-50 -513 Td
+50 504 Td
 (  ? Cross-reference ghost-node suggestions with known entity databases.) Tj
--50 -503 Td
-50 494 Td
+-50 -504 Td
+50 495 Td
 (  ? Assess off-hour communication patterns against operational schedules.) Tj
--50 -494 Td
-50 485 Td
+-50 -495 Td
+50 486 Td
 (  ? Ensure all findings are independently corroborated before action.) Tj
--50 -485 Td
+-50 -486 Td
 /F1 4 Tf
-50 481 Td
+50 482 Td
 () Tj
--50 -481 Td
+-50 -482 Td
 /F1 8 Tf
-50 473 Td
+50 474 Td
 (------------------------------------------------------------------------------) Tj
--50 -473 Td
-50 463 Td
+-50 -474 Td
+50 464 Td
 (End of Tactical Brief ? FOR AUTHORISED INVESTIGATOR USE ONLY) Tj
--50 -463 Td
+-50 -464 Td
 ET
 endstream
 endobj
@@ -147,9 +147,9 @@ xref
 0000000009 00000 n 
 0000000058 00000 n 
 0000000115 00000 n 
-0000003330 00000 n 
+0000003267 00000 n 
 trailer
 << /Size 5 /Root 1 0 R >>
 startxref
-3569
+3506
 %%EOF

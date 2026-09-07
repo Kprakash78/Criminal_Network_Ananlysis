@@ -1,9 +1,9 @@
 {
   "case_id": "case_A",
-  "generated_at": "2026-09-06T21:51:15.519647Z",
+  "generated_at": "2026-09-07T00:30:14.461431Z",
   "seed": 42,
-  "pdf_sha256": "13d3c93112392de512ed82f2f9cd427fca225fe7fe3e6fe7087b3ad0dbd29ad3",
+  "pdf_sha256": "e42e05d0edd8dc24781ba6cc2d9c38925559ba32b495c3131988735f383fb6cf",
   "pdf_file": "brief_case_A_repeat.pdf",
-  "hmac_sha256_signature": "4a338bd90e44300a6e9438202b7eea82983d81e66ebc498fde242eec0bda3806",
+  "hmac_sha256_signature": "9aa13f358bdba09d0a0212e22477543a3519225aac113bcbcd58646cf1ab8ce7",
   "signature_note": "Demo HMAC-SHA256 signature \u2014 replace with RSA-PSS for production."
 }

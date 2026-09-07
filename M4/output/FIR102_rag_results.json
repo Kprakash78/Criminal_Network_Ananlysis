@@ -1,42 +1,62 @@
 [
   {
     "case_id": "FIR102",
-    "source": "FIR156",
-    "relevance_score": 0.6711,
+    "source": "FIR_049",
+    "relevance_score": 0.6108,
     "matched_entities": [],
-    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR156\n        Date: 24-06-2025\n        Police Station: [Synthetic]\n\n        On 24-06-2025, a complaint was received at Police Station regarding an incident …[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00049\nDate: 23/04/1992\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_049\n\nINCIDENT REPORT:\nStock market manipulation u…[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR102",
-    "source": "FIR107",
-    "relevance_score": 0.6552,
+    "source": "FIR_046",
+    "relevance_score": 0.5896,
     "matched_entities": [],
-    "evidence": "nita S., also known as S. Sharma, was apprehended at Park Street, Kolkata. During search, a mobile phone bearing SIM with number 9123456789 was recovered.\n\n        Call record se pata chala ki 9123456…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00046\nDate: 07/07/2013\nPolice Station: Bhopal\nReporting Officer: Training Academy Staff\nCase Reference: FIR_046\n\nINCIDENT REPORT:\nMassive admission and recru…[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR102",
-    "source": "FIR129",
-    "relevance_score": 0.6508,
+    "source": "FIR_039",
+    "relevance_score": 0.5892,
     "matched_entities": [],
-    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR129\n        Date: 08-10-2024\n        Police Station: [Synthetic]\n\n        On 08-10-2024, a complaint was received at Police Station regarding an incident …[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00039\nDate: 09/01/2009\nPolice Station: Hyderabad\nReporting Officer: Training Academy Staff\nCase Reference: FIR_039\n\nINCIDENT REPORT:\nCorporate fraud of 7136 …[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR102",
-    "source": "FIR108",
-    "relevance_score": 0.6505,
+    "source": "FIR_060",
+    "relevance_score": 0.5806,
     "matched_entities": [],
-    "evidence": "Yadav contacted the complainant via phone number 9543210987 and demanded money under false pretenses. The accused was last seen driving vehicle HR26MN6789 near Park Street, Kolkata.\n\n        R. Yadav …[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00060\nDate: 12/10/2026\nPolice Station: Academy\nReporting Officer: Training Academy Staff\nCase Reference: FIR_060\n\nINCIDENT REPORT:\nTraining case: Protection …[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR102",
-    "source": "FIR101",
-    "relevance_score": 0.6254,
+    "source": "FIR154",
+    "relevance_score": 0.578,
     "matched_entities": [],
-    "evidence": "ount number ACC00104 suspect hai.\n\n        Further, it is reported that Rakesh Yadav (phone: 9543210987) was in contact with the accused and was seen at Koramangala, Bengaluru.\n\n        Action is bein…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR154\n        Date: 30-07-2024\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Suresh Patil alleges that S. Sharma and associa…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR102",
+    "source": "M3_FLAGS_ACC_3413aed9",
+    "relevance_score": 0.5284,
+    "matched_entities": [
+      "ACC_3413aed9"
+    ],
+    "evidence": "Degree centrality 0.146 — entity connects to 14.6% of the network relative to maximum possible | Betweenness centrality 0.021 — entity lies on 2.1% of shortest paths between other entities",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR102",
+    "source": "M3_FLAGS_ACC_49c380ba",
+    "relevance_score": 0.5605,
+    "matched_entities": [
+      "ACC_49c380ba"
+    ],
+    "evidence": "Degree centrality 0.297 — entity connects to 29.7% of the network relative to maximum possible | Betweenness centrality 0.064 — entity lies on 6.4% of shortest paths between other entities",
     "timestamp": null
   }
 ]

@@ -1,7 +1,7 @@
 # 📊 Benchmark Scorecard — Criminal Network Analysis System
 
 > **Overall result**: ✅ ALL CHECKS PASSED
-> Generated: 2026-09-06T20:10:21.356409Z  |  Commit: `47bc07f`
+> Generated: 2026-09-07T00:30:15.799810Z  |  Commit: `c2ce10f`
 
 ---
 
@@ -25,7 +25,7 @@ Offline, CPU-only evaluation of entity extraction, network link-prediction, cand
 
 | Metric | Value | Threshold | Status |
 |--------|-------|-----------|--------|
-| Mean AUC-ROC    | 0.634 | ≥ 0.60 | ✅ |
+| Mean AUC-ROC    | 0.594 | ≥ 0.60 | ✅ |
 | Mean Precision@5 | 0.400 | — | ℹ️ |
 
 ### 🎯 Candidate Coverage (top-3 ranking)
@@ -42,10 +42,10 @@ Offline, CPU-only evaluation of entity extraction, network link-prediction, cand
 
 | Module | Median (ms) | p95 (ms) | Max (ms) | Status |
 |--------|------------|----------|----------|--------|
-| Parse (regex extraction) | 0.050 | 0.050 | — | ✅ |
+| Parse (regex extraction) | 0.060 | 0.070 | — | ✅ |
 | Graph build              | 0.020 | 0.020 | — | ✅ |
 | Search (TF-IDF)          | 0.000 | 0.010 | — | ✅ |
-| Top-3 scoring            | 0.130 | 0.140 | — | ✅ |
+| Top-3 scoring            | 0.110 | 0.150 | — | ✅ |
 
 ### 🔒 Determinism
 

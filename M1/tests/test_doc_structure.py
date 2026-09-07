@@ -488,12 +488,17 @@ class TestAliasMergingRegression:
         Regression: 'Ravi Kumar', 'Ravi K.', 'R. Kumar' must all resolve to
         ONE entity in the resolver. This tests the resolver's custom initials
         logic introduced in a prior fix.
+
+        All three names come from different pages/statements of the SAME logical
+        case FIR_ALIAS_REGRESSION. The explicit case_id groups them so the
+        resolver can merge across document-page boundaries within one case.
         """
         from M1.normalizer import normalize_entities
         from M1.resolver import EntityStore, resolve_entities
         from M1.extractor import RawEntity
 
         store = EntityStore()
+        CASE = "FIR_ALIAS_REGRESSION"
 
         for name, doc in [("Ravi Kumar", "FIR_001"), ("Ravi K.", "FIR_002"), ("R. Kumar", "FIR_003")]:
             raw = [RawEntity(
@@ -501,7 +506,7 @@ class TestAliasMergingRegression:
                 extraction_method="spacy", raw_confidence=0.75
             )]
             normed = normalize_entities(raw)
-            resolve_entities(normed, store)
+            resolve_entities(normed, store, case_id=CASE)
 
         persons = [e for e in store.all() if e.entity_type == "PERSON"]
         assert len(persons) == 1, \
@@ -511,12 +516,17 @@ class TestAliasMergingRegression:
         """
         Regression: 'Suresh K. Verma', 'Suresh Verma', 'S. Verma' must all
         resolve to ONE entity.
+
+        All three names come from different pages/statements of the SAME logical
+        case FIR_ALIAS_REGRESSION. The explicit case_id groups them so the
+        resolver can merge across document-page boundaries within one case.
         """
         from M1.normalizer import normalize_entities
         from M1.resolver import EntityStore, resolve_entities
         from M1.extractor import RawEntity
 
         store = EntityStore()
+        CASE = "FIR_ALIAS_REGRESSION"
 
         for name, doc in [("Suresh K. Verma", "FIR_001"), ("Suresh Verma", "FIR_002"), ("S. Verma", "FIR_003")]:
             raw = [RawEntity(
@@ -524,7 +534,7 @@ class TestAliasMergingRegression:
                 extraction_method="spacy", raw_confidence=0.75
             )]
             normed = normalize_entities(raw)
-            resolve_entities(normed, store)
+            resolve_entities(normed, store, case_id=CASE)
 
         persons = [e for e in store.all() if e.entity_type == "PERSON"]
         assert len(persons) == 1, \

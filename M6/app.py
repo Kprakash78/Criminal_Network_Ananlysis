@@ -37,7 +37,8 @@ import pandas as pd
 # ---------------------------------------------------------------------------
 # Ensure repo root is on sys.path for imports from M5/M6/etc.
 # ---------------------------------------------------------------------------
-_REPO_ROOT = str(Path(__file__).resolve().parent.parent)
+REPO_ROOT = Path(__file__).resolve().parent.parent
+_REPO_ROOT = str(REPO_ROOT)
 if _REPO_ROOT not in sys.path:
     sys.path.insert(0, _REPO_ROOT)
 
@@ -132,33 +133,102 @@ def build_pyvis_html(graph_data: dict, filter_from: datetime = None, filter_to: 
     Bug 3 fix: cap edges at MAX_VIS_EDGES to prevent browser blank-render.
     Bug 3 fix: use a proper temp file path (Windows NamedTemporaryFile can't
                be read while open on some systems).
+
+    Visual style: detective evidence board (corkboard background, square icon
+    tiles per entity type, red string edges distinguishing strong vs. weak links).
     """
     from pyvis.network import Network
     import os
+    import base64
 
     MAX_VIS_EDGES = 300  # beyond this browsers freeze / render blank
 
     TYPE_COLORS = {
-        "PERSON":       "#3498DB",   # blue
-        "PHONE":        "#27AE60",   # green
-        "ACCOUNT":      "#F39C12",   # amber
-        "LOCATION":     "#9B59B6",   # purple
-        "VEHICLE":      "#E67E22",   # orange
-        "ORGANIZATION": "#1ABC9C",   # teal
-        "UNKNOWN":      "#95A5A6",   # grey
+        "PERSON":       "#AF5D4E",   # terracotta
+        "PHONE":        "#B88B45",   # ochre
+        "ACCOUNT":      "#8C6D5B",   # warm brown
+        "LOCATION":     "#72826C",   # muted green
+        "VEHICLE":      "#825E6C",   # muted plum
+        "ORGANIZATION": "#6B7C8A",   # muted blue-grey
+        "UNKNOWN":      "#9CA3AF",   # grey
     }
 
+    # -----------------------------------------------------------------------
+    # Load icon images as base64 data URIs (fully local — no network calls)
+    # Icons live in M6/assets/icons/{type}.png (80×80 RGBA PNG).
+    # -----------------------------------------------------------------------
+    _ICONS_DIR = Path(__file__).resolve().parent / "assets" / "icons"
+
+    def _load_icon_b64(name: str) -> str:
+        p = _ICONS_DIR / f"{name}.png"
+        if p.exists():
+            return "data:image/png;base64," + base64.b64encode(p.read_bytes()).decode()
+        # Fallback: 1×1 transparent PNG so vis-network never crashes on missing icon
+        return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+
+    TYPE_ICONS_B64 = {
+        "PERSON":       _load_icon_b64("person"),
+        "PHONE":        _load_icon_b64("phone"),
+        "ACCOUNT":      _load_icon_b64("account"),
+        "LOCATION":     _load_icon_b64("location"),
+        "VEHICLE":      _load_icon_b64("vehicle"),
+        "ORGANIZATION": _load_icon_b64("organization"),
+        "DATE":         _load_icon_b64("date"),
+        "UNKNOWN":      _load_icon_b64("unknown"),
+    }
+
+    # -----------------------------------------------------------------------
+    # Edge styling: RED STRING
+    # Strong links (CALLED, TRANSFERRED_MONEY_TO, OWNS, …):
+    #   solid crimson, width ∝ weight (2–6 px)
+    # Weak links (APPEARS_IN_CASE / APPEARS_IN_SAME_DOCUMENT):
+    #   dashed dark maroon, width 1.5 px — clearly subordinate
+    # This preserves the pre-existing strong-vs-weak distinction.
+    # -----------------------------------------------------------------------
+    STRONG_EDGE_COLOR = "#9E5748"   # muted terracotta
+    WEAK_EDGE_COLOR   = "#C1A598"   # lighter warm clay
+    EDGE_HIGHLIGHT    = "#7B4336"   # dark terracotta on hover
+    WEAK_REL_TYPES = {"APPEARS_IN_CASE", "APPEARS_IN_SAME_DOCUMENT"}
+
     # height must match iframe height in st.components.v1.html()
-    net = Network(height="580px", width="100%", directed=True,
-                  bgcolor="#1a1a2e", font_color="#ECEFF4",
+    # Task 4: increased from 580px → 850px for a proper detective-board canvas
+    net = Network(height="850px", width="100%", directed=True,
+                  bgcolor="#E8D8C2",       # warm kraft-paper tone
+                  font_color="#3E2723",
                   notebook=False)
+
     net.set_options("""
     {
-      "nodes": {"borderWidth": 2, "shadow": true},
-      "edges": {"smooth": {"type": "curvedCW", "roundness": 0.2},
-                "arrows": {"to": {"enabled": true, "scaleFactor": 0.8}}},
-      "physics": {"stabilization": {"iterations": 80}, "barnesHut": {"gravitationalConstant": -8000}},
-      "interaction": {"hover": true, "tooltipDelay": 100}
+      "nodes": {
+        "shape": "box",
+        "margin": 10,
+        "font": {
+          "size": 14,
+          "color": "#3E2723",
+          "multi": "html",
+          "align": "left"
+        },
+        "shadow": {"enabled": true, "color": "rgba(62,39,35,0.15)", "size": 6, "x": 2, "y": 3},
+        "shapeProperties": {"borderRadius": 4},
+        "borderWidth": 1,
+        "borderWidthSelected": 2
+      },
+      "edges": {
+        "smooth": {"enabled": true, "type": "curvedCW", "roundness": 0.15},
+        "arrows": {"to": {"enabled": true, "scaleFactor": 0.7, "type": "arrow"}},
+        "font": {"size": 10, "color": "#5D4037", "strokeWidth": 2, "strokeColor": "#E8D8C2", "align": "middle"},
+        "selectionWidth": 2
+      },
+      "physics": {
+        "stabilization": {"iterations": 100},
+        "barnesHut": {"gravitationalConstant": -9000, "centralGravity": 0.3, "springLength": 130}
+      },
+      "interaction": {
+        "hover": true,
+        "tooltipDelay": 100,
+        "navigationButtons": true,
+        "keyboard": true
+      }
     }
     """)
 
@@ -242,39 +312,107 @@ def build_pyvis_html(graph_data: dict, filter_from: datetime = None, filter_to: 
         if e["source"] in final_node_ids and e["target"] in final_node_ids
     ]
 
+    # ── Build adjacency map for tooltip connection lists (Task 2) ──────────
+    # node_id → list of (neighbour_name, rel_type, is_weak, confidence)
+    # sorted by confidence desc, capped at 7 in the tooltip renderer below.
+    node_name_map: dict[str, str] = {
+        n["id"]: n.get("name", n.get("label", n.get("id", ""))) for n in nodes
+    }
+    adjacency: dict[str, list[tuple]] = {nid: [] for nid in final_node_ids}
+    for edge in final_edges:
+        src, tgt = edge["source"], edge["target"]
+        rel = edge.get("type", "CONNECTED_TO")
+        conf_e = edge.get("confidence", 1.0)
+        is_weak_e = rel in WEAK_REL_TYPES
+        if src in adjacency:
+            adjacency[src].append((node_name_map.get(tgt, tgt), rel, is_weak_e, conf_e))
+        if tgt in adjacency:
+            adjacency[tgt].append((node_name_map.get(src, src), rel, is_weak_e, conf_e))
+    # sort each list by confidence descending
+    for nid in adjacency:
+        adjacency[nid].sort(key=lambda x: x[3], reverse=True)
+
+    TOOLTIP_CAP = 7   # max connections shown in tooltip before "+ N more"
+
+    # ── Add nodes as square image tiles ───────────────────────────────────
     for node in nodes_to_show:
         ntype = node.get("type", "UNKNOWN")
-        icon = TYPE_ICONS.get(ntype, "❓")
+        icon_emoji = TYPE_ICONS.get(ntype, "❓")
         color = TYPE_COLORS.get(ntype, "#95A5A6")
         conf = node.get("confidence", 1.0)
         label_text = node.get("name", node.get("label", node.get("id", "")))
+        icon_uri = TYPE_ICONS_B64.get(ntype, TYPE_ICONS_B64["UNKNOWN"])
+
+        # Build connection list for tooltip (Task 2)
+        conns = adjacency.get(node["id"], [])
+        conn_html = ""
+        if conns:
+            conn_html = "<br><br><b>Connected to:</b><br>"
+            shown = conns[:TOOLTIP_CAP]
+            for nbr_name, rel_type, is_weak_e, _ in shown:
+                rel_label = rel_type.replace("_", " ").title()
+                if is_weak_e:
+                    # Weak link — show in muted colour with tag
+                    conn_html += (
+                        f"<span style='color:#FFAB91;'>&#8226; {nbr_name} "
+                        f"<i>({rel_label})</i></span><br>"
+                    )
+                else:
+                    conn_html += f"&#8226; {nbr_name} ({rel_label})<br>"
+            remainder = len(conns) - TOOLTIP_CAP
+            if remainder > 0:
+                conn_html += f"<i style='color:#FFD54F;'>+{remainder} more connections</i>"
+
+        # NOTE: tooltip is stored as a plain string here.
+        # Task 1 fix: a post-generation JS patch below converts every node's
+        # title string into a real DOM <div> via innerHTML so vis-network
+        # renders HTML instead of displaying escaped tag characters.
         tooltip = (
-            f"<b>{icon} {label_text}</b><br>"
+            f"<b>{icon_emoji} {label_text}</b><br>"
             f"Type: {ntype}<br>"
             f"Confidence: {conf:.0%}"
+            f"{conn_html}"
         )
+        card_label = f"<b>{icon_emoji}  {ntype}</b>\n\n{label_text}"
         net.add_node(
             node["id"],
-            label=f"{icon} {label_text}",
+            label=card_label,
             title=tooltip,
-            color=color,
-            size=20,
+            color={
+                "background": "#FDFBF7",
+                "border": color,
+                "highlight": {"border": color, "background": "#F5EFE6"},
+            },
         )
 
-    # Add capped, filtered edges
+    # ── Add edges as red string lines ──────────────────────────────────────
     for edge in final_edges:
         rel = edge.get("type", "")
         conf = edge.get("confidence", 1.0)
         weight = edge.get("weight", 1.0)
         tooltip = f"<b>{rel}</b><br>Confidence: {conf:.0%}<br>Weight: {weight}"
-        width = min(weight * 2, 8)
+
+        is_weak = rel in WEAK_REL_TYPES
+        if is_weak:
+            # Dashed dark maroon — weak/co-occurrence link
+            edge_color = {"color": WEAK_EDGE_COLOR, "highlight": EDGE_HIGHLIGHT, "opacity": 0.75}
+            width = 1.5
+            dashes = [6, 4]
+        else:
+            # Solid crimson — strong direct evidence; thickness ∝ weight
+            edge_color = {"color": STRONG_EDGE_COLOR, "highlight": EDGE_HIGHLIGHT, "opacity": 1.0}
+            width = min(max(weight * 2.5, 2.0), 6.0)
+            dashes = False
+
         net.add_edge(
             edge["source"], edge["target"],
             title=tooltip,
             width=width,
-            color={"color": "#7F8C8D", "highlight": "#E74C3C"},
+            color=edge_color,
+            dashes=dashes,
         )
 
+    # ── Generate HTML and inject corkboard CSS ─────────────────────────────
     # Bug 3 fix: on Windows, NamedTemporaryFile cannot be read while open.
     # Write to a named path, close the handle first, then read.
     tmp_path = os.path.join(tempfile.gettempdir(), f"pyvis_{os.getpid()}.html")
@@ -286,6 +424,101 @@ def build_pyvis_html(graph_data: dict, filter_from: datetime = None, filter_to: 
             os.remove(tmp_path)
         except OSError:
             pass
+
+    # Patch the corkboard background into the rendered HTML.
+    # PyVis sets bgcolor on the Network(), but we need the CSS to cover the
+    # full canvas area and add the SVG noise texture overlay.
+    CORKBOARD_CSS = """
+<style>
+/* ── Detective Evidence Board — Corkboard Background ─────────────────── */
+body, html {
+    margin: 0; padding: 0;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+        linear-gradient(160deg, #F5EFE6 0%, #E8D8C2 100%);
+}
+#mynetwork, .card {
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+        linear-gradient(160deg, #F5EFE6 0%, #E8D8C2 100%) !important;
+    border: 1px solid #DED5C8 !important;
+    border-radius: 4px;
+}
+/* vis canvas must be transparent so the body texture shows through */
+canvas { background: transparent !important; }
+</style>
+"""
+    html = html.replace("</head>", CORKBOARD_CSS + "</head>", 1)
+
+    # ── Task 1: Fix HTML tooltip rendering ────────────────────────────────
+    # PyVis JSON-encodes the title string, so '<b>' becomes '&lt;b&gt;' and
+    # vis-network displays literal tag characters instead of rendering HTML.
+    # Fix: inject a JS snippet that runs AFTER network initialisation and
+    # replaces every node's title (a string) with a real DOM <div> element
+    # (set via innerHTML). vis-network renders DOM elements as HTML.
+    # Edge titles get the same treatment.
+    TOOLTIP_FIX_JS = """
+<script>
+// ── Tooltip HTML fix: convert title strings to DOM elements ────────────
+// vis-network only renders HTML in tooltips when title is a DOM node.
+// This runs after the network is created and patches all titles.
+(function patchTooltips() {
+    function waitForNetwork(attempts) {
+        if (typeof network === 'undefined' || !network.body) {
+            if (attempts > 0) setTimeout(function(){ waitForNetwork(attempts - 1); }, 150);
+            return;
+        }
+        // Patch node titles
+        var nodeUpdates = [];
+        network.body.data.nodes.forEach(function(node) {
+            if (typeof node.title === 'string' && node.title.length > 0) {
+                var div = document.createElement('div');
+                div.style.cssText = [
+                    'background:#FDFBF7',
+                    'color:#3E2723',
+                    'padding:10px 14px',
+                    'border-radius:8px',
+                    'border:1px solid #DED5C8',
+                    'font-family:Inter,Segoe UI,sans-serif',
+                    'font-size:13px',
+                    'line-height:1.6',
+                    'max-width:260px',
+                    'box-shadow:0 4px 16px rgba(62,39,35,0.15)'
+                ].join(';');
+                div.innerHTML = node.title;
+                nodeUpdates.push({id: node.id, title: div});
+            }
+        });
+        if (nodeUpdates.length) network.body.data.nodes.update(nodeUpdates);
+
+        // Patch edge titles
+        var edgeUpdates = [];
+        network.body.data.edges.forEach(function(edge) {
+            if (typeof edge.title === 'string' && edge.title.length > 0) {
+                var div = document.createElement('div');
+                div.style.cssText = [
+                    'background:#FDFBF7',
+                    'color:#9E5748',
+                    'padding:8px 12px',
+                    'border-radius:6px',
+                    'border:1px solid #C1A598',
+                    'font-family:Inter,Segoe UI,sans-serif',
+                    'font-size:12px',
+                    'line-height:1.5',
+                    'box-shadow:0 2px 8px rgba(62,39,35,0.1)'
+                ].join(';');
+                div.innerHTML = edge.title;
+                edgeUpdates.push({id: edge.id, title: div});
+            }
+        });
+        if (edgeUpdates.length) network.body.data.edges.update(edgeUpdates);
+    }
+    // Wait up to 3 seconds for vis-network to initialise
+    waitForNetwork(20);
+})();
+</script>
+"""
+    html = html.replace("</body>", TOOLTIP_FIX_JS + "</body>", 1)
     return html
 
 
@@ -306,121 +539,298 @@ st.set_page_config(
 st.markdown("""
 <style>
 /* Global */
+header[data-testid="stHeader"] { display: none !important; }
 body, [data-testid="stApp"] {
-    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Geist', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #F6F1E8 !important;
+    color: #211C18 !important;
+}
+
+/* Base header and text colors */
+h1, h2, h3, h4, p, span, div {
+    /* color: #211C18; */
 }
 
 /* Sidebar */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-    color: #ECEFF4;
+    background-color: #F6F1E8 !important;
+    border-right: 1px solid #DED5C8;
+    box-shadow: none;
 }
-[data-testid="stSidebar"] * { color: #ECEFF4 !important; }
+[data-testid="stSidebar"] * { 
+    color: #66584C !important; 
+    font-size: 15px;
+}
 [data-testid="stSidebar"] .stButton > button {
-    background: #0f3460;
-    border: 1px solid #e94560;
-    color: #ECEFF4;
-    border-radius: 6px;
+    background: transparent;
+    border: none;
+    color: #211C18 !important;
     width: 100%;
+    font-weight: 500;
+    font-size: 15px !important;
+    text-align: left;
+    padding-left: 0;
+    box-shadow: none;
+    transition: all 0.2s ease;
+}
+[data-testid="stSidebar"] .stButton > button * {
+    color: #211C18 !important;
 }
 [data-testid="stSidebar"] .stButton > button:hover {
-    background: #e94560;
+    background-color: transparent !important;
+}
+[data-testid="stSidebar"] .stButton > button:hover * {
+    color: #3A2A22 !important;
+}
+
+/* Primary Streamlit Buttons */
+button[kind="primary"], button[kind="primaryFormSubmit"] {
+    background-color: #2B211C !important;
+    color: #F7F2E8 !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    padding: 8px 24px !important;
+    box-shadow: none !important;
+    transition: all 0.2s ease !important;
+}
+button[kind="primary"] *, button[kind="primaryFormSubmit"] * {
+    color: #F7F2E8 !important;
+}
+button[kind="primary"]:hover, button[kind="primaryFormSubmit"]:hover {
+    transform: translateX(3px) !important;
+    background-color: #3A2A22 !important;
+}
+button[kind="primary"]:hover *, button[kind="primaryFormSubmit"]:hover * {
+    color: #F7F2E8 !important;
+}
+button[kind="primary"]:disabled, button[kind="primaryFormSubmit"]:disabled {
+    background-color: #CFC5B7 !important;
+    transform: none !important;
+    cursor: not-allowed !important;
+}
+button[kind="primary"]:disabled *, button[kind="primaryFormSubmit"]:disabled * {
+    color: #6B5D50 !important;
+}
+
+/* Secondary Buttons */
+button[kind="secondary"] {
+    background-color: transparent !important;
+    color: #211C18 !important;
+    border: 1px solid #DED5C8 !important;
+    border-radius: 4px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease;
+}
+button[kind="secondary"] * {
+    color: #211C18 !important;
+}
+button[kind="secondary"]:hover {
+    background-color: rgba(58, 42, 34, 0.04) !important;
+}
+button[kind="secondary"]:disabled {
+    border-color: #E9E1D5 !important;
+    background-color: transparent !important;
+    cursor: not-allowed !important;
+}
+button[kind="secondary"]:disabled * {
+    color: #908271 !important;
+}
+
+/* Inputs / Text Areas / Forms */
+.stTextInput > div > div > input, .stTextArea > div > div > textarea {
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #DED5C8 !important;
+    border-radius: 0 !important;
+    color: #211C18 !important;
+    padding-left: 0 !important;
+    padding-bottom: 8px !important;
+    font-size: 15px !important;
+}
+.stTextInput > div > div > input:focus, .stTextArea > div > div > textarea:focus {
+    border-bottom: 1px solid #3A2A22 !important;
+    box-shadow: none !important;
+}
+div[data-testid="stForm"] {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+/* Upload dropzone styling */
+[data-testid="stFileUploadDropzone"] {
+    border: 1px solid #DED5C8 !important;
+    background-color: #F6F1E8 !important;
+    border-radius: 4px !important;
+    transition: all 0.2s ease;
+    padding: 32px !important;
+}
+[data-testid="stFileUploadDropzone"]:hover {
+    border-color: #C0B5A6 !important;
+    background-color: #F0EAE1 !important;
 }
 
 /* Tab styling */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 2px;
-    background: #f0f2f6;
-    border-radius: 8px;
-    padding: 4px;
+    gap: 64px;
+    background: transparent;
+    padding: 0 0 16px 0;
 }
 .stTabs [data-baseweb="tab"] {
-    border-radius: 6px;
-    font-weight: 600;
-    padding: 8px 16px;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    padding: 8px 0;
+    color: #6B5D50;
+    transition: all 0.2s;
+}
+.stTabs [data-baseweb="tab"]:hover {
+    color: #3A2A22;
+}
+.stTabs [aria-selected="true"] {
+    background-color: transparent !important;
+    color: #2B211C !important;
+    border-bottom: 3px solid #2B211C !important;
+}
+
+/* Multiselect / Entity Chips - Covers Streamlit versions 1.20 to 1.36+ */
+div[data-testid="stMultiSelect"] [data-baseweb="tag"],
+div[data-testid="stMultiSelect"] [data-testid="stMultiSelectTag"],
+.st-key-graph_entity_types [data-testid="stMultiSelectTag"] {
+    background-color: #E9E1D5 !important;
+    color: #2B211C !important;
+    border-radius: 4px !important;
+    padding: 4px 10px !important;
+    font-weight: 500 !important;
+    border: 1px solid #DDD3C5 !important;
+}
+
+div[data-testid="stMultiSelect"] [data-baseweb="tag"] span,
+div[data-testid="stMultiSelect"] [data-testid="stMultiSelectTag"] span {
+    color: #2B211C !important;
+}
+
+div[data-testid="stMultiSelect"] [data-baseweb="tag"] svg,
+div[data-testid="stMultiSelect"] [data-testid="stMultiSelectTag"] svg {
+    color: #6B5D50 !important;
+}
+
+div[data-testid="stMultiSelect"] [data-baseweb="tag"] svg:hover,
+div[data-testid="stMultiSelect"] [data-testid="stMultiSelectTag"] svg:hover {
+    color: #2B211C !important;
+}
+
+/* Inline error */
+.inline-error {
+    color: #EF4444;
+    font-size: 13px;
+    margin-top: -12px;
+    margin-bottom: 16px;
 }
 
 /* Metric cards */
 div[data-testid="metric-container"] {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 12px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+}
+div[data-testid="metric-container"] label {
+    color: #6B5D50 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
+div[data-testid="metric-container"] div[data-testid="stMetricValue"] {
+    color: #2B211C !important;
+    font-weight: 500 !important;
+    font-size: 26px !important;
 }
 
 /* Chat bubbles */
 .chat-investigator {
-    background: #dbeafe;
-    color: #1e293b;
-    border-radius: 12px 12px 2px 12px;
-    padding: 10px 14px;
+    background: rgba(58, 42, 34, 0.04);
+    color: #211C18;
+    border-radius: 4px;
+    padding: 12px 16px;
     margin: 6px 0;
     max-width: 85%;
     margin-left: auto;
-    font-size: 0.95em;
+    font-size: 15px;
+    border: none;
 }
 .chat-system {
-    background: #f0fdf4;
-    color: #1e293b;
-    border-radius: 12px 12px 12px 2px;
-    padding: 10px 14px;
+    background: #FFFFFF;
+    color: #211C18;
+    border-radius: 4px;
+    padding: 12px 16px;
     margin: 6px 0;
     max-width: 85%;
-    font-size: 0.95em;
-    border-left: 3px solid #2ECC71;
+    font-size: 15px;
+    border: 1px solid #DED5C8;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
 }
 .chat-label {
-    font-size: 0.75em;
+    font-size: 11px;
     font-weight: 600;
-    color: #6B7280;
+    color: #66584C;
     margin-bottom: 4px;
+    letter-spacing: 0.1em;
 }
 
 /* Flag badges */
 .flag-badge {
     display: inline-block;
-    background: #FEF3C7;
-    border: 1px solid #F59E0B;
+    background: #F0EAE1;
+    border: 1px solid #DED5C8;
     border-radius: 4px;
-    padding: 2px 8px;
-    font-size: 0.8em;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
     margin: 2px;
-    color: #92400E;
+    color: #3A2A22;
 }
 
 /* Priority score bar */
 .priority-bar-outer {
-    background: #E5E7EB;
-    border-radius: 4px;
-    height: 8px;
+    background: #E8E0D5;
+    border-radius: 100px;
+    height: 4px;
     width: 100%;
 }
 .priority-bar-inner {
-    border-radius: 4px;
-    height: 8px;
+    border-radius: 100px;
+    height: 4px;
 }
 
 /* Human review alert */
 .review-alert {
-    background: #FEF2F2;
+    background: transparent;
     color: #991B1B;
-    border: 1px solid #EF4444;
-    border-left: 4px solid #EF4444;
-    border-radius: 6px;
+    border: 1px solid #DED5C8;
+    border-radius: 4px;
     padding: 12px 16px;
     margin: 8px 0;
 }
 
 /* Relationship item */
 .relationship-item {
-    background: #1e293b;
-    color: #e2e8f0;
-    border-left: 3px solid #3B82F6;
-    padding: 8px 12px;
-    margin: 4px 0;
-    border-radius: 4px;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 0.9em;
+    background: transparent;
+    color: #211C18;
+    border: none;
+    border-left: 2px solid #DED5C8;
+    padding: 10px 14px;
+    margin: 6px 0;
+    border-radius: 0;
+    font-size: 14px;
+    box-shadow: none;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -444,6 +854,7 @@ def _init_state():
         "date_filter_from": None,
         "date_filter_to": None,
         "demo_mode": False,
+        "timeline_events": None,
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -655,7 +1066,8 @@ def render_graph_tab():
     with st.spinner("Rendering network graph…"):
         try:
             html = build_pyvis_html(graph_data, filter_from, filter_to, show_all_orgs, show_weak_links, selected_types)
-            st.components.v1.html(html, height=600, scrolling=False)
+            # Task 4: height increased from 600 → 880 to match larger canvas (850px + chrome)
+            st.components.v1.html(html, height=880, scrolling=False)
         except Exception as e:
             st.error(f"Graph rendering failed: {e}")
             return
@@ -679,180 +1091,211 @@ def render_graph_tab():
 # ===========================================================================
 
 def render_search_tab():
-    st.markdown("### 🔎 Search Entities")
-
-    query = st.text_input(
-        "Search by name, phone number, or account number",
-        placeholder="e.g. Ravi Kumar or 9876543210",
-        key="search_input",
+    st.markdown('<div class="section-header">🔎 Case Search</div>',
+                unsafe_allow_html=True)
+    st.markdown(
+        "Search across all case documents. Results include exact file:line "
+        "provenance for every finding."
     )
 
-    if st.button("Search", key="search_btn") and query.strip():
-        with st.spinner("Searching…"):
-            try:
-                results = call_m2_search(None, query.strip())
-                st.session_state.search_results = results
-                st.session_state.last_search_query = query.strip()
-            except Exception as e:
-                st.error(f"Search failed: {e}")
-                st.session_state.search_results = []
-                return
+    col_search, col_opts = st.columns([4, 1])
 
-    results = st.session_state.search_results
-    query_label = st.session_state.last_search_query
+    with col_search:
+        query = st.text_input(
+            "Enter your question",
+            placeholder="e.g., Where was Ravi Kumar seen? What transactions involved ACC00106?",
+            key="search_query",
+        )
 
-    if query_label and not results:
-        st.warning(f'No matching entities found for "{query_label}".')
-        return
+    with col_opts:
+        top_k = st.number_input("Results", min_value=1, max_value=20,
+                                value=5, key="search_top_k")
 
-    if results:
-        st.markdown(f"**{len(results)} result(s)** for *\"{query_label}\"*")
-        for r in results:
-            ntype = r.get("type", "UNKNOWN")
-            icon = TYPE_ICONS.get(ntype, "❓")
-            confidence = r.get("confidence", r.get("score", 0) / 100)
-            with st.container():
-                c1, c2, c3 = st.columns([1, 3, 1])
-                with c1:
-                    st.markdown(f"### {icon}")
-                with c2:
-                    st.markdown(f"**{r.get('name', r.get('entity_id', 'Unknown'))}**")
-                    st.caption(f"ID: {r.get('entity_id', '')}  |  Type: {ntype}")
-                with c3:
-                    color = confidence_color(confidence)
-                    st.markdown(
-                        f"<span style='color:{color};font-weight:700;'>{confidence:.0%}</span>",
-                        unsafe_allow_html=True
-                    )
-                
-                entity_id = r.get("entity_id")
-                if entity_id:
-                    with st.expander("🔗 Linked Entities"):
-                        try:
-                            from M6.backend_calls import call_m2_neighbors
-                            nb_list = call_m2_neighbors(None, entity_id)
-                            if not nb_list:
-                                st.write("No linked entities found.")
-                            else:
-                                for nb in nb_list:
-                                    rel = nb.get("relationship", "Linked").replace("_", " ").title()
-                                    nb_name = nb.get("name")
-                                    if not nb_name:
-                                        nb_name = nb.get("entity_id", "Unknown")
-                                    nb_id = nb.get("entity_id", "")
-                                    st.markdown(f"- **{rel}**: {nb_name} `{nb_id}`")
-                        except Exception as e:
-                            st.write("Could not load linked entities.")
+    if st.button("🔍 Search", type="primary", key="search_btn"):
+        if query:
+            with st.spinner("Searching case documents..."):
+                try:
+                    from M6_feature.search_api import search_local
+                    results = search_local(query, top_k=top_k)
+                    st.session_state.search_results = results
+                except Exception as e:
+                    st.error(f"Search failed: {e}")
 
-                st.divider()
-    elif not query_label:
-        st.caption("Enter a search term above and click Search.")
+    # Display search results
+    if st.session_state.search_results:
+        results = st.session_state.search_results
 
+        # Answer box
+        st.markdown("### 💬 Answer")
+        st.info(results["answer"])
+
+        # Individual results
+        st.markdown("### 📄 Source Documents")
+        for i, r in enumerate(results["results"], 1):
+            score_pct = r["score"] * 100
+            short_path = Path(r["file_path"]).name
+
+            with st.expander(
+                f"Result {i}: {short_path} (L{r['line_start']}-L{r['line_end']}) "
+                f"— Score: {score_pct:.1f}%",
+                expanded=(i <= 2),
+            ):
+                st.markdown(f'<span class="search-score">Relevance: {score_pct:.1f}%</span>',
+                            unsafe_allow_html=True)
+                st.markdown(f'<span class="citation-link">{r["citation"]}</span>',
+                            unsafe_allow_html=True)
+                st.code(r["text"], language=None)
+
+                # File viewer button
+                if st.button(f"📄 View Source File", key=f"view_file_{i}"):
+                    try:
+                        with open(r["file_path"], "r", encoding="utf-8",
+                                  errors="replace") as f:
+                            lines = f.readlines()
+
+                        # Highlight relevant lines
+                        start = max(0, r["line_start"] - 3)
+                        end = min(len(lines), r["line_end"] + 3)
+
+                        highlighted = []
+                        for j in range(start, end):
+                            prefix = ">>> " if r["line_start"] - 1 <= j <= r["line_end"] - 1 else "    "
+                            highlighted.append(f"L{j+1:4d} {prefix}{lines[j].rstrip()}")
+
+                        st.code("\n".join(highlighted), language=None)
+                    except Exception as e:
+                        st.error(f"Could not read file: {e}")
+# ===========================================================================
+# M6.4.5 — Video Evidence Tab (Semantic Analysis integration)
+# ===========================================================================
+
+def render_video_analysis_tab():
+    st.markdown('<div class="section-header">🎥 Video Evidence Analysis</div>',
+                unsafe_allow_html=True)
+    st.markdown(
+        "The Video Evidence Analysis tool runs as a completely separate application to ensure stability. "
+        "It allows you to upload surveillance footage and run semantic queries across visual content, "
+        "spoken audio, objects, and text in the video."
+    )
+    
+    st.info("💡 **How to launch the Video Analysis Tool:**\n"
+            "Open a new terminal and run:\n"
+            "`python -m uvicorn semantic_analysis.integration.app:app --port 8001`")
+            
+    st.markdown(
+        '<a href="http://localhost:8001" target="_blank" style="'
+        'display: inline-block; padding: 10px 20px; background-color: #3A2A22; '
+        'color: white; text-decoration: none; border-radius: 5px; font-weight: bold; '
+        'margin-top: 20px;">'
+        '↗️ Open Video Analysis Dashboard</a>',
+        unsafe_allow_html=True
+    )
 
 # ===========================================================================
 # M6.5 — Key players view
 # ===========================================================================
 
 def render_key_players_tab():
-    st.markdown("### 🏆 Key Entities by Priority Score")
-    st.caption(
-        "Entities ranked by M3's analytical priority score. "
-        "Higher scores indicate more connections and flagged patterns — "
-        "all findings require investigator verification."
+    st.markdown('<div class="section-header">🎯 Top-3 Suspects</div>',
+                unsafe_allow_html=True)
+    st.markdown(
+        "Entities ranked by composite risk score. Each score is derived from "
+        "network centrality, temporal patterns, co-location, call patterns, "
+        "and financial anomalies."
     )
 
-    if not st.session_state.key_players:
-        st.info("Upload and analyze a case to see the key entities ranking.")
-        return
+    # Load top3 results
+    top3_path = REPO_ROOT / "M3_feature" / "top3_results.json"
 
-    # Add toggle for system-wide vs case-scoped
-    show_system_wide = st.checkbox(
-        "Show system-wide key entities across all cases", 
-        value=False, 
-        help="By default, this panel only shows entities involved in the currently viewed case. Check this to see the top-ranked entities across the entire system."
-    )
+    if top3_path.exists():
+        with open(top3_path, "r", encoding="utf-8") as f:
+            top3_data = json.load(f)
+        st.session_state.top3_data = top3_data
 
-    players = st.session_state.key_players
-    
-    # Filter by case if not system-wide
-    if not show_system_wide:
-        # Determine case entities by checking current graph nodes
-        case_entity_ids = {n["id"] for n in st.session_state.graph_data.get("nodes", [])}
-        players = [p for p in players if p.get("entity_id") in case_entity_ids]
-        if not players:
-            st.info("No entities in this case have elevated priority scores or pattern flags.")
-            return
-
-    for i, player in enumerate(players, 1):
-        entity_id = player.get("entity_id", "")
-        name = player.get("name", entity_id)
-        priority = player.get("priority_score", 0.0)
-        flags = player.get("flags", [])
-        evidence_items = player.get("evidence", [])
-
-        # Determine implied type from entity_id prefix for icon
-        if "PER" in entity_id:
-            icon = "🧑"
-        elif "PHN" in entity_id:
-            icon = "📱"
-        elif "ACC" in entity_id:
-            icon = "🏦"
-        elif "LOC" in entity_id:
-            icon = "📍"
-        else:
-            icon = "❓"
-
-        # Extract case prefix for display
-        case_prefix = "Historical"
-        import re
-        type_match = re.search(r"_(PER|PHN|ACC|LOC|ORG|VEH|DAT|CAS)_", entity_id)
-        if type_match:
-            idx = type_match.start()
-            if idx > 0:
-                case_prefix = entity_id[:idx]
-        elif "_" in entity_id:
-            parts = entity_id.split("_")
-            if len(parts) >= 3 and parts[0].startswith("CAS"):
-                case_prefix = parts[0]
-            elif len(parts) >= 2 and not any(parts[0].startswith(p) for p in ["ACC", "PER", "LOC", "PHN", "DAT", "ORG", "VEH", "CAS"]):
-                case_prefix = parts[0]
-
-        bar_color = confidence_color(priority)
-
-        with st.container():
-            st.markdown(
-                f"**#{i} &nbsp; {icon} {name}** &nbsp; "
-                f"<code>{entity_id}</code> &nbsp; <span style='font-size:0.8em;color:#6B7280;background:#E5E7EB;padding:2px 6px;border-radius:4px;'>Case: {case_prefix}</span>",
-                unsafe_allow_html=True,
+        # Render suspect cards
+        for idx, suspect in enumerate(top3_data.get("suspects", []), 1):
+            risk_color = (
+                "#e94560" if suspect["risk_score"] >= 75
+                else "#FFB74D" if suspect["risk_score"] >= 50
+                else "#4FC3F7"
             )
-            # Priority score bar
-            bar_pct = int(priority * 100)
+
             st.markdown(f"""
-            <div class="priority-bar-outer">
-              <div class="priority-bar-inner" style="width:{bar_pct}%;background:{bar_color};"></div>
-            </div>
-            <div style="font-size:0.85em;color:{bar_color};font-weight:600;margin-bottom:4px;">
-              Priority Score: {priority:.2f}
+            <div class="suspect-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div class="suspect-name">#{idx} {suspect['name']}</div>
+                        <div class="risk-label">Investigation Priority Score</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="risk-score" style="background:linear-gradient(135deg, {risk_color}, #533483);
+                            -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+                            {suspect['risk_score']:.1f}
+                        </div>
+                        <div class="risk-label">/ 100</div>
+                    </div>
+                </div>
+                <div class="explanation-text">
+                    {suspect['explanation']}
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
-            # Flag badges
-            if flags:
-                badge_html = "".join(
-                    f'<span class="flag-badge">⚑ {FLAG_LABELS.get(f, f)}</span>'
-                    for f in flags
-                )
-                st.markdown(badge_html, unsafe_allow_html=True)
+            # Evidence references
+            evidence = suspect.get("evidence", [])
+            if evidence:
+                with st.expander(f"📎 Evidence References ({len(evidence)} items)", expanded=False):
+                    for ev in evidence:
+                        short_file = Path(ev["file"]).name
+                        st.markdown(
+                            f'`[{short_file}:L{ev["line_start"]}-L{ev["line_end"]}]` '
+                            f'— {ev["text_snippet"][:120]}...'
+                        )
 
-            # Evidence (collapsible)
-            if evidence_items:
-                with st.expander(f"Evidence ({len(evidence_items)} items)"):
-                    for ev in evidence_items:
-                        st.markdown(f'<div class="evidence-item">📎 {ev}</div>', unsafe_allow_html=True)
+                        # View source button
+                        btn_key = f"ev_{idx}_{ev['line_start']}_{hash(ev['file'])}"
+                        if st.button(f"📄 View lines", key=btn_key):
+                            try:
+                                with open(ev["file"], "r", encoding="utf-8",
+                                          errors="replace") as f:
+                                    lines = f.readlines()
+                                start = max(0, ev["line_start"] - 2)
+                                end = min(len(lines), ev["line_end"] + 2)
+                                display = []
+                                for j in range(start, end):
+                                    prefix = ">>> " if ev["line_start"] - 1 <= j <= ev["line_end"] - 1 else "    "
+                                    display.append(f"L{j+1:4d} {prefix}{lines[j].rstrip()}")
+                                st.code("\n".join(display), language=None)
+                            except Exception as e:
+                                st.error(f"Could not read file: {e}")
 
-            st.divider()
+            st.markdown("---")
 
+        # Score methodology
+        with st.expander("📊 Scoring Methodology"):
+            st.markdown("""
+            **Risk Score Formula** (0–100 scale):
 
+            ```
+            risk_score = normalize(
+                0.20 × degree_centrality       # Network connectivity
+              + 0.20 × temporal_anomaly         # Unusual timing patterns
+              + 0.15 × co-location_score        # Same-tower convergence
+              + 0.20 × call_pattern_score       # Call frequency & patterns
+              + 0.25 × transaction_anomaly      # Financial red flags
+            )
+            ```
+
+            Each component returns a value in [0, 1]. The weighted sum is
+            scaled to 0–100. Higher scores indicate higher investigation priority.
+
+            **⚠️ Scores indicate investigation priority, NOT guilt determination.**
+            """)
+    else:
+        st.warning(
+            "Top-3 results not found. Run the analysis first:\n\n"
+            "```bash\npython3 -m M3_feature.top3\n```"
+        )
 # ===========================================================================
 # M6.6 — Follow-up conversation tab
 # ===========================================================================
@@ -931,103 +1374,272 @@ def render_conversation_tab():
 
 
 # ===========================================================================
+# Timeline Tab  (pixel-perfect re-implementation)
+# ===========================================================================
+
+
+def render_timeline_tab():
+    st.markdown('<div class="section-header">⏱️ Timeline Player</div>',
+                unsafe_allow_html=True)
+    st.markdown(
+        "Animated playback of all case events (calls, transactions, FIR filings) "
+        "in chronological order. Events are highlighted on the network graph."
+    )
+
+    # Build timeline events
+    if getattr(st.session_state, 'timeline_events', None) is None:
+        try:
+            case_id = getattr(st.session_state, 'case_id', None)
+            
+            if case_id:
+                graph_data = getattr(st.session_state, 'graph_data', {})
+                nodes = graph_data.get("nodes", []) if graph_data else []
+                valid_entities = {n["id"] for n in nodes} if nodes else None
+                
+                from M6_feature.timeline_player import build_timeline
+                events = build_timeline(case_id=case_id, case_entities=valid_entities)
+            else:
+                events = []
+                
+            st.session_state.timeline_events = events
+        except Exception as e:
+            st.error(f"Failed to build timeline: {e}")
+            events = []
+    else:
+        events = st.session_state.timeline_events
+
+    if events:
+        st.markdown(f"**{len(events)} events** from "
+                    f"{events[0]['t'][:10]} to {events[-1]['t'][:10]}")
+
+        # Date range filter
+        col1, col2 = st.columns(2)
+        with col1:
+            date_start = st.date_input("From Date",
+                                       value=datetime(2024, 1, 1),
+                                       key="tl_start")
+        with col2:
+            date_end = st.date_input("To Date",
+                                     value=datetime(2026, 12, 31),
+                                     key="tl_end")
+
+        # Filter events by date range
+        filtered = [
+            e for e in events
+            if str(date_start) <= e["t"][:10] <= str(date_end)
+        ]
+
+        # Event type filter
+        event_types = st.multiselect(
+            "Event Types",
+            ["call", "transaction", "fir_filing"],
+            default=["call", "transaction", "fir_filing"],
+            key="tl_types",
+        )
+        filtered = [e for e in filtered if e["type"] in event_types]
+
+        st.markdown(f"**Showing {len(filtered)} events** after filters")
+
+        # Render timeline HTML
+        # Height grows with event count: ~150px per event + 120px for controls.
+        # scrolling=True lets the iframe scroll for very large event sets.
+        # Min 400px (even for 1 event), max 6000px to cap iframe size.
+        try:
+            from M6_feature.timeline_ui import render_timeline_html
+            timeline_html = render_timeline_html(filtered)
+            iframe_height = max(400, min(6000, len(filtered) * 160 + 120))
+            st.components.v1.html(timeline_html, height=iframe_height, scrolling=True)
+        except Exception as e:
+            st.error(f"Timeline rendering failed: {e}")
+
+        # Event log table
+        with st.expander("📋 Event Log (tabular)"):
+            import pandas as pd
+            df = pd.DataFrame([{
+                "Time": e["t"],
+                "Type": e["type"],
+                "From": e.get("from_name", e.get("from", "")),
+                "To": e.get("to_name", e.get("to", "")),
+                "Source": f"{e['file']}:L{e['line']}",
+            } for e in filtered[:100]])
+            st.dataframe(df, use_container_width=True)
+    else:
+        case_id = getattr(st.session_state, 'case_id', None)
+        if not case_id:
+            st.info("No active case selected.")
+        else:
+            st.info("No timeline events found for this case.")
+# ===========================================================================
 # M6.7 — Export tab
 # ===========================================================================
 
 def render_export_tab():
-    st.markdown("### 📤 Export Results")
-
-    if not st.session_state.final_response:
-        st.info("Upload and analyze a case first to enable export.")
-        return
-
-    case_id = st.session_state.case_id or "UNKNOWN"
-    resp = st.session_state.final_response
-    graph = st.session_state.graph_data or {"nodes": [], "edges": []}
-    players = st.session_state.key_players or []
-
+    st.markdown('<div class="section-header">📦 Court Evidence Exporter</div>',
+                unsafe_allow_html=True)
     st.markdown(
-        f"Export case **{case_id}** — confidence **{resp.get('confidence', 0):.0%}** — "
-        f"{len(graph.get('nodes', []))} entities, {len(graph.get('edges', []))} relationships"
+        "Package all case evidence into a signed ZIP archive for court submission. "
+        "Includes raw files, parsed outputs, AI analysis results, and a "
+        "cryptographic manifest for integrity verification."
     )
+
+    st.markdown("### 📋 Package Contents")
+    st.markdown("""
+    | Component | Description |
+    |-----------|-------------|
+    | `raw_data/` | Original FIRs, CDRs, transactions |
+    | `parsed_outputs/` | Machine-extracted entities & relationships |
+    | `ai_outputs/` | Top-3 suspect rankings, search audit logs |
+    | `manifest.json` | File inventory with SHA-256 hashes |
+    | `manifest.sig` | RSA-2048 digital signature |
+    | `public_key.pem` | Public key for signature verification |
+    | `VERIFY.md` | Step-by-step verification guide |
+    """)
+
     st.markdown("---")
 
-    col1, col2, col3 = st.columns(3)
+    col_export, col_opts = st.columns([3, 2])
 
-    # CSV
-    with col1:
-        st.markdown("#### 📊 CSV")
-        st.caption("Structured spreadsheet — entities, relationships, evidence, key entities.")
-        if st.button("Generate CSV", key="gen_csv"):
-            try:
-                data, fname = export_csv(case_id, resp, graph, players)
-                st.download_button(
-                    "⬇️ Download CSV", data=data,
-                    file_name=fname, mime="text/csv", key="dl_csv"
-                )
-                st.success(f"Ready: {fname}")
-            except Exception as e:
-                st.error(f"CSV export failed: {e}")
+    with col_opts:
+        encrypt = st.checkbox("🔐 Encrypt with passphrase", key="encrypt_toggle")
+        passphrase = None
+        if encrypt:
+            passphrase = st.text_input("Passphrase", type="password",
+                                       key="export_passphrase")
 
-    # JSON
-    with col2:
-        st.markdown("#### 📋 JSON")
-        st.caption("Full structured data — suitable for programmatic processing.")
-        if st.button("Generate JSON", key="gen_json"):
-            try:
-                data, fname = export_json(case_id, resp, graph, players)
-                st.download_button(
-                    "⬇️ Download JSON", data=data,
-                    file_name=fname, mime="application/json", key="dl_json"
-                )
-                st.success(f"Ready: {fname}")
-            except Exception as e:
-                st.error(f"JSON export failed: {e}")
+    with col_export:
+        if st.button("🔴 Export Evidence Package", type="primary",
+                     key="export_btn", use_container_width=True):
+            with st.spinner("Creating evidence package..."):
+                try:
+                    from M6_feature.exporter import export_case_zip
 
-    # PDF
-    with col3:
-        st.markdown("#### 📄 PDF Report")
-        st.caption("Formatted investigation report with summary, evidence, and key entities.")
-        if st.button("Generate PDF", key="gen_pdf"):
-            try:
-                data, fname = export_pdf(case_id, resp, graph, players)
-                st.download_button(
-                    "⬇️ Download PDF", data=data,
-                    file_name=fname, mime="application/pdf", key="dl_pdf"
-                )
-                st.success(f"Ready: {fname}")
-            except Exception as e:
-                st.error(f"PDF export failed: {e}")
+                    # Use temp directory for output
+                    import tempfile
+                    outdir = tempfile.mkdtemp()
+                    case_id = getattr(st.session_state, 'case_id', None)
+                    if not case_id:
+                        raise ValueError("No active case selected. Please upload or select a case first.")
 
+                    zip_path = export_case_zip(
+                        case_id, outdir,
+                        encrypt_passphrase=passphrase if encrypt and passphrase else None,
+                    )
 
+                    # Read the ZIP for download
+                    with open(zip_path, "rb") as f:
+                        zip_bytes = f.read()
+
+                    st.success(f"✅ Evidence package created successfully!")
+                    st.markdown(f"**Size**: {len(zip_bytes):,} bytes")
+
+                    st.download_button(
+                        label="⬇️ Download Evidence ZIP",
+                        data=zip_bytes,
+                        file_name=f"case_{case_id}_evidence.zip",
+                        mime="application/zip",
+                        key="download_zip",
+                    )
+
+                except Exception as e:
+                    st.error(f"Export failed: {e}")
+                    logger.error(f"Export failed: {e}", exc_info=True)
+
+    # Verification info
+    with st.expander("🔐 Verification Instructions"):
+        st.markdown("""
+        After downloading, verify the evidence package:
+
+        **1. Check file integrity:**
+        ```bash
+        python3 -c "
+        import hashlib, json, zipfile, sys
+        with zipfile.ZipFile(sys.argv[1]) as z:
+            manifest = json.loads(z.read('manifest.json'))
+            for f in manifest['files']:
+                data = z.read(f['path'])
+                h = hashlib.sha256(data).hexdigest()
+                status = '✓' if h == f['sha256'] else '✗'
+                print(f'{status} {f[\"path\"]}')" case_demo_case_evidence.zip
+        ```
+
+        **2. Verify digital signature:**
+        ```python
+        # Requires: pip install cryptography
+        from cryptography.hazmat.primitives.asymmetric import padding
+        from cryptography.hazmat.primitives import hashes, serialization
+        # See VERIFY.md inside the ZIP for full instructions
+        ```
+        """)
 # ===========================================================================
 # M6.1 + M6.2 — Upload & Analyze tab
 # ===========================================================================
 
 def render_upload_tab():
-    st.markdown("### 📁 Upload & Analyze Case Document")
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    
+    col_left, col_right = st.columns([1.5, 1])
+    
+    with col_left:
+        st.markdown("<div style='font-size: 11px; font-weight: 500; letter-spacing: 0.12em; color: #6B5D50; margin-bottom: 8px;'>CASE ANALYSIS &nbsp;|&nbsp; 01 / DOCUMENT INGESTION</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size: 56px; font-weight: 500; line-height: 1.05; margin-bottom: 12px; letter-spacing: -0.03em; max-width: 500px; color: #2B211C;'>UPLOAD & ANALYZE<br>CASE DOCUMENT</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size: 16px; color: #6B5D50; margin-bottom: 48px; max-width: 400px;'>Turn case documents into an investigative network.</div>", unsafe_allow_html=True)
 
-    with st.form("upload_form"):
-        case_id_input = st.text_input(
-            "Case Reference Number",
-            placeholder="e.g. FIR103",
-            max_chars=30,
-        )
-        uploaded_files = st.file_uploader(
-            "Upload case document(s) (.txt or .pdf)",
-            type=["txt", "pdf"],
-            help="Plain text (.txt) is recommended. PDF text will be extracted.",
-            accept_multiple_files=True,
-        )
-        submit_btn = st.form_submit_button("🔍 Analyze Case")
+        with st.form("upload_form"):
+            case_id_input = st.text_input(
+                "CASE REFERENCE",
+                placeholder="FIR-2026-00931",
+                max_chars=30,
+            )
+            
+            st.markdown("<div style='margin-top: 32px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: #211C18; margin-bottom: 8px;'>DOCUMENT</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size: 13px; color: #66584C; margin-bottom: 16px;'>↑ Drop case files here &nbsp;·&nbsp; TXT / PDF &nbsp;·&nbsp; up to 200MB</div>", unsafe_allow_html=True)
+            
+            uploaded_files = st.file_uploader(
+                "Upload Dropzone",
+                label_visibility="collapsed",
+                type=["txt", "pdf"],
+                help="Plain text (.txt) is recommended. PDF text will be extracted.",
+                accept_multiple_files=True,
+            )
+            
+            st.markdown("<br>", unsafe_allow_html=True)
+            submit_btn = st.form_submit_button("Analyze →", type="primary")
+
+    with col_right:
+        st.markdown("<div style='padding-left: 64px;'>", unsafe_allow_html=True)
+        status = get_backend_status()
+        
+        # Subtle Japanese-inspired detail
+        st.markdown("<div style='font-size: 11px; letter-spacing: 0.1em; color: #6B5D50; text-align: right; margin-bottom: 40px;'>分析 / ANALYSIS</div>", unsafe_allow_html=True)
+        
+        st.markdown("<div style='font-size:12px; font-weight:600; color:#6B5D50; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:12px;'>SYSTEM</div>", unsafe_allow_html=True)
+        
+        if status["use_real_modules"]:
+            st.markdown("<div style='font-size:14px; font-weight:500; color:#2B211C; margin-bottom:32px;'>● OPERATIONAL</div>", unsafe_allow_html=True)
+            
+            st.markdown(f"<div style='font-size:28px; font-weight:500; color:#2B211C; letter-spacing: -0.02em;'>{status['graph_nodes']:,}</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size:11px; color:#6B5D50; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:24px;'>NODES</div>", unsafe_allow_html=True)
+            
+            st.markdown(f"<div style='font-size:28px; font-weight:500; color:#2B211C; letter-spacing: -0.02em;'>{status['graph_edges']:,}</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size:11px; color:#6B5D50; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:32px;'>CONNECTIONS</div>", unsafe_allow_html=True)
+            
+            st.markdown(f"<div style='font-size:14px; font-weight:500; color:#2B211C; margin-bottom:6px;'>M4 RAG &nbsp;&nbsp;<span style='color:#7A8064;font-weight:400; font-size:11px;'>{'READY' if status['pipeline_loaded'] else 'OFFLINE'}</span></div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='font-size:14px; font-weight:500; color:#2B211C;'>M3 PATTERNS &nbsp;&nbsp;<span style='color:#7A8064;font-weight:400; font-size:11px;'>{'READY' if status['m3_flags_available'] else 'OFFLINE'}</span></div>", unsafe_allow_html=True)
+        else:
+            st.markdown("<div style='font-size:13px; font-weight:500; color:#A66A4C; margin-bottom:32px;'>● MOCK MODE</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size:13px; color:#66584C;'>Set CRIMINAL_USE_REAL_MODULES=1 for full backend.</div>", unsafe_allow_html=True)
+            
+        st.markdown("</div>", unsafe_allow_html=True)
 
     if submit_btn:
         # --- Validation (M6 FR11 — pre-processing validation) ---
         if not case_id_input.strip():
-            st.error("Please enter a Case Reference Number before analyzing.")
+            with col_left:
+                st.markdown("<div class='inline-error'>Please enter a case reference number.</div>", unsafe_allow_html=True)
             return
         if not uploaded_files:
-            st.error("Please upload at least one case document (.txt or .pdf).")
+            with col_left:
+                st.markdown("<div class='inline-error'>Please upload at least one case document (.txt or .pdf).</div>", unsafe_allow_html=True)
             return
 
         # --- Extract text ---
@@ -1184,6 +1796,7 @@ def render_upload_tab():
         st.session_state.final_response = resp_dict
         st.session_state.graph_data = graph_data
         st.session_state.key_players = key_players
+        st.session_state.timeline_events = None
         st.session_state.conversation_history = [
             {"role": "investigator", "content": f"[Uploaded: {case_id}]"},
             {"role": "system", "content": resp_dict.get("response_text", "")},
@@ -1235,71 +1848,40 @@ def render_upload_tab():
 # ===========================================================================
 
 def render_sidebar():
-    st.sidebar.markdown("## 🔍 PS 26152")
-    st.sidebar.markdown("**Investigator Dashboard**")
-    st.sidebar.markdown("*AI-Powered Network Analysis System*")
-    st.sidebar.divider()
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
+    st.sidebar.markdown("<div style='font-size: 13px; color:#211C18; font-weight:600; letter-spacing:0.12em;'>PS 26152</div>", unsafe_allow_html=True)
+    st.sidebar.markdown("<div style='font-size: 18px; font-weight:500; color:#211C18; margin-top:8px; line-height:1.2; letter-spacing: -0.02em;'>Investigator<br>Dashboard</div>", unsafe_allow_html=True)
+    st.sidebar.markdown("<div style='font-size: 15px; color:#66584C; margin-top:12px;'>AI-Powered Network<br>Analysis System</div>", unsafe_allow_html=True)
+    st.sidebar.markdown("<hr style='border:none; border-top:1px solid #DED5C8; margin:32px 0;'>", unsafe_allow_html=True)
+    
+    st.sidebar.markdown("<div style='font-size:12px; font-weight:600; color:#66584C; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:16px;'>DEMO</div>", unsafe_allow_html=True)
+    if st.sidebar.button("Run Demo →", key="run_demo"):
+        st.session_state.demo_mode = True
+        st.rerun()
 
-    # Backend status
-    status = get_backend_status()
-    if status["use_real_modules"]:
-        st.sidebar.markdown("**Backend:** 🟢 Real Modules")
-        graph_ok = status["graph_loaded"]
-        pipeline_ok = status["pipeline_loaded"]
-        m3_ok = status["m3_flags_available"]
-        st.sidebar.markdown(
-            f"{'✅' if graph_ok else '❌'} Graph: "
-            f"{status['graph_nodes']:,} nodes / {status['graph_edges']:,} edges"
-        )
-        st.sidebar.markdown(
-            f"{'✅' if pipeline_ok else '❌'} M4 RAG Pipeline"
-        )
-        st.sidebar.markdown(
-            f"{'✅' if m3_ok else '❌'} M3 Pattern Flags"
-        )
-        if status["init_error"]:
-            st.sidebar.warning(f"⚠️ Init error: {status['init_error'][:80]}")
-    else:
-        st.sidebar.markdown("**Backend:** 🟡 Mock Mode")
-        st.sidebar.caption(
-            "Using mock M5/M2/M3 backends. "
-            "Set `CRIMINAL_USE_REAL_MODULES=1` to use real modules."
-        )
-    st.sidebar.divider()
-
+    st.sidebar.markdown("<hr style='border:none; border-top:1px solid #DED5C8; margin:32px 0;'>", unsafe_allow_html=True)
+    
     # Active session info
     if st.session_state.session_id:
-        st.sidebar.markdown(f"**Active Case:** `{st.session_state.case_id}`")
-        st.sidebar.markdown(f"**Session:** `{st.session_state.session_id}`")
-        if st.sidebar.button("Clear Session / New Case"):
+        st.sidebar.markdown("<div style='font-size:12px; font-weight:600; color:#66584C; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:8px;'>ACTIVE CASE</div>", unsafe_allow_html=True)
+        st.sidebar.markdown(f"<div style='font-size: 15px; font-weight: 500; color:#211C18; margin-bottom:16px;'>{st.session_state.case_id}</div>", unsafe_allow_html=True)
+        if st.sidebar.button("Clear Session"):
             for key in ["session_id", "case_id", "final_response", "graph_data",
                         "key_players", "conversation_history", "search_results"]:
                 st.session_state[key] = None if key not in ["conversation_history", "search_results"] else []
             st.rerun()
-        st.sidebar.divider()
+        st.sidebar.markdown("<hr style='border:none; border-top:1px solid #DED5C8; margin:32px 0;'>", unsafe_allow_html=True)
 
-    # M6.9 — Demo script launcher
-    st.sidebar.markdown("#### 🎬 Demo Script")
-    st.sidebar.caption("Auto-runs the full demo flow: upload → graph → question → export")
-    if st.sidebar.button("▶ Run Demo", key="run_demo"):
-        st.session_state.demo_mode = True
-        st.rerun()
-
-    # Disclaimer
-    st.sidebar.divider()
-    
-    st.sidebar.markdown("#### ⚙️ Settings")
+    st.sidebar.markdown("<div style='font-size:12px; font-weight:600; color:#66584C; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:16px;'>SETTINGS</div>", unsafe_allow_html=True)
     st.session_state["auto_switch_graph"] = st.sidebar.checkbox(
-        "Auto-switch to Graph Tab", 
-        value=False,
-        help="Automatically switch to the Network Graph tab after case analysis."
+        "Auto-switch to Graph", 
+        value=False
     )
-    # The auto-switch-to-Network-Graph-tab is intentionally configurable based on demo script needs.
-
-    st.sidebar.divider()
-    st.sidebar.caption(
-        "⚖️ *All findings are investigative leads requiring verification. "
-        "This system does not determine guilt or legal liability.*"
+    
+    st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.sidebar.markdown(
+        "<div style='font-size: 13px; color: #66584C; line-height: 1.5;'>⚖️ All findings require verification.<br>Not for legal liability.</div>", 
+        unsafe_allow_html=True
     )
 
 
@@ -1419,23 +2001,6 @@ Suresh Patel was mentioned in two prior cases in the same locality.
 def main():
     render_sidebar()
 
-    # Title bar
-    st.markdown("""
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-        <div style="font-size:2.2em;">🔍</div>
-        <div>
-            <div style="font-size:1.6em;font-weight:700;line-height:1.2;">
-                Investigator Dashboard
-            </div>
-            <div style="font-size:0.9em;color:#6B7280;">
-                PS 26152 — AI-Powered Criminal Network Analysis System &nbsp;|&nbsp;
-                <em>All findings require investigator verification</em>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.divider()
-
     # Demo mode takes over the whole page
     if st.session_state.demo_mode:
         run_demo_script()
@@ -1443,12 +2008,13 @@ def main():
 
     # Tab navigation (M6.1–M6.9)
     tabs = st.tabs([
-        "📁 Upload & Analyze",
-        "🕸️ Network Graph",
-        "🔎 Search",
-        "🏆 Key Entities",
-        "💬 Follow-Up",
-        "📤 Export",
+        "Upload",
+        "Graph",
+        "Timeline",
+        "Search",
+        "Video Evidence",
+        "Entities",
+        "Export",
     ])
 
     with tabs[0]:
@@ -1456,12 +2022,14 @@ def main():
     with tabs[1]:
         render_graph_tab()
     with tabs[2]:
-        render_search_tab()
+        render_timeline_tab()
     with tabs[3]:
-        render_key_players_tab()
+        render_search_tab()
     with tabs[4]:
-        render_conversation_tab()
+        render_video_analysis_tab()
     with tabs[5]:
+        render_key_players_tab()
+    with tabs[6]:
         render_export_tab()
 
 

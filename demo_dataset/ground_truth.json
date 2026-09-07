@@ -45,9 +45,9 @@
         "ACC00101"
       ]
     ],
-    "fir_file": "demo_dataset/fir_files/case_A.txt",
-    "cdr_file": "demo_dataset/cdr_files/case_A_cdr.csv",
-    "txn_file": "demo_dataset/transaction_files/case_A_transactions.csv"
+    "fir_file": "demo_dataset\\fir_files\\case_A.txt",
+    "cdr_file": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+    "txn_file": "demo_dataset\\transaction_files\\case_A_transactions.csv"
   },
   "case_B": {
     "title": "FIR-2024-0078: Colocation Pattern Analysis",
@@ -94,9 +94,9 @@
         "ACC00104"
       ]
     ],
-    "fir_file": "demo_dataset/fir_files/case_B.txt",
-    "cdr_file": "demo_dataset/cdr_files/case_B_cdr.csv",
-    "txn_file": "demo_dataset/transaction_files/case_B_transactions.csv"
+    "fir_file": "demo_dataset\\fir_files\\case_B.txt",
+    "cdr_file": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+    "txn_file": "demo_dataset\\transaction_files\\case_B_transactions.csv"
   },
   "case_C": {
     "title": "FIR-2024-0091: Mixed Communication and Transaction Pattern",
@@ -143,8 +143,8 @@
         "ACC00110"
       ]
     ],
-    "fir_file": "demo_dataset/fir_files/case_C.txt",
-    "cdr_file": "demo_dataset/cdr_files/case_C_cdr.csv",
-    "txn_file": "demo_dataset/transaction_files/case_C_transactions.csv"
+    "fir_file": "demo_dataset\\fir_files\\case_C.txt",
+    "cdr_file": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+    "txn_file": "demo_dataset\\transaction_files\\case_C_transactions.csv"
   }
 }

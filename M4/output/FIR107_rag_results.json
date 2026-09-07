@@ -1,42 +1,62 @@
 [
   {
     "case_id": "FIR107",
-    "source": "FIR127",
-    "relevance_score": 0.618,
+    "source": "FIR_049",
+    "relevance_score": 0.6108,
     "matched_entities": [],
-    "evidence": " ACC00108 mein.\nFatima Begum ki gaadi TN09OP0123 CCTV mein pakdi gayi Koramangala, Bengaluru ke paas.\n\n        Further, it is reported that Ravi Kumar (phone: 9876543210) was in contact with the accus…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00049\nDate: 23/04/1992\nPolice Station: Mumbai\nReporting Officer: Training Academy Staff\nCase Reference: FIR_049\n\nINCIDENT REPORT:\nStock market manipulation u…[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR107",
-    "source": "FIR_042",
-    "relevance_score": 0.5859,
+    "source": "FIR_046",
+    "relevance_score": 0.5896,
     "matched_entities": [],
-    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00042\nDate: 29/12/2006\nPolice Station: Noida\nReporting Officer: Training Academy Staff\nCase Reference: FIR_042\n\nINCIDENT REPORT:\nSerial killings and abductio…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00046\nDate: 07/07/2013\nPolice Station: Bhopal\nReporting Officer: Training Academy Staff\nCase Reference: FIR_046\n\nINCIDENT REPORT:\nMassive admission and recru…[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR107",
-    "source": "FIR126",
-    "relevance_score": 0.5846,
+    "source": "FIR_039",
+    "relevance_score": 0.5892,
     "matched_entities": [],
-    "evidence": "rh ke paas.\nPolice ne Fatima Begum ko Bandra West, Mumbai se giraftaar kiya.\nChor Fatima Begum ne Sharma & Sons Traders ka maal chura liya.\n\n        Further, it is reported that Ravi Kumar (phone: 987…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00039\nDate: 09/01/2009\nPolice Station: Hyderabad\nReporting Officer: Training Academy Staff\nCase Reference: FIR_039\n\nINCIDENT REPORT:\nCorporate fraud of 7136 …[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR107",
-    "source": "FIR_036",
-    "relevance_score": 0.5804,
+    "source": "FIR_060",
+    "relevance_score": 0.5806,
     "matched_entities": [],
-    "evidence": " Delhi. Transferred to Mount Elizabeth Hospital, Singapore on 26/12/2012. Victim succumbed to injuries on 29/12/2012.\n\nREGISTERED SECTIONS:\n- IPC Section 302 (murder)\n- IPC Section 376D (gang rape)\n- …[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00060\nDate: 12/10/2026\nPolice Station: Academy\nReporting Officer: Training Academy Staff\nCase Reference: FIR_060\n\nINCIDENT REPORT:\nTraining case: Protection …[truncated]",
     "timestamp": null
   },
   {
     "case_id": "FIR107",
-    "source": "FIR_043",
-    "relevance_score": 0.5659,
+    "source": "FIR154",
+    "relevance_score": 0.578,
     "matched_entities": [],
-    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00043\nDate: 16/05/2008\nPolice Station: Noida\nReporting Officer: Training Academy Staff\nCase Reference: FIR_043\n\nINCIDENT REPORT:\nDouble murder at L-32 Jalvay…[truncated]",
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR154\n        Date: 30-07-2024\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Suresh Patil alleges that S. Sharma and associa…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR107",
+    "source": "M3_FLAGS_ACC_3413aed9",
+    "relevance_score": 0.5284,
+    "matched_entities": [
+      "ACC_3413aed9"
+    ],
+    "evidence": "Degree centrality 0.146 — entity connects to 14.6% of the network relative to maximum possible | Betweenness centrality 0.021 — entity lies on 2.1% of shortest paths between other entities",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR107",
+    "source": "M3_FLAGS_ACC_49c380ba",
+    "relevance_score": 0.5605,
+    "matched_entities": [
+      "ACC_49c380ba"
+    ],
+    "evidence": "Degree centrality 0.297 — entity connects to 29.7% of the network relative to maximum possible | Betweenness centrality 0.064 — entity lies on 6.4% of shortest paths between other entities",
     "timestamp": null
   }
 ]

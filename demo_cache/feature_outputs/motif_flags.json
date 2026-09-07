@@ -3,86 +3,36 @@
   "off_hours": "23:00-5:00",
   "multiplier_threshold": 1.5,
   "flags": {
-    "case_A": [
+    "case_A": [],
+    "case_B": [
       {
-        "phone": "9432109876",
-        "name": "Fatima Begum",
-        "off_hour_calls": 5,
-        "peak_hour_calls": 6,
-        "off_hour_rate": 0.8333,
-        "baseline_rate": 0.3333,
-        "multiplier_observed": 2.5,
-        "flagged_hours": [
-          0,
-          1,
-          2,
-          23
-        ],
-        "explanation": "Phone 9432109876 (Fatima Begum) shows 5 call(s) during off-hours (23:00\u20135:00) vs 6 during peak hours \u2014 2.5\u00d7 the baseline rate. This pattern requires investigator verification.",
-        "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "flagged_rows": [
-            8,
-            9,
-            17,
-            19,
-            22
-          ]
-        }
-      },
-      {
-        "phone": "9123456789",
-        "name": "Sunita Sharma",
-        "off_hour_calls": 3,
-        "peak_hour_calls": 6,
-        "off_hour_rate": 0.5,
-        "baseline_rate": 0.3333,
-        "multiplier_observed": 1.5,
-        "flagged_hours": [
-          0,
-          3
-        ],
-        "explanation": "Phone 9123456789 (Sunita Sharma) shows 3 call(s) during off-hours (23:00\u20135:00) vs 6 during peak hours \u2014 1.5\u00d7 the baseline rate. This pattern requires investigator verification.",
-        "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "flagged_rows": [
-            6,
-            20,
-            23
-          ]
-        }
-      }
-    ],
-    "case_B": [],
-    "case_C": [
-      {
-        "phone": "8877665544",
-        "name": "Priya Nair",
+        "phone": "9876543210",
+        "name": "Ravi Kumar",
         "off_hour_calls": 6,
-        "peak_hour_calls": 8,
+        "peak_hour_calls": 11,
         "off_hour_rate": 1.0,
-        "baseline_rate": 0.4444,
-        "multiplier_observed": 2.25,
+        "baseline_rate": 0.6111,
+        "multiplier_observed": 1.636,
         "flagged_hours": [
           0,
-          1,
           3,
           4,
           23
         ],
-        "explanation": "Phone 8877665544 (Priya Nair) shows 6 call(s) during off-hours (23:00\u20135:00) vs 8 during peak hours \u2014 2.2\u00d7 the baseline rate. This pattern requires investigator verification.",
+        "explanation": "Phone 9876543210 (Ravi Kumar) shows 6 call(s) during off-hours (23:00\u20135:00) vs 11 during peak hours \u2014 1.6\u00d7 the baseline rate. This pattern requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_C_cdr.csv",
+          "cdr_file": "demo_dataset\\cdr_files\\case_B_cdr.csv",
           "flagged_rows": [
             10,
-            12,
-            18,
-            35,
-            36,
+            11,
+            15,
+            26,
+            34,
             43
           ]
         }
       }
-    ]
+    ],
+    "case_C": []
   }
 }

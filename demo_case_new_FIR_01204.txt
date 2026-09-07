@@ -1,0 +1,81 @@
+FIRST INFORMATION REPORT
+FIR No: FIR/2026/01204
+Police Station: Vaishali Nagar, Jaipur, Rajasthan
+Date of Report: 06/09/2026
+Date/Time of Occurrence: 04/09/2026, approx 20:15 hrs
+
+Complainant Name: Suraj Prakash Agarwal
+Complainant Address: C-14, Vaishali Nagar, Jaipur
+Complainant Phone: +91-9871230000
+
+Nature of Offence: Suspected investment fraud and money laundering,
+IPC Sections 420, 409, 120B.
+
+Details of Incident (as narrated by complainant):
+
+Maine apne kuch dosto ke saath milkar ek scheme mein paisa lagaya tha
+jiska naam "Shakti Growth Fund" bataya gaya, jo Vikram Oberoi naam ke
+vyakti dwara chalaya ja raha tha. Humein bola gaya ki 3 mahine mein
+double return milega. Maine 2 lakh rupaye diye the, lekin ab na to paisa
+wapas mil raha hai aur na hi Vikram Oberoi phone utha raha hai.
+
+Investigating Officer's Preliminary Notes:
+
+On preliminary inquiry, Vikram Oberoi (aliases: "Vikram O.", "V. Oberoi")
+was found to be operating under the same organization name pattern as a
+previously flagged entity, "Shakti Enterprises" (Case FIR/2026/00778,
+Jaipur). The new scheme is being marketed as "Shakti Growth Fund",
+registered to an office space in Vaishali Nagar, Jaipur.
+
+Call Detail Records for mobile number +91-9845123456 (registered to
+Vikram Oberoi — the same number linked to the historical Shakti
+Enterprises case) show an unusual spike of 61 outgoing/incoming calls
+between 19:30 hrs and 21:00 hrs on 04/09/2026, immediately after several
+victims attempted to contact him demanding refunds.
+
+A recurring associate, Manish Oberoi, previously linked to vehicle
+RJ14EF9988 in the historical case, was again seen using the same vehicle
+outside the Vaishali Nagar office on two occasions this week.
+
+Bank account records linked to account number XXXXXX4432, registered
+under "Shakti Growth Fund" at a private bank branch in Jaipur, show total
+inflow of approximately Rs. 34,00,000 across 22 separate victim deposits
+between 25/08/2026 and 04/09/2026, followed by a sudden outward transfer
+of Rs. 31,50,000 to an account associated with Vikram Oberoi personally
+on 04/09/2026 — the same day the phone stopped being answered.
+
+A separate line of inquiry identified the "Shakti Growth Fund" office as
+being managed on the accounting side by a contract accountant, Anita
+Deshpande, operating out of the same Vaishali Nagar office address
+previously flagged in Case FIR/2026/00905 in connection with account
+XXXXXX2211 and a suspected money-mule structuring pattern. Anita
+Deshpande's current account activity for "Shakti Growth Fund" shows a
+similar pattern of multiple smaller deposits consolidated into larger
+outgoing transfers, consistent with the structuring behavior previously
+flagged in the historical case. Investigators note this may indicate
+Anita Deshpande's services were reused across two unrelated-seeming
+schemes, or that the "unnamed client" from the 2026 case and Vikram
+Oberoi are connected.
+
+PERSONS REFERENCED IN THIS INVESTIGATION:
+
+ID	Name	Role
+P01	Vikram Oberoi	Primary suspect, scheme operator
+P02	Manish Oberoi	Associate, cash/vehicle coordination
+P03	Suraj Prakash Agarwal	Complainant, victim
+P04	Anita Deshpande	Contract accountant, "Shakti Growth Fund"
+
+Investigation is ongoing. This case is being forwarded for network
+analysis to determine (1) whether Vikram Oberoi and Manish Oberoi are
+operating a rebranded continuation of the entity previously flagged in
+FIR/2026/00778 ("Shakti Enterprises" -> "Shakti Growth Fund"), and (2)
+whether the accounting activity managed by Anita Deshpande connects
+this case to the unresolved "unnamed client" question raised in the
+separate historical case FIR/2026/00905, in addition to identifying any
+additional victims or associates connected through shared phone
+numbers, vehicles, or account activity.
+
+Recording Officer: SI Kavita Rathore, Badge No. 5567
+Station: Vaishali Nagar, Jaipur
+
+--- END OF DOCUMENT ---

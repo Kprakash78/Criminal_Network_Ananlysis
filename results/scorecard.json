@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated_at": "2026-09-06T20:10:21.356409Z",
-    "git_commit": "47bc07f",
+    "generated_at": "2026-09-07T00:30:15.799810Z",
+    "git_commit": "c2ce10f",
     "seed": 42,
     "model_versions": {
       "extraction": "regex-based (no ML model)",
@@ -34,7 +34,7 @@
       }
     },
     "link_prediction": {
-      "mean_auc_roc": 0.6341,
+      "mean_auc_roc": 0.5937,
       "mean_precision_at_5": 0.4
     },
     "candidate_coverage": {
@@ -45,8 +45,8 @@
     },
     "latency_ms": {
       "parse": {
-        "median_ms": 0.05,
-        "p95_ms": 0.05
+        "median_ms": 0.06,
+        "p95_ms": 0.07
       },
       "graph_build": {
         "median_ms": 0.02,
@@ -57,8 +57,8 @@
         "p95_ms": 0.01
       },
       "top3": {
-        "median_ms": 0.13,
-        "p95_ms": 0.14
+        "median_ms": 0.11,
+        "p95_ms": 0.15
       }
     },
     "determinism": {
@@ -93,7 +93,7 @@
     },
     "link_auc": {
       "pass": true,
-      "actual": 0.6341,
+      "actual": 0.5937,
       "threshold": 0.55,
       "op": ">="
     },
@@ -105,7 +105,7 @@
     },
     "latency_parse": {
       "pass": true,
-      "actual": 0.05,
+      "actual": 0.06,
       "threshold": 50,
       "op": "<="
     },
@@ -123,7 +123,7 @@
     },
     "latency_top3": {
       "pass": true,
-      "actual": 0.13,
+      "actual": 0.11,
       "threshold": 100,
       "op": "<="
     },

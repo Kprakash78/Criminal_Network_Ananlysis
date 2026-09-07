@@ -1,0 +1,15 @@
+# M3 Vision Intelligence — Python Requirements
+# Install with: pip install -r requirements.txt
+
+# Core vision
+ultralytics>=8.0.0          # YOLOv8 object detection (yolov8n.pt auto-downloads)
+easyocr>=1.7.0              # Text extraction (EasyOCR, English)
+opencv-python>=4.8.0        # Frame I/O, blur detection, color histograms
+
+# Already present in most environments but listed for completeness
+numpy>=1.24.0
+Pillow>=9.0.0
+
+# Optional: ffmpeg-python if you prefer the Python wrapper over CLI subprocess
+# ffmpeg-python>=0.2.0
+# (M3 shells out to the ffmpeg binary directly — no Python wrapper needed)

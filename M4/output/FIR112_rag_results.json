@@ -1,0 +1,42 @@
+[
+  {
+    "case_id": "FIR112",
+    "source": "FIR154",
+    "relevance_score": 0.6209,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR154\n        Date: 30-07-2024\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Suresh Patil alleges that S. Sharma and associa…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR112",
+    "source": "FIR101",
+    "relevance_score": 0.6104,
+    "matched_entities": [],
+    "evidence": ", Ahmedabad.\n\n        Phone records indicate repeated calls between 8877665544 and 9543210987 during the period of the alleged offence. The subscriber of 8877665544 is identified as P. Nair.\n\n        …[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR112",
+    "source": "FIR132",
+    "relevance_score": 0.6092,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR132\n        Date: 22-04-2026\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Mohammed Iqbal alleges that Anjali S. and assoc…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR112",
+    "source": "FIR101",
+    "relevance_score": 0.604,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\n        Case No.: FIR101\n        Date: 29-07-2026\n        Police Station: [Synthetic]\n\n        A written complaint submitted by Ravi Kumar alleges that Anjali Singh and associ…[truncated]",
+    "timestamp": null
+  },
+  {
+    "case_id": "FIR112",
+    "source": "FIR_046",
+    "relevance_score": 0.6028,
+    "matched_entities": [],
+    "evidence": "FIRST INFORMATION REPORT\nFIR No.: FIR_2026_00046\nDate: 07/07/2013\nPolice Station: Bhopal\nReporting Officer: Training Academy Staff\nCase Reference: FIR_046\n\nINCIDENT REPORT:\nMassive admission and recru…[truncated]",
+    "timestamp": null
+  }
+]

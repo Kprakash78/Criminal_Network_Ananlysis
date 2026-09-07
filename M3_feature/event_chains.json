@@ -3,29 +3,29 @@
   "window_minutes": 30,
   "chains": [
     {
-      "chain_id": "case_A_c2",
+      "chain_id": "case_A_c12",
       "case_id": "case_A",
       "n_steps": 2,
       "steps": [
         {
           "actor": "9123456789",
           "action": "transfer",
-          "target": "9432109876",
-          "amount_inr": 119737.0,
+          "target": "9654321098",
+          "amount_inr": 101714.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 20,
-          "t": "2024-03-02T08:00:00"
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 27,
+          "t": "2024-03-04T08:00:00"
         },
         {
           "actor": "9123456789",
           "action": "transfer",
           "target": "9654321098",
-          "amount_inr": 158103.0,
+          "amount_inr": 79936.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 24,
-          "t": "2024-03-02T08:00:00"
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 28,
+          "t": "2024-03-04T08:00:00"
         }
       ],
       "pivot": {
@@ -35,98 +35,194 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_A_c17",
+      "chain_id": "case_A_c21",
       "case_id": "case_A",
       "n_steps": 2,
       "steps": [
         {
-          "actor": "9432109876",
+          "actor": "9876543210",
           "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 1883285.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 14,
-          "t": "2024-03-06T01:00:00"
-        },
-        {
-          "actor": "9432109876",
-          "action": "call",
-          "target": "9123456789",
-          "duration_sec": 586,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 8,
-          "t": "2024-03-06T01:24:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 1,
-        "score": 0.7
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_A_c45",
-      "case_id": "case_A",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9654321098",
-          "action": "transfer",
-          "target": "9123456789",
-          "amount_inr": 2418724.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 9,
-          "t": "2024-03-13T18:00:00"
-        },
-        {
-          "actor": "9654321098",
-          "action": "call",
-          "target": "9432109876",
-          "duration_sec": 79,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 27,
-          "t": "2024-03-13T18:28:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 1,
-        "score": 0.6
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_A_c47",
-      "case_id": "case_A",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9432109876",
-          "action": "transfer",
-          "target": "9123456789",
-          "amount_inr": 50346.0,
+          "target": "9988776655",
+          "amount_inr": 31061.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 30,
+          "t": "2024-03-06T08:00:00"
+        },
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9988776655",
+          "amount_inr": 9862.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 34,
+          "t": "2024-03-06T08:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.5
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c26",
+      "case_id": "case_A",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9432109876",
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 578,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 15,
+          "t": "2024-03-07T05:20:00"
+        },
+        {
+          "actor": "9432109876",
+          "action": "call",
+          "target": "9654321098",
+          "duration_sec": 93,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
           "line": 16,
-          "t": "2024-03-14T08:00:00"
+          "t": "2024-03-07T05:33:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c35",
+      "case_id": "case_A",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9432109876",
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 450,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 23,
+          "t": "2024-03-09T16:41:00"
+        },
+        {
+          "actor": "9123456789",
+          "action": "call",
+          "target": "9432109876",
+          "duration_sec": 575,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 25,
+          "t": "2024-03-09T16:50:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.33
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c39",
+      "case_id": "case_A",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9432109876",
+          "action": "transfer",
+          "target": "9123456789",
+          "amount_inr": 81935.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 21,
+          "t": "2024-03-10T08:00:00"
         },
         {
           "actor": "9654321098",
           "action": "transfer",
           "target": "9432109876",
-          "amount_inr": 105317.0,
+          "amount_inr": 42596.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 19,
-          "t": "2024-03-14T08:00:00"
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 23,
+          "t": "2024-03-10T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
         "score": 0.6
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c50",
+      "case_id": "case_A",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9654321098",
+          "action": "transfer",
+          "target": "9123456789",
+          "amount_inr": 147915.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 11,
+          "t": "2024-03-13T00:00:00"
+        },
+        {
+          "actor": "9654321098",
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 481,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 31,
+          "t": "2024-03-13T00:10:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 1,
+        "score": 0.6
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c56",
+      "case_id": "case_A",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9123456789",
+          "action": "call",
+          "target": "9432109876",
+          "duration_sec": 530,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 34,
+          "t": "2024-03-15T02:37:00"
+        },
+        {
+          "actor": "9432109876",
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 258,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 35,
+          "t": "2024-03-15T02:53:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 1,
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -139,10 +235,10 @@
           "actor": "9432109876",
           "action": "transfer",
           "target": "9123456789",
-          "amount_inr": 137221.0,
+          "amount_inr": 283988.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 17,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 20,
           "t": "2024-03-01T08:00:00"
         }
       ],
@@ -158,14 +254,36 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9988776655",
+          "amount_inr": 48575.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 31,
+          "t": "2024-03-01T08:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c2",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9123456789",
           "action": "call",
-          "target": "9123456789",
-          "duration_sec": 223,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
+          "target": "9432109876",
+          "duration_sec": 475,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
           "line": 2,
-          "t": "2024-03-02T03:55:00"
+          "t": "2024-03-01T13:37:00"
         }
       ],
       "pivot": {
@@ -180,19 +298,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
-          "action": "transfer",
+          "actor": "9432109876",
+          "action": "call",
           "target": "9123456789",
-          "amount_inr": 228141.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 7,
-          "t": "2024-03-02T21:00:00"
+          "duration_sec": 315,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 3,
+          "t": "2024-03-02T01:29:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -202,14 +320,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
-          "action": "call",
-          "target": "9123456789",
-          "duration_sec": 101,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 3,
-          "t": "2024-03-03T02:17:00"
+          "actor": "9123456789",
+          "action": "transfer",
+          "target": "9654321098",
+          "amount_inr": 95125.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 29,
+          "t": "2024-03-02T08:00:00"
         }
       ],
       "pivot": {
@@ -224,19 +342,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
-          "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 2146263.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 15,
-          "t": "2024-03-03T05:00:00"
+          "actor": "9123456789",
+          "action": "call",
+          "target": "9432109876",
+          "duration_sec": 229,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 4,
+          "t": "2024-03-02T19:26:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -246,14 +364,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
-          "action": "transfer",
+          "actor": "9654321098",
+          "action": "call",
           "target": "9432109876",
-          "amount_inr": 159653.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 21,
-          "t": "2024-03-03T08:00:00"
+          "duration_sec": 197,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 7,
+          "t": "2024-03-03T00:22:00"
         }
       ],
       "pivot": {
@@ -268,19 +386,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 33303.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 29,
-          "t": "2024-03-03T08:00:00"
+          "actor": "9432109876",
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 428,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 6,
+          "t": "2024-03-03T05:28:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -290,19 +408,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
-          "action": "transfer",
-          "target": "9654321098",
-          "amount_inr": 561546.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 3,
-          "t": "2024-03-03T16:00:00"
+          "actor": "9654321098",
+          "action": "call",
+          "target": "9432109876",
+          "duration_sec": 275,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 5,
+          "t": "2024-03-03T06:25:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -312,19 +430,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
-          "action": "transfer",
-          "target": "9654321098",
-          "amount_inr": 204065.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 4,
-          "t": "2024-03-03T20:00:00"
+          "actor": "9654321098",
+          "action": "call",
+          "target": "9432109876",
+          "duration_sec": 578,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 10,
+          "t": "2024-03-03T12:58:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -334,19 +452,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
+          "actor": "9432109876",
           "action": "call",
-          "target": "9432109876",
-          "duration_sec": 150,
+          "target": "9654321098",
+          "duration_sec": 534,
           "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 7,
-          "t": "2024-03-04T09:53:00"
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 8,
+          "t": "2024-03-04T01:52:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -356,41 +474,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
+          "actor": "9432109876",
           "action": "call",
-          "target": "9432109876",
-          "duration_sec": 387,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 4,
-          "t": "2024-03-04T14:32:00"
+          "target": "9123456789",
+          "duration_sec": 445,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 9,
+          "t": "2024-03-04T04:04:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_A_c12",
-      "case_id": "case_A",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9123456789",
-          "action": "call",
-          "target": "9654321098",
-          "duration_sec": 474,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 5,
-          "t": "2024-03-04T18:46:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -403,11 +499,11 @@
           "actor": "9123456789",
           "action": "call",
           "target": "9654321098",
-          "duration_sec": 418,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 6,
-          "t": "2024-03-05T00:31:00"
+          "duration_sec": 404,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 12,
+          "t": "2024-03-04T10:52:00"
         }
       ],
       "pivot": {
@@ -422,19 +518,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
-          "action": "transfer",
+          "actor": "9432109876",
+          "action": "call",
           "target": "9654321098",
-          "amount_inr": 46478.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 23,
-          "t": "2024-03-05T08:00:00"
+          "duration_sec": 172,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 11,
+          "t": "2024-03-04T12:47:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -444,19 +540,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "9432109876",
           "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 48327.0,
+          "target": "9876543210",
+          "amount_inr": 303038.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 28,
-          "t": "2024-03-05T08:00:00"
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 18,
+          "t": "2024-03-04T16:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -467,13 +563,35 @@
       "steps": [
         {
           "actor": "9432109876",
-          "action": "call",
-          "target": "9123456789",
-          "duration_sec": 382,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 9,
-          "t": "2024-03-05T23:09:00"
+          "action": "transfer",
+          "target": "9654321098",
+          "amount_inr": 1230129.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 5,
+          "t": "2024-03-04T20:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c17",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9432109876",
+          "action": "transfer",
+          "target": "9654321098",
+          "amount_inr": 2019447.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 4,
+          "t": "2024-03-04T23:00:00"
         }
       ],
       "pivot": {
@@ -488,14 +606,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
-          "action": "call",
-          "target": "9123456789",
-          "duration_sec": 366,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 11,
-          "t": "2024-03-06T10:01:00"
+          "actor": "9123456789",
+          "action": "transfer",
+          "target": "9432109876",
+          "amount_inr": 113471.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 26,
+          "t": "2024-03-05T08:00:00"
         }
       ],
       "pivot": {
@@ -510,19 +628,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
+          "actor": "9432109876",
           "action": "call",
           "target": "9123456789",
-          "duration_sec": 360,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 10,
-          "t": "2024-03-06T23:34:00"
+          "duration_sec": 132,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 13,
+          "t": "2024-03-05T09:05:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -532,41 +650,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "9432109876",
           "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 48759.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 25,
-          "t": "2024-03-07T08:00:00"
+          "target": "9876543210",
+          "amount_inr": 2303823.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 13,
+          "t": "2024-03-05T23:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_A_c21",
-      "case_id": "case_A",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9654321098",
-          "action": "call",
-          "target": "9432109876",
-          "duration_sec": 539,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 14,
-          "t": "2024-03-07T12:42:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -576,19 +672,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
-          "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 798455.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 13,
-          "t": "2024-03-07T19:00:00"
+          "actor": "9123456789",
+          "action": "call",
+          "target": "9654321098",
+          "duration_sec": 280,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 17,
+          "t": "2024-03-06T08:56:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -598,19 +694,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
+          "actor": "9654321098",
           "action": "call",
-          "target": "9654321098",
-          "duration_sec": 180,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 15,
-          "t": "2024-03-07T21:37:00"
+          "target": "9123456789",
+          "duration_sec": 121,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 14,
+          "t": "2024-03-06T14:28:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -620,19 +716,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
+          "actor": "9654321098",
           "action": "call",
-          "target": "9654321098",
-          "duration_sec": 377,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 13,
-          "t": "2024-03-07T22:14:00"
+          "target": "9432109876",
+          "duration_sec": 32,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 18,
+          "t": "2024-03-06T15:57:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -643,40 +739,18 @@
       "steps": [
         {
           "actor": "9432109876",
-          "action": "call",
+          "action": "transfer",
           "target": "9654321098",
-          "duration_sec": 118,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 12,
-          "t": "2024-03-07T22:58:00"
+          "amount_inr": 1542056.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 2,
+          "t": "2024-03-06T18:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
         "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_A_c26",
-      "case_id": "case_A",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 39438.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 27,
-          "t": "2024-03-08T08:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -689,11 +763,11 @@
           "actor": "9432109876",
           "action": "transfer",
           "target": "9654321098",
-          "amount_inr": 1608672.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 5,
-          "t": "2024-03-09T01:00:00"
+          "amount_inr": 955445.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 6,
+          "t": "2024-03-07T16:00:00"
         }
       ],
       "pivot": {
@@ -708,14 +782,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
+          "actor": "9654321098",
           "action": "call",
-          "target": "9654321098",
-          "duration_sec": 511,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 16,
-          "t": "2024-03-09T09:05:00"
+          "target": "9432109876",
+          "duration_sec": 282,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 19,
+          "t": "2024-03-07T20:46:00"
         }
       ],
       "pivot": {
@@ -731,13 +805,13 @@
       "steps": [
         {
           "actor": "9432109876",
-          "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 483859.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 12,
-          "t": "2024-03-09T20:00:00"
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 548,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 20,
+          "t": "2024-03-08T03:19:00"
         }
       ],
       "pivot": {
@@ -752,19 +826,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
+          "actor": "9654321098",
           "action": "transfer",
-          "target": "9654321098",
-          "amount_inr": 915809.0,
+          "target": "9123456789",
+          "amount_inr": 315014.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 2,
-          "t": "2024-03-10T02:00:00"
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 8,
+          "t": "2024-03-08T04:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -774,19 +848,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
-          "action": "call",
-          "target": "9123456789",
-          "duration_sec": 471,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 17,
-          "t": "2024-03-10T02:38:00"
+          "actor": "9654321098",
+          "action": "transfer",
+          "target": "9432109876",
+          "amount_inr": 240450.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 24,
+          "t": "2024-03-08T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -796,14 +870,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
+          "actor": "9123456789",
           "action": "call",
-          "target": "9123456789",
-          "duration_sec": 379,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 21,
-          "t": "2024-03-10T12:53:00"
+          "target": "9654321098",
+          "duration_sec": 111,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 22,
+          "t": "2024-03-08T18:11:00"
         }
       ],
       "pivot": {
@@ -820,12 +894,12 @@
         {
           "actor": "9654321098",
           "action": "call",
-          "target": "9432109876",
-          "duration_sec": 87,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 18,
-          "t": "2024-03-10T21:44:00"
+          "target": "9123456789",
+          "duration_sec": 268,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 21,
+          "t": "2024-03-09T05:58:00"
         }
       ],
       "pivot": {
@@ -840,41 +914,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9432109876",
-          "action": "call",
-          "target": "9123456789",
-          "duration_sec": 439,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 19,
-          "t": "2024-03-10T23:08:00"
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9988776655",
+          "amount_inr": 17342.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 33,
+          "t": "2024-03-09T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_A_c35",
-      "case_id": "case_A",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9432109876",
-          "action": "call",
-          "target": "9654321098",
-          "duration_sec": 297,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 22,
-          "t": "2024-03-11T00:51:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -884,19 +936,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
-          "action": "call",
-          "target": "9432109876",
-          "duration_sec": 334,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 20,
-          "t": "2024-03-11T03:46:00"
+          "actor": "9432109876",
+          "action": "transfer",
+          "target": "9876543210",
+          "amount_inr": 2061161.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 19,
+          "t": "2024-03-09T18:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -907,13 +959,13 @@
       "steps": [
         {
           "actor": "9654321098",
-          "action": "transfer",
-          "target": "9432109876",
-          "amount_inr": 286675.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 18,
-          "t": "2024-03-11T08:00:00"
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 596,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 24,
+          "t": "2024-03-09T18:27:00"
         }
       ],
       "pivot": {
@@ -929,13 +981,13 @@
       "steps": [
         {
           "actor": "9432109876",
-          "action": "call",
-          "target": "9123456789",
-          "duration_sec": 410,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 25,
-          "t": "2024-03-11T16:38:00"
+          "action": "transfer",
+          "target": "9876543210",
+          "amount_inr": 114819.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 15,
+          "t": "2024-03-10T03:00:00"
         }
       ],
       "pivot": {
@@ -945,46 +997,24 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_A_c39",
-      "case_id": "case_A",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9123456789",
-          "action": "call",
-          "target": "9654321098",
-          "duration_sec": 524,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 24,
-          "t": "2024-03-11T19:54:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
       "chain_id": "case_A_c40",
       "case_id": "case_A",
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
+          "actor": "9432109876",
           "action": "call",
-          "target": "9432109876",
-          "duration_sec": 38,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 23,
-          "t": "2024-03-12T00:09:00"
+          "target": "9123456789",
+          "duration_sec": 401,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 27,
+          "t": "2024-03-10T11:16:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -994,14 +1024,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
-          "action": "transfer",
-          "target": "9654321098",
-          "amount_inr": 189194.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 22,
-          "t": "2024-03-12T08:00:00"
+          "actor": "9654321098",
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 115,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 26,
+          "t": "2024-03-10T15:06:00"
         }
       ],
       "pivot": {
@@ -1018,12 +1048,12 @@
         {
           "actor": "9432109876",
           "action": "call",
-          "target": "9123456789",
-          "duration_sec": 452,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 26,
-          "t": "2024-03-12T12:23:00"
+          "target": "9654321098",
+          "duration_sec": 212,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 28,
+          "t": "2024-03-10T21:40:00"
         }
       ],
       "pivot": {
@@ -1041,11 +1071,11 @@
           "actor": "9432109876",
           "action": "transfer",
           "target": "9876543210",
-          "amount_inr": 659024.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 10,
-          "t": "2024-03-12T23:00:00"
+          "amount_inr": 1823069.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 17,
+          "t": "2024-03-10T23:00:00"
         }
       ],
       "pivot": {
@@ -1063,16 +1093,38 @@
           "actor": "9123456789",
           "action": "call",
           "target": "9654321098",
-          "duration_sec": 171,
+          "duration_sec": 542,
           "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 29,
-          "t": "2024-03-13T15:43:00"
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 30,
+          "t": "2024-03-11T14:07:00"
         }
       ],
       "pivot": {
         "step_index": 0,
         "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c45",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9432109876",
+          "action": "transfer",
+          "target": "9654321098",
+          "amount_inr": 1055813.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 3,
+          "t": "2024-03-11T20:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1085,11 +1137,33 @@
           "actor": "9123456789",
           "action": "call",
           "target": "9654321098",
-          "duration_sec": 159,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 28,
-          "t": "2024-03-13T20:26:00"
+          "duration_sec": 529,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 29,
+          "t": "2024-03-11T22:48:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c47",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9654321098",
+          "action": "transfer",
+          "target": "9432109876",
+          "amount_inr": 200156.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 22,
+          "t": "2024-03-12T08:00:00"
         }
       ],
       "pivot": {
@@ -1104,14 +1178,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
+          "actor": "9876543210",
           "action": "transfer",
-          "target": "9123456789",
-          "amount_inr": 1792421.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 6,
-          "t": "2024-03-14T20:00:00"
+          "target": "9988776655",
+          "amount_inr": 12488.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 32,
+          "t": "2024-03-12T08:00:00"
         }
       ],
       "pivot": {
@@ -1126,14 +1200,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "9654321098",
           "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 7238.0,
+          "target": "9123456789",
+          "amount_inr": 299246.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 26,
-          "t": "2024-03-15T08:00:00"
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 9,
+          "t": "2024-03-12T20:00:00"
         }
       ],
       "pivot": {
@@ -1143,41 +1217,19 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_A_c50",
-      "case_id": "case_A",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9432109876",
-          "action": "call",
-          "target": "9654321098",
-          "duration_sec": 557,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 31,
-          "t": "2024-03-15T19:53:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
       "chain_id": "case_A_c51",
       "case_id": "case_A",
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9654321098",
+          "actor": "9123456789",
           "action": "transfer",
-          "target": "9123456789",
-          "amount_inr": 318579.0,
+          "target": "9432109876",
+          "amount_inr": 159203.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 8,
-          "t": "2024-03-15T22:00:00"
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 25,
+          "t": "2024-03-13T08:00:00"
         }
       ],
       "pivot": {
@@ -1193,13 +1245,13 @@
       "steps": [
         {
           "actor": "9432109876",
-          "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 795595.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_A_transactions.csv",
-          "line": 11,
-          "t": "2024-03-16T04:00:00"
+          "action": "call",
+          "target": "9654321098",
+          "duration_sec": 178,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 32,
+          "t": "2024-03-13T15:01:00"
         }
       ],
       "pivot": {
@@ -1214,14 +1266,58 @@
       "n_steps": 1,
       "steps": [
         {
+          "actor": "9432109876",
+          "action": "transfer",
+          "target": "9654321098",
+          "amount_inr": 2460363.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 7,
+          "t": "2024-03-14T01:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c54",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9432109876",
+          "action": "transfer",
+          "target": "9876543210",
+          "amount_inr": 1290965.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 16,
+          "t": "2024-03-14T20:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c55",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
           "actor": "9654321098",
-          "action": "call",
+          "action": "transfer",
           "target": "9123456789",
-          "duration_sec": 124,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "line": 30,
-          "t": "2024-03-16T05:49:00"
+          "amount_inr": 2202665.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 12,
+          "t": "2024-03-14T21:00:00"
         }
       ],
       "pivot": {
@@ -1231,145 +1327,299 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_B_c18",
+      "chain_id": "case_A_c57",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9123456789",
+          "action": "call",
+          "target": "9654321098",
+          "duration_sec": 316,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 33,
+          "t": "2024-03-15T05:37:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c58",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9432109876",
+          "action": "call",
+          "target": "9123456789",
+          "duration_sec": 372,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 37,
+          "t": "2024-03-15T17:45:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c59",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9654321098",
+          "action": "transfer",
+          "target": "9123456789",
+          "amount_inr": 1813613.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 10,
+          "t": "2024-03-15T22:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c60",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9123456789",
+          "action": "call",
+          "target": "9432109876",
+          "duration_sec": 331,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 38,
+          "t": "2024-03-15T22:56:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c61",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9123456789",
+          "action": "call",
+          "target": "9432109876",
+          "duration_sec": 281,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "line": 36,
+          "t": "2024-03-15T23:49:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_A_c62",
+      "case_id": "case_A",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9432109876",
+          "action": "transfer",
+          "target": "9876543210",
+          "amount_inr": 436267.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_A_transactions.csv",
+          "line": 14,
+          "t": "2024-03-16T03:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c5",
       "case_id": "case_B",
-      "n_steps": 4,
+      "n_steps": 3,
       "steps": [
         {
           "actor": "9876543210",
           "action": "call",
           "target": "7766554433",
-          "duration_sec": 406,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 13,
-          "t": "2024-03-04T16:31:00"
-        },
-        {
-          "actor": "9988776655",
-          "action": "call",
-          "target": "7766554433",
-          "duration_sec": 143,
+          "duration_sec": 431,
           "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 15,
-          "t": "2024-03-04T16:55:00"
-        },
-        {
-          "actor": "9988776655",
-          "action": "transfer",
-          "target": "7766554433",
-          "amount_inr": 1163687.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 11,
-          "t": "2024-03-04T17:00:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 8,
+          "t": "2024-03-02T10:49:00"
         },
         {
           "actor": "9876543210",
           "action": "call",
           "target": "9988776655",
-          "duration_sec": 479,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 12,
-          "t": "2024-03-04T17:26:00"
+          "duration_sec": 261,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 9,
+          "t": "2024-03-02T10:58:00"
+        },
+        {
+          "actor": "9876543210",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 434,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 10,
+          "t": "2024-03-02T11:18:00"
         }
       ],
       "pivot": {
-        "step_index": 3,
+        "step_index": 0,
+        "score": 0.33
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c3",
+      "case_id": "case_B",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9876543210",
+          "action": "call",
+          "target": "9988776655",
+          "duration_sec": 384,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 5,
+          "t": "2024-03-01T20:43:00"
+        },
+        {
+          "actor": "9988776655",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 542,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 2,
+          "t": "2024-03-01T20:55:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c8",
+      "case_id": "case_B",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "7766554433",
+          "action": "transfer",
+          "target": "9988776655",
+          "amount_inr": 265758.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 26,
+          "t": "2024-03-03T08:00:00"
+        },
+        {
+          "actor": "9876543210",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 544,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 12,
+          "t": "2024-03-03T08:08:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 1,
         "score": 0.7
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_B_c0",
+      "chain_id": "case_B_c45",
       "case_id": "case_B",
       "n_steps": 2,
       "steps": [
         {
           "actor": "9988776655",
           "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 197376.0,
+          "target": "7766554433",
+          "amount_inr": 466562.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 9,
+          "t": "2024-03-12T01:00:00"
+        },
+        {
+          "actor": "9876543210",
+          "action": "call",
+          "target": "9988776655",
+          "duration_sec": 342,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 38,
+          "t": "2024-03-12T01:24:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 1,
+        "score": 0.7
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c53",
+      "case_id": "case_B",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "7766554433",
+          "amount_inr": 213690.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
           "line": 21,
-          "t": "2024-03-01T08:00:00"
+          "t": "2024-03-13T08:00:00"
         },
         {
           "actor": "7766554433",
           "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 131517.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 28,
-          "t": "2024-03-01T08:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.5
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c13",
-      "case_id": "case_B",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9988776655",
-          "action": "call",
           "target": "9876543210",
-          "duration_sec": 483,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 10,
-          "t": "2024-03-03T19:35:00"
-        },
-        {
-          "actor": "7766554433",
-          "action": "call",
-          "target": "9988776655",
-          "duration_sec": 388,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 11,
-          "t": "2024-03-03T19:57:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c37",
-      "case_id": "case_B",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 1835858.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 2,
-          "t": "2024-03-09T00:00:00"
-        },
-        {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 127964.0,
+          "amount_inr": 235560.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 15,
-          "t": "2024-03-09T00:00:00"
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 24,
+          "t": "2024-03-13T08:00:00"
         }
       ],
       "pivot": {
@@ -1379,34 +1629,120 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_B_c44",
+      "chain_id": "case_B_c60",
       "case_id": "case_B",
       "n_steps": 2,
       "steps": [
         {
-          "actor": "7766554433",
-          "action": "call",
-          "target": "9876543210",
-          "duration_sec": 327,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 27,
-          "t": "2024-03-10T03:55:00"
+          "actor": "9123456789",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 32418.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 30,
+          "t": "2024-03-14T08:00:00"
         },
         {
-          "actor": "7766554433",
-          "action": "call",
-          "target": "9988776655",
-          "duration_sec": 565,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 30,
-          "t": "2024-03-10T04:18:00"
+          "actor": "9123456789",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 26252.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 32,
+          "t": "2024-03-14T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.4
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c64",
+      "case_id": "case_B",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9988776655",
+          "amount_inr": 1322085.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 3,
+          "t": "2024-03-15T05:00:00"
+        },
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9988776655",
+          "amount_inr": 1459581.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 5,
+          "t": "2024-03-15T05:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.6
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c67",
+      "case_id": "case_B",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9988776655",
+          "amount_inr": 1800977.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 7,
+          "t": "2024-03-15T17:00:00"
+        },
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 1959562.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 16,
+          "t": "2024-03-15T17:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.6
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c0",
+      "case_id": "case_B",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "7766554433",
+          "amount_inr": 56866.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 19,
+          "t": "2024-03-01T08:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1416,19 +1752,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
+          "actor": "9876543210",
           "action": "call",
-          "target": "9876543210",
-          "duration_sec": 128,
+          "target": "7766554433",
+          "duration_sec": 378,
           "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 3,
-          "t": "2024-03-01T12:39:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 6,
+          "t": "2024-03-01T08:41:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1438,41 +1774,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
+          "actor": "9876543210",
           "action": "call",
-          "target": "9876543210",
-          "duration_sec": 265,
+          "target": "7766554433",
+          "duration_sec": 187,
           "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 4,
-          "t": "2024-03-01T14:18:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 3,
+          "t": "2024-03-01T12:14:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c3",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "7766554433",
-          "action": "call",
-          "target": "9988776655",
-          "duration_sec": 308,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 5,
-          "t": "2024-03-01T19:11:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1483,35 +1797,13 @@
       "steps": [
         {
           "actor": "9988776655",
-          "action": "transfer",
-          "target": "7766554433",
-          "amount_inr": 2151827.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 13,
-          "t": "2024-03-01T20:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c5",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9988776655",
           "action": "call",
           "target": "7766554433",
-          "duration_sec": 142,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 2,
-          "t": "2024-03-02T06:54:00"
+          "duration_sec": 448,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 4,
+          "t": "2024-03-02T04:02:00"
         }
       ],
       "pivot": {
@@ -1527,13 +1819,13 @@
       "steps": [
         {
           "actor": "9988776655",
-          "action": "transfer",
+          "action": "call",
           "target": "9876543210",
-          "amount_inr": 133848.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 22,
-          "t": "2024-03-02T08:00:00"
+          "duration_sec": 152,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 11,
+          "t": "2024-03-02T16:09:00"
         }
       ],
       "pivot": {
@@ -1548,41 +1840,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 48491.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 33,
-          "t": "2024-03-02T08:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.1
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c8",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9988776655",
+          "actor": "9876543210",
           "action": "call",
-          "target": "9876543210",
-          "duration_sec": 221,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
+          "target": "9988776655",
+          "duration_sec": 455,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
           "line": 7,
-          "t": "2024-03-02T11:46:00"
+          "t": "2024-03-03T03:52:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1592,19 +1862,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
-          "action": "transfer",
+          "actor": "7766554433",
+          "action": "call",
           "target": "9988776655",
-          "amount_inr": 1458454.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 7,
-          "t": "2024-03-02T22:00:00"
+          "duration_sec": 511,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 15,
+          "t": "2024-03-03T15:05:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1617,11 +1887,11 @@
           "actor": "7766554433",
           "action": "call",
           "target": "9988776655",
-          "duration_sec": 125,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 6,
-          "t": "2024-03-03T06:19:00"
+          "duration_sec": 387,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 13,
+          "t": "2024-03-03T19:46:00"
         }
       ],
       "pivot": {
@@ -1636,14 +1906,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
-          "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 189063.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 24,
-          "t": "2024-03-03T08:00:00"
+          "actor": "9988776655",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 472,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 14,
+          "t": "2024-03-04T00:16:00"
         }
       ],
       "pivot": {
@@ -1658,14 +1928,36 @@
       "n_steps": 1,
       "steps": [
         {
+          "actor": "7766554433",
+          "action": "call",
+          "target": "9876543210",
+          "duration_sec": 51,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 16,
+          "t": "2024-03-04T10:16:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c13",
+      "case_id": "case_B",
+      "n_steps": 1,
+      "steps": [
+        {
           "actor": "9876543210",
           "action": "call",
-          "target": "7766554433",
-          "duration_sec": 590,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 9,
-          "t": "2024-03-03T08:35:00"
+          "target": "9988776655",
+          "duration_sec": 50,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 17,
+          "t": "2024-03-04T12:15:00"
         }
       ],
       "pivot": {
@@ -1681,13 +1973,13 @@
       "steps": [
         {
           "actor": "9988776655",
-          "action": "transfer",
+          "action": "call",
           "target": "7766554433",
-          "amount_inr": 1369679.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 10,
-          "t": "2024-03-04T00:00:00"
+          "duration_sec": 109,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 19,
+          "t": "2024-03-04T13:05:00"
         }
       ],
       "pivot": {
@@ -1704,12 +1996,12 @@
         {
           "actor": "9988776655",
           "action": "call",
-          "target": "7766554433",
-          "duration_sec": 111,
+          "target": "9876543210",
+          "duration_sec": 367,
           "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 8,
-          "t": "2024-03-04T04:30:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 18,
+          "t": "2024-03-05T02:19:00"
         }
       ],
       "pivot": {
@@ -1724,19 +2016,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "9988776655",
           "action": "transfer",
           "target": "7766554433",
-          "amount_inr": 229135.0,
+          "amount_inr": 597991.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 20,
-          "t": "2024-03-04T08:00:00"
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 10,
+          "t": "2024-03-05T04:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1747,13 +2039,35 @@
       "steps": [
         {
           "actor": "7766554433",
+          "action": "transfer",
+          "target": "9876543210",
+          "amount_inr": 234477.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 25,
+          "t": "2024-03-05T08:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c18",
+      "case_id": "case_B",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "7766554433",
           "action": "call",
           "target": "9876543210",
-          "duration_sec": 529,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 16,
-          "t": "2024-03-04T11:24:00"
+          "duration_sec": 435,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 22,
+          "t": "2024-03-05T11:24:00"
         }
       ],
       "pivot": {
@@ -1768,19 +2082,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 1510098.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 4,
-          "t": "2024-03-04T19:00:00"
+          "actor": "9988776655",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 311,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 20,
+          "t": "2024-03-05T12:09:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1790,19 +2104,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "7766554433",
           "action": "call",
           "target": "9988776655",
-          "duration_sec": 497,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 14,
-          "t": "2024-03-05T02:23:00"
+          "duration_sec": 246,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 21,
+          "t": "2024-03-05T20:25:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1813,13 +2127,13 @@
       "steps": [
         {
           "actor": "9988776655",
-          "action": "transfer",
+          "action": "call",
           "target": "9876543210",
-          "amount_inr": 179945.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
+          "duration_sec": 548,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
           "line": 23,
-          "t": "2024-03-05T08:00:00"
+          "t": "2024-03-06T12:43:00"
         }
       ],
       "pivot": {
@@ -1834,19 +2148,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 37722.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 30,
-          "t": "2024-03-05T08:00:00"
+          "actor": "7766554433",
+          "action": "call",
+          "target": "9876543210",
+          "duration_sec": 261,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 24,
+          "t": "2024-03-06T15:48:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.1
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1856,19 +2170,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
+          "actor": "9876543210",
           "action": "call",
-          "target": "9876543210",
-          "duration_sec": 232,
+          "target": "7766554433",
+          "duration_sec": 40,
           "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 18,
-          "t": "2024-03-05T08:48:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 25,
+          "t": "2024-03-07T00:50:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1880,12 +2194,12 @@
         {
           "actor": "9876543210",
           "action": "call",
-          "target": "9988776655",
-          "duration_sec": 415,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 17,
-          "t": "2024-03-05T10:00:00"
+          "target": "7766554433",
+          "duration_sec": 438,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 26,
+          "t": "2024-03-07T12:52:00"
         }
       ],
       "pivot": {
@@ -1901,13 +2215,13 @@
       "steps": [
         {
           "actor": "9876543210",
-          "action": "call",
-          "target": "9988776655",
-          "duration_sec": 71,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 19,
-          "t": "2024-03-06T02:07:00"
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 2273382.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 15,
+          "t": "2024-03-07T22:00:00"
         }
       ],
       "pivot": {
@@ -1924,12 +2238,12 @@
         {
           "actor": "9876543210",
           "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 717196.0,
+          "target": "7766554433",
+          "amount_inr": 88698.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 3,
-          "t": "2024-03-06T19:00:00"
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 20,
+          "t": "2024-03-08T08:00:00"
         }
       ],
       "pivot": {
@@ -1944,19 +2258,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
-          "action": "call",
-          "target": "9988776655",
-          "duration_sec": 68,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 20,
-          "t": "2024-03-07T02:00:00"
+          "actor": "9123456789",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 36446.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 29,
+          "t": "2024-03-08T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.1
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -1966,14 +2280,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
-          "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 45652.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 26,
-          "t": "2024-03-07T08:00:00"
+          "actor": "9988776655",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 334,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 28,
+          "t": "2024-03-08T10:49:00"
         }
       ],
       "pivot": {
@@ -1988,19 +2302,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
+          "actor": "9876543210",
           "action": "call",
-          "target": "9988776655",
-          "duration_sec": 462,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 23,
-          "t": "2024-03-07T09:32:00"
+          "target": "7766554433",
+          "duration_sec": 379,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 29,
+          "t": "2024-03-08T16:03:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2010,14 +2324,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
+          "actor": "7766554433",
           "action": "call",
           "target": "9876543210",
-          "duration_sec": 348,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 21,
-          "t": "2024-03-07T14:41:00"
+          "duration_sec": 43,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 27,
+          "t": "2024-03-08T19:34:00"
         }
       ],
       "pivot": {
@@ -2032,19 +2346,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "9988776655",
           "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 1139075.0,
+          "target": "7766554433",
+          "amount_inr": 2341362.0,
           "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 14,
-          "t": "2024-03-07T16:00:00"
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 8,
+          "t": "2024-03-09T05:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2054,19 +2368,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "9123456789",
           "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 582181.0,
+          "target": "8877665544",
+          "amount_inr": 23309.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 5,
-          "t": "2024-03-07T18:00:00"
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 28,
+          "t": "2024-03-09T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.1
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2078,12 +2392,12 @@
         {
           "actor": "9988776655",
           "action": "call",
-          "target": "7766554433",
-          "duration_sec": 455,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 24,
-          "t": "2024-03-07T20:00:00"
+          "target": "9876543210",
+          "duration_sec": 583,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 32,
+          "t": "2024-03-09T14:16:00"
         }
       ],
       "pivot": {
@@ -2098,36 +2412,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "7766554433",
           "action": "call",
           "target": "9988776655",
-          "duration_sec": 176,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 22,
-          "t": "2024-03-08T05:14:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c35",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9988776655",
-          "action": "call",
-          "target": "7766554433",
-          "duration_sec": 134,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 25,
-          "t": "2024-03-08T11:02:00"
+          "duration_sec": 425,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 31,
+          "t": "2024-03-09T18:32:00"
         }
       ],
       "pivot": {
@@ -2137,19 +2429,63 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
+      "chain_id": "case_B_c35",
+      "case_id": "case_B",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 137973.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 18,
+          "t": "2024-03-09T19:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
       "chain_id": "case_B_c36",
       "case_id": "case_B",
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
+          "actor": "9988776655",
+          "action": "transfer",
+          "target": "7766554433",
+          "amount_inr": 1892718.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 11,
+          "t": "2024-03-09T21:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_B_c37",
+      "case_id": "case_B",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9988776655",
           "action": "call",
-          "target": "9988776655",
-          "duration_sec": 312,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 26,
-          "t": "2024-03-08T21:24:00"
+          "target": "9876543210",
+          "duration_sec": 30,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 30,
+          "t": "2024-03-10T03:06:00"
         }
       ],
       "pivot": {
@@ -2167,11 +2503,11 @@
           "actor": "7766554433",
           "action": "transfer",
           "target": "9988776655",
-          "amount_inr": 134076.0,
+          "amount_inr": 248328.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
           "line": 27,
-          "t": "2024-03-09T08:00:00"
+          "t": "2024-03-10T08:00:00"
         }
       ],
       "pivot": {
@@ -2186,19 +2522,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
-          "action": "call",
-          "target": "9988776655",
-          "duration_sec": 179,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 28,
-          "t": "2024-03-09T11:27:00"
+          "actor": "9123456789",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 38067.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 31,
+          "t": "2024-03-10T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.1
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2208,19 +2544,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 2392430.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 8,
-          "t": "2024-03-09T22:00:00"
+          "actor": "9988776655",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 159,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 33,
+          "t": "2024-03-10T08:56:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2233,11 +2569,11 @@
           "actor": "7766554433",
           "action": "call",
           "target": "9988776655",
-          "duration_sec": 530,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 29,
-          "t": "2024-03-09T22:39:00"
+          "duration_sec": 38,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 34,
+          "t": "2024-03-10T19:35:00"
         }
       ],
       "pivot": {
@@ -2255,11 +2591,11 @@
           "actor": "9876543210",
           "action": "transfer",
           "target": "8877665544",
-          "amount_inr": 2373778.0,
+          "amount_inr": 2247611.0,
           "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 16,
-          "t": "2024-03-09T23:00:00"
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 17,
+          "t": "2024-03-10T20:00:00"
         }
       ],
       "pivot": {
@@ -2277,11 +2613,11 @@
           "actor": "9988776655",
           "action": "call",
           "target": "9876543210",
-          "duration_sec": 168,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 31,
-          "t": "2024-03-10T00:23:00"
+          "duration_sec": 133,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 35,
+          "t": "2024-03-11T21:34:00"
         }
       ],
       "pivot": {
@@ -2291,24 +2627,24 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_B_c45",
+      "chain_id": "case_B_c44",
       "case_id": "case_B",
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
-          "action": "transfer",
-          "target": "9876543210",
-          "amount_inr": 136195.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 25,
-          "t": "2024-03-10T08:00:00"
+          "actor": "9876543210",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 87,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 37,
+          "t": "2024-03-11T22:44:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2318,19 +2654,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 11574.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 29,
-          "t": "2024-03-10T08:00:00"
+          "actor": "9876543210",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 456,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 36,
+          "t": "2024-03-12T04:15:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.1
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2341,13 +2677,13 @@
       "steps": [
         {
           "actor": "9988776655",
-          "action": "call",
+          "action": "transfer",
           "target": "9876543210",
-          "duration_sec": 45,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 36,
-          "t": "2024-03-10T09:13:00"
+          "amount_inr": 149259.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 22,
+          "t": "2024-03-12T08:00:00"
         }
       ],
       "pivot": {
@@ -2362,14 +2698,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
+          "actor": "7766554433",
           "action": "call",
-          "target": "9876543210",
-          "duration_sec": 496,
+          "target": "9988776655",
+          "duration_sec": 271,
           "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 35,
-          "t": "2024-03-10T12:51:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 41,
+          "t": "2024-03-12T08:50:00"
         }
       ],
       "pivot": {
@@ -2384,19 +2720,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
-          "action": "transfer",
+          "actor": "9876543210",
+          "action": "call",
           "target": "7766554433",
-          "amount_inr": 2327959.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 9,
-          "t": "2024-03-10T17:00:00"
+          "duration_sec": 448,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 42,
+          "t": "2024-03-12T19:34:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2407,13 +2743,13 @@
       "steps": [
         {
           "actor": "9988776655",
-          "action": "call",
-          "target": "9876543210",
-          "duration_sec": 32,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 34,
-          "t": "2024-03-10T23:09:00"
+          "action": "transfer",
+          "target": "7766554433",
+          "amount_inr": 247641.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 13,
+          "t": "2024-03-12T21:00:00"
         }
       ],
       "pivot": {
@@ -2428,19 +2764,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
+          "actor": "9876543210",
           "action": "call",
-          "target": "9876543210",
-          "duration_sec": 45,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 32,
-          "t": "2024-03-10T23:58:00"
+          "target": "9988776655",
+          "duration_sec": 350,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 39,
+          "t": "2024-03-13T00:13:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2453,11 +2789,11 @@
           "actor": "9988776655",
           "action": "call",
           "target": "7766554433",
-          "duration_sec": 103,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 33,
-          "t": "2024-03-11T05:16:00"
+          "duration_sec": 386,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 40,
+          "t": "2024-03-13T01:16:00"
         }
       ],
       "pivot": {
@@ -2467,41 +2803,19 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_B_c53",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9123456789",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 38204.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 31,
-          "t": "2024-03-11T08:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.1
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
       "chain_id": "case_B_c54",
       "case_id": "case_B",
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
+          "actor": "7766554433",
           "action": "call",
-          "target": "9876543210",
-          "duration_sec": 162,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 41,
-          "t": "2024-03-11T15:49:00"
+          "target": "9988776655",
+          "duration_sec": 92,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 44,
+          "t": "2024-03-13T12:16:00"
         }
       ],
       "pivot": {
@@ -2516,19 +2830,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
-          "action": "call",
-          "target": "9876543210",
-          "duration_sec": 214,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 40,
-          "t": "2024-03-11T16:22:00"
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9988776655",
+          "amount_inr": 1327841.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 4,
+          "t": "2024-03-13T17:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2540,12 +2854,12 @@
         {
           "actor": "9876543210",
           "action": "call",
-          "target": "9988776655",
-          "duration_sec": 482,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 38,
-          "t": "2024-03-11T17:37:00"
+          "target": "7766554433",
+          "duration_sec": 272,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 43,
+          "t": "2024-03-13T19:53:00"
         }
       ],
       "pivot": {
@@ -2560,19 +2874,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
-          "action": "call",
-          "target": "9876543210",
-          "duration_sec": 409,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 37,
-          "t": "2024-03-11T18:14:00"
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 692157.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 14,
+          "t": "2024-03-13T23:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2584,12 +2898,12 @@
         {
           "actor": "9876543210",
           "action": "call",
-          "target": "9988776655",
-          "duration_sec": 199,
+          "target": "7766554433",
+          "duration_sec": 232,
           "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 39,
-          "t": "2024-03-12T03:49:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 46,
+          "t": "2024-03-14T00:34:00"
         }
       ],
       "pivot": {
@@ -2606,12 +2920,12 @@
         {
           "actor": "9988776655",
           "action": "call",
-          "target": "7766554433",
-          "duration_sec": 40,
+          "target": "9876543210",
+          "duration_sec": 446,
           "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 43,
-          "t": "2024-03-12T14:17:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 45,
+          "t": "2024-03-14T02:17:00"
         }
       ],
       "pivot": {
@@ -2621,46 +2935,24 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_B_c60",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9988776655",
-          "amount_inr": 682980.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 6,
-          "t": "2024-03-12T22:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
       "chain_id": "case_B_c61",
       "case_id": "case_B",
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
+          "actor": "9988776655",
           "action": "call",
-          "target": "9988776655",
-          "duration_sec": 517,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 42,
-          "t": "2024-03-13T05:03:00"
+          "target": "7766554433",
+          "duration_sec": 49,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 48,
+          "t": "2024-03-14T16:44:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2670,19 +2962,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9123456789",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 32807.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 32,
-          "t": "2024-03-13T08:00:00"
+          "actor": "9988776655",
+          "action": "call",
+          "target": "7766554433",
+          "duration_sec": 374,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 47,
+          "t": "2024-03-14T22:40:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.1
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2692,36 +2984,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9876543210",
-          "action": "call",
-          "target": "9988776655",
-          "duration_sec": 125,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 44,
-          "t": "2024-03-13T13:28:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c64",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
           "actor": "9988776655",
-          "action": "call",
-          "target": "9876543210",
-          "duration_sec": 289,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 45,
-          "t": "2024-03-13T14:05:00"
+          "action": "transfer",
+          "target": "7766554433",
+          "amount_inr": 1254211.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 12,
+          "t": "2024-03-15T03:00:00"
         }
       ],
       "pivot": {
@@ -2736,14 +3006,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
-          "action": "call",
-          "target": "9988776655",
-          "duration_sec": 516,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 46,
-          "t": "2024-03-13T21:43:00"
+          "actor": "9988776655",
+          "action": "transfer",
+          "target": "9876543210",
+          "amount_inr": 254650.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 23,
+          "t": "2024-03-15T08:00:00"
         }
       ],
       "pivot": {
@@ -2758,36 +3028,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9988776655",
-          "action": "call",
-          "target": "7766554433",
-          "duration_sec": 32,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 47,
-          "t": "2024-03-14T04:49:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c67",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
           "actor": "9876543210",
-          "action": "transfer",
-          "target": "7766554433",
-          "amount_inr": 208541.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 19,
-          "t": "2024-03-14T08:00:00"
+          "action": "call",
+          "target": "9988776655",
+          "duration_sec": 504,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 49,
+          "t": "2024-03-15T09:32:00"
         }
       ],
       "pivot": {
@@ -2802,19 +3050,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
-          "action": "call",
+          "actor": "9876543210",
+          "action": "transfer",
           "target": "9988776655",
-          "duration_sec": 379,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 48,
-          "t": "2024-03-14T13:01:00"
+          "amount_inr": 189963.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 2,
+          "t": "2024-03-15T18:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -2824,14 +3072,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "7766554433",
+          "actor": "9988776655",
           "action": "call",
           "target": "9876543210",
-          "duration_sec": 216,
+          "duration_sec": 137,
           "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 49,
-          "t": "2024-03-15T06:04:00"
+          "source": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "line": 50,
+          "t": "2024-03-15T19:27:00"
         }
       ],
       "pivot": {
@@ -2848,12 +3096,12 @@
         {
           "actor": "9876543210",
           "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 1333118.0,
+          "target": "9988776655",
+          "amount_inr": 1370499.0,
           "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 18,
-          "t": "2024-03-15T19:00:00"
+          "source": "demo_dataset\\transaction_files\\case_B_transactions.csv",
+          "line": 6,
+          "t": "2024-03-16T05:00:00"
         }
       ],
       "pivot": {
@@ -2863,334 +3111,150 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_B_c71",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 1188289.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 17,
-          "t": "2024-03-16T00:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c72",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9988776655",
-          "action": "transfer",
-          "target": "7766554433",
-          "amount_inr": 1042716.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_B_transactions.csv",
-          "line": 12,
-          "t": "2024-03-16T02:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c73",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9876543210",
-          "action": "call",
-          "target": "7766554433",
-          "duration_sec": 535,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 50,
-          "t": "2024-03-16T02:32:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c74",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9988776655",
-          "action": "call",
-          "target": "7766554433",
-          "duration_sec": 278,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 51,
-          "t": "2024-03-16T03:09:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_B_c75",
-      "case_id": "case_B",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9876543210",
-          "action": "call",
-          "target": "7766554433",
-          "duration_sec": 59,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "line": 52,
-          "t": "2024-03-16T05:25:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c17",
+      "chain_id": "case_C_c22",
       "case_id": "case_C",
       "n_steps": 3,
       "steps": [
-        {
-          "actor": "8877665544",
-          "action": "transfer",
-          "target": "9543210987",
-          "amount_inr": 265745.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 22,
-          "t": "2024-03-05T08:00:00"
-        },
-        {
-          "actor": "9321098765",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 181103.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 28,
-          "t": "2024-03-05T08:00:00"
-        },
         {
           "actor": "9543210987",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 426,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 13,
-          "t": "2024-03-05T08:07:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 2,
-        "score": 0.7
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c33",
-      "case_id": "case_C",
-      "n_steps": 3,
-      "steps": [
-        {
-          "actor": "9321098765",
           "action": "transfer",
-          "target": "9543210987",
-          "amount_inr": 129670.0,
+          "target": "9321098765",
+          "amount_inr": 87251.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 25,
-          "t": "2024-03-09T08:00:00"
-        },
-        {
-          "actor": "9321098765",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 69038.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 27,
-          "t": "2024-03-09T08:00:00"
-        },
-        {
-          "actor": "9321098765",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 80834.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 29,
-          "t": "2024-03-09T08:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.5
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c50",
-      "case_id": "case_C",
-      "n_steps": 3,
-      "steps": [
-        {
-          "actor": "9321098765",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 331,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 38,
-          "t": "2024-03-12T17:34:00"
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 17,
+          "t": "2024-03-06T08:00:00"
         },
         {
           "actor": "8877665544",
           "action": "transfer",
-          "target": "9321098765",
-          "amount_inr": 1942844.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 11,
-          "t": "2024-03-12T18:00:00"
+          "target": "9543210987",
+          "amount_inr": 221649.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 19,
+          "t": "2024-03-06T08:00:00"
         },
         {
-          "actor": "9321098765",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 380,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 37,
-          "t": "2024-03-12T18:24:00"
+          "actor": "8877665544",
+          "action": "transfer",
+          "target": "9543210987",
+          "amount_inr": 281848.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 20,
+          "t": "2024-03-06T08:00:00"
         }
       ],
       "pivot": {
-        "step_index": 1,
+        "step_index": 0,
         "score": 0.6
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_C_c2",
+      "chain_id": "case_C_c55",
+      "case_id": "case_C",
+      "n_steps": 3,
+      "steps": [
+        {
+          "actor": "9543210987",
+          "action": "transfer",
+          "target": "9321098765",
+          "amount_inr": 151718.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 18,
+          "t": "2024-03-13T08:00:00"
+        },
+        {
+          "actor": "9321098765",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 57823.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 25,
+          "t": "2024-03-13T08:00:00"
+        },
+        {
+          "actor": "9321098765",
+          "action": "call",
+          "target": "8877665544",
+          "duration_sec": 99,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 45,
+          "t": "2024-03-13T08:24:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.6
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c23",
       "case_id": "case_C",
       "n_steps": 2,
       "steps": [
         {
-          "actor": "9543210987",
+          "actor": "9321098765",
           "action": "call",
-          "target": "9321098765",
-          "duration_sec": 418,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 3,
-          "t": "2024-03-01T18:18:00"
+          "target": "9543210987",
+          "duration_sec": 326,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 18,
+          "t": "2024-03-06T10:27:00"
         },
         {
           "actor": "8877665544",
           "action": "call",
+          "target": "9321098765",
+          "duration_sec": 129,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 22,
+          "t": "2024-03-06T10:53:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c29",
+      "case_id": "case_C",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "8877665544",
+          "action": "transfer",
           "target": "9543210987",
-          "duration_sec": 217,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 4,
-          "t": "2024-03-01T18:48:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c15",
-      "case_id": "case_C",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9123456789",
-          "amount_inr": 47667.0,
+          "amount_inr": 32940.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 30,
-          "t": "2024-03-04T08:00:00"
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 21,
+          "t": "2024-03-07T08:00:00"
         },
         {
-          "actor": "9876543210",
+          "actor": "9321098765",
           "action": "transfer",
-          "target": "9123456789",
-          "amount_inr": 32017.0,
+          "target": "9543210987",
+          "amount_inr": 185437.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 33,
-          "t": "2024-03-04T08:00:00"
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 22,
+          "t": "2024-03-07T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.4
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c16",
-      "case_id": "case_C",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9123456789",
-          "amount_inr": 8159.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 32,
-          "t": "2024-03-05T08:00:00"
-        },
-        {
-          "actor": "9876543210",
-          "action": "transfer",
-          "target": "9123456789",
-          "amount_inr": 26208.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 34,
-          "t": "2024-03-05T08:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.4
+        "score": 0.5
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3201,151 +3265,23 @@
       "steps": [
         {
           "actor": "9321098765",
-          "action": "transfer",
-          "target": "9543210987",
-          "amount_inr": 38857.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 26,
-          "t": "2024-03-08T08:00:00"
-        },
-        {
-          "actor": "9321098765",
           "action": "call",
           "target": "8877665544",
-          "duration_sec": 444,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
+          "duration_sec": 456,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 23,
+          "t": "2024-03-07T17:41:00"
+        },
+        {
+          "actor": "9543210987",
+          "action": "call",
+          "target": "8877665544",
+          "duration_sec": 233,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
           "line": 24,
-          "t": "2024-03-08T08:30:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 1,
-        "score": 0.6
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c34",
-      "case_id": "case_C",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9543210987",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 1686350.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 6,
-          "t": "2024-03-09T16:00:00"
-        },
-        {
-          "actor": "9543210987",
-          "action": "transfer",
-          "target": "9210987654",
-          "amount_inr": 1543555.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 17,
-          "t": "2024-03-09T16:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.6
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c38",
-      "case_id": "case_C",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9321098765",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 305,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 27,
-          "t": "2024-03-10T05:50:00"
-        },
-        {
-          "actor": "9543210987",
-          "action": "call",
-          "target": "9321098765",
-          "duration_sec": 297,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 26,
-          "t": "2024-03-10T05:53:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.41
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c41",
-      "case_id": "case_C",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "9543210987",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 468,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 31,
-          "t": "2024-03-10T15:54:00"
-        },
-        {
-          "actor": "9543210987",
-          "action": "call",
-          "target": "9321098765",
-          "duration_sec": 47,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 30,
-          "t": "2024-03-10T16:21:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c47",
-      "case_id": "case_C",
-      "n_steps": 2,
-      "steps": [
-        {
-          "actor": "8877665544",
-          "action": "call",
-          "target": "9321098765",
-          "duration_sec": 307,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 35,
-          "t": "2024-03-12T04:12:00"
-        },
-        {
-          "actor": "9321098765",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 58,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 34,
-          "t": "2024-03-12T04:14:00"
+          "t": "2024-03-07T17:43:00"
         }
       ],
       "pivot": {
@@ -3355,34 +3291,98 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_C_c58",
+      "chain_id": "case_C_c44",
+      "case_id": "case_C",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9543210987",
+          "action": "transfer",
+          "target": "9321098765",
+          "amount_inr": 161748.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 16,
+          "t": "2024-03-11T08:00:00"
+        },
+        {
+          "actor": "9321098765",
+          "action": "transfer",
+          "target": "9543210987",
+          "amount_inr": 91085.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 23,
+          "t": "2024-03-11T08:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.6
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c46",
+      "case_id": "case_C",
+      "n_steps": 2,
+      "steps": [
+        {
+          "actor": "9321098765",
+          "action": "call",
+          "target": "9543210987",
+          "duration_sec": 112,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 35,
+          "t": "2024-03-11T16:00:00"
+        },
+        {
+          "actor": "9321098765",
+          "action": "call",
+          "target": "9543210987",
+          "duration_sec": 246,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 34,
+          "t": "2024-03-11T16:17:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c53",
       "case_id": "case_C",
       "n_steps": 2,
       "steps": [
         {
           "actor": "8877665544",
           "action": "call",
-          "target": "9543210987",
-          "duration_sec": 417,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 43,
-          "t": "2024-03-14T23:43:00"
+          "target": "9321098765",
+          "duration_sec": 354,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 39,
+          "t": "2024-03-13T03:53:00"
         },
         {
-          "actor": "8877665544",
+          "actor": "9543210987",
           "action": "transfer",
-          "target": "9321098765",
-          "amount_inr": 2330501.0,
+          "target": "8877665544",
+          "amount_inr": 2210797.0,
           "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 12,
-          "t": "2024-03-15T00:00:00"
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 4,
+          "t": "2024-03-13T04:00:00"
         }
       ],
       "pivot": {
         "step_index": 1,
-        "score": 0.6
+        "score": 0.7
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3392,13 +3392,13 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
+          "actor": "9321098765",
           "action": "transfer",
-          "target": "9543210987",
-          "amount_inr": 184460.0,
+          "target": "8877665544",
+          "amount_inr": 295880.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 23,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 24,
           "t": "2024-03-01T08:00:00"
         }
       ],
@@ -3414,19 +3414,41 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9543210987",
-          "action": "call",
-          "target": "9321098765",
-          "duration_sec": 245,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 6,
-          "t": "2024-03-01T15:56:00"
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9123456789",
+          "amount_inr": 43358.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 27,
+          "t": "2024-03-01T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.1
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c2",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "8877665544",
+          "action": "call",
+          "target": "9543210987",
+          "duration_sec": 460,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 2,
+          "t": "2024-03-01T10:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3438,12 +3460,12 @@
         {
           "actor": "9543210987",
           "action": "transfer",
-          "target": "9210987654",
-          "amount_inr": 414392.0,
+          "target": "8877665544",
+          "amount_inr": 114381.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 15,
-          "t": "2024-03-01T20:00:00"
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 5,
+          "t": "2024-03-01T16:00:00"
         }
       ],
       "pivot": {
@@ -3458,19 +3480,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
+          "actor": "9876543210",
           "action": "transfer",
-          "target": "9321098765",
-          "amount_inr": 963725.0,
+          "target": "9123456789",
+          "amount_inr": 41285.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 10,
-          "t": "2024-03-01T22:00:00"
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 29,
+          "t": "2024-03-02T08:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.1
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3483,11 +3505,11 @@
           "actor": "9321098765",
           "action": "call",
           "target": "8877665544",
-          "duration_sec": 212,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 2,
-          "t": "2024-03-02T02:27:00"
+          "duration_sec": 132,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 3,
+          "t": "2024-03-02T21:08:00"
         }
       ],
       "pivot": {
@@ -3504,12 +3526,12 @@
         {
           "actor": "9321098765",
           "action": "call",
-          "target": "8877665544",
-          "duration_sec": 159,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 5,
-          "t": "2024-03-02T04:41:00"
+          "target": "9543210987",
+          "duration_sec": 239,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 6,
+          "t": "2024-03-02T23:46:00"
         }
       ],
       "pivot": {
@@ -3524,14 +3546,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
+          "actor": "9321098765",
           "action": "call",
-          "target": "9321098765",
-          "duration_sec": 299,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 8,
-          "t": "2024-03-02T14:43:00"
+          "target": "8877665544",
+          "duration_sec": 367,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 4,
+          "t": "2024-03-03T03:44:00"
         }
       ],
       "pivot": {
@@ -3546,19 +3568,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9321098765",
+          "actor": "9543210987",
           "action": "call",
-          "target": "9543210987",
-          "duration_sec": 455,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 9,
-          "t": "2024-03-02T20:39:00"
+          "target": "8877665544",
+          "duration_sec": 105,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 5,
+          "t": "2024-03-03T05:44:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3571,11 +3593,11 @@
           "actor": "9543210987",
           "action": "call",
           "target": "8877665544",
-          "duration_sec": 48,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 7,
-          "t": "2024-03-03T01:08:00"
+          "duration_sec": 240,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 8,
+          "t": "2024-03-03T12:40:00"
         }
       ],
       "pivot": {
@@ -3592,12 +3614,12 @@
         {
           "actor": "8877665544",
           "action": "call",
-          "target": "9321098765",
-          "duration_sec": 224,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 10,
-          "t": "2024-03-03T01:58:00"
+          "target": "9543210987",
+          "duration_sec": 124,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 7,
+          "t": "2024-03-03T16:42:00"
         }
       ],
       "pivot": {
@@ -3612,14 +3634,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
+          "actor": "9321098765",
           "action": "call",
-          "target": "9321098765",
-          "duration_sec": 144,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 11,
-          "t": "2024-03-03T21:19:00"
+          "target": "9543210987",
+          "duration_sec": 417,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 10,
+          "t": "2024-03-03T19:37:00"
         }
       ],
       "pivot": {
@@ -3635,13 +3657,13 @@
       "steps": [
         {
           "actor": "8877665544",
-          "action": "transfer",
-          "target": "9321098765",
-          "amount_inr": 2076980.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 14,
-          "t": "2024-03-03T22:00:00"
+          "action": "call",
+          "target": "9543210987",
+          "duration_sec": 91,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 9,
+          "t": "2024-03-03T20:20:00"
         }
       ],
       "pivot": {
@@ -3656,19 +3678,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9543210987",
+          "actor": "8877665544",
           "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 1289740.0,
+          "target": "9321098765",
+          "amount_inr": 2067781.0,
           "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 7,
-          "t": "2024-03-04T00:00:00"
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 8,
+          "t": "2024-03-03T23:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.3
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3678,14 +3700,80 @@
       "n_steps": 1,
       "steps": [
         {
+          "actor": "9543210987",
+          "action": "call",
+          "target": "9321098765",
+          "duration_sec": 395,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 11,
+          "t": "2024-03-04T00:15:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c15",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "8877665544",
+          "action": "transfer",
+          "target": "9321098765",
+          "amount_inr": 1623933.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 10,
+          "t": "2024-03-04T01:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c16",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
           "actor": "8877665544",
           "action": "call",
           "target": "9543210987",
-          "duration_sec": 251,
+          "duration_sec": 180,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 14,
+          "t": "2024-03-04T19:12:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c17",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "8877665544",
+          "action": "call",
+          "target": "9321098765",
+          "duration_sec": 377,
           "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
           "line": 12,
-          "t": "2024-03-04T03:31:00"
+          "t": "2024-03-04T22:22:00"
         }
       ],
       "pivot": {
@@ -3700,19 +3788,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
+          "actor": "9543210987",
           "action": "call",
-          "target": "9321098765",
-          "duration_sec": 183,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 14,
-          "t": "2024-03-05T18:16:00"
+          "target": "8877665544",
+          "duration_sec": 374,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 15,
+          "t": "2024-03-05T00:07:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3725,11 +3813,11 @@
           "actor": "9321098765",
           "action": "call",
           "target": "8877665544",
-          "duration_sec": 465,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 15,
-          "t": "2024-03-06T05:57:00"
+          "duration_sec": 348,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 13,
+          "t": "2024-03-05T02:25:00"
         }
       ],
       "pivot": {
@@ -3745,13 +3833,13 @@
       "steps": [
         {
           "actor": "9543210987",
-          "action": "transfer",
-          "target": "9321098765",
-          "amount_inr": 165629.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 20,
-          "t": "2024-03-06T08:00:00"
+          "action": "call",
+          "target": "8877665544",
+          "duration_sec": 324,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 17,
+          "t": "2024-03-06T04:04:00"
         }
       ],
       "pivot": {
@@ -3766,63 +3854,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9543210987",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 203,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 17,
-          "t": "2024-03-06T14:44:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c22",
-      "case_id": "case_C",
-      "n_steps": 1,
-      "steps": [
-        {
           "actor": "9321098765",
           "action": "call",
           "target": "9543210987",
-          "duration_sec": 265,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
+          "duration_sec": 384,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
           "line": 16,
-          "t": "2024-03-06T16:08:00"
+          "t": "2024-03-06T06:19:00"
         }
       ],
       "pivot": {
         "step_index": 0,
         "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c23",
-      "case_id": "case_C",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9543210987",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 321236.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 3,
-          "t": "2024-03-06T17:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3833,13 +3877,13 @@
       "steps": [
         {
           "actor": "9543210987",
-          "action": "transfer",
+          "action": "call",
           "target": "8877665544",
-          "amount_inr": 1114537.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 5,
-          "t": "2024-03-06T23:00:00"
+          "duration_sec": 346,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 21,
+          "t": "2024-03-06T14:17:00"
         }
       ],
       "pivot": {
@@ -3854,14 +3898,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
+          "actor": "9321098765",
           "action": "call",
-          "target": "9543210987",
-          "duration_sec": 367,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 18,
-          "t": "2024-03-07T03:03:00"
+          "target": "8877665544",
+          "duration_sec": 527,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 19,
+          "t": "2024-03-06T15:08:00"
         }
       ],
       "pivot": {
@@ -3877,13 +3921,13 @@
       "steps": [
         {
           "actor": "9543210987",
-          "action": "call",
+          "action": "transfer",
           "target": "8877665544",
-          "duration_sec": 294,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 21,
-          "t": "2024-03-07T11:04:00"
+          "amount_inr": 1527906.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 6,
+          "t": "2024-03-06T16:00:00"
         }
       ],
       "pivot": {
@@ -3898,19 +3942,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
-          "action": "call",
-          "target": "9321098765",
-          "duration_sec": 501,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 19,
-          "t": "2024-03-07T14:40:00"
+          "actor": "9543210987",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 2294277.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 7,
+          "t": "2024-03-06T22:00:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -3921,13 +3965,13 @@
       "steps": [
         {
           "actor": "9543210987",
-          "action": "transfer",
+          "action": "call",
           "target": "8877665544",
-          "amount_inr": 445278.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 4,
-          "t": "2024-03-07T17:00:00"
+          "duration_sec": 229,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 20,
+          "t": "2024-03-07T02:54:00"
         }
       ],
       "pivot": {
@@ -3937,41 +3981,19 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_C_c29",
+      "chain_id": "case_C_c31",
       "case_id": "case_C",
       "n_steps": 1,
       "steps": [
         {
           "actor": "9321098765",
           "action": "call",
-          "target": "9543210987",
-          "duration_sec": 386,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 20,
-          "t": "2024-03-07T18:06:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c31",
-      "case_id": "case_C",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "8877665544",
-          "action": "call",
-          "target": "9543210987",
-          "duration_sec": 82,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 23,
-          "t": "2024-03-08T13:35:00"
+          "target": "8877665544",
+          "duration_sec": 433,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 25,
+          "t": "2024-03-07T22:56:00"
         }
       ],
       "pivot": {
@@ -3987,13 +4009,57 @@
       "steps": [
         {
           "actor": "9543210987",
+          "action": "transfer",
+          "target": "9210987654",
+          "amount_inr": 572119.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 12,
+          "t": "2024-03-08T01:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c33",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9543210987",
+          "action": "transfer",
+          "target": "8877665544",
+          "amount_inr": 2207248.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 3,
+          "t": "2024-03-08T04:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c34",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9543210987",
           "action": "call",
           "target": "8877665544",
-          "duration_sec": 417,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 22,
-          "t": "2024-03-08T17:20:00"
+          "duration_sec": 230,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 28,
+          "t": "2024-03-08T09:10:00"
         }
       ],
       "pivot": {
@@ -4009,13 +4075,13 @@
       "steps": [
         {
           "actor": "9543210987",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 274,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 25,
-          "t": "2024-03-09T19:42:00"
+          "action": "transfer",
+          "target": "9210987654",
+          "amount_inr": 2455805.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 14,
+          "t": "2024-03-08T17:00:00"
         }
       ],
       "pivot": {
@@ -4030,14 +4096,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
-          "action": "transfer",
-          "target": "9321098765",
-          "amount_inr": 529252.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 9,
-          "t": "2024-03-10T02:00:00"
+          "actor": "9321098765",
+          "action": "call",
+          "target": "8877665544",
+          "duration_sec": 564,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 27,
+          "t": "2024-03-08T22:10:00"
         }
       ],
       "pivot": {
@@ -4052,14 +4118,36 @@
       "n_steps": 1,
       "steps": [
         {
+          "actor": "9321098765",
+          "action": "call",
+          "target": "9543210987",
+          "duration_sec": 534,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 26,
+          "t": "2024-03-08T23:04:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c38",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
           "actor": "9543210987",
-          "action": "transfer",
-          "target": "9210987654",
-          "amount_inr": 1322810.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 18,
-          "t": "2024-03-10T03:00:00"
+          "action": "call",
+          "target": "8877665544",
+          "duration_sec": 375,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 31,
+          "t": "2024-03-09T13:35:00"
         }
       ],
       "pivot": {
@@ -4075,13 +4163,13 @@
       "steps": [
         {
           "actor": "9543210987",
-          "action": "transfer",
+          "action": "call",
           "target": "9321098765",
-          "amount_inr": 271312.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 19,
-          "t": "2024-03-10T08:00:00"
+          "duration_sec": 394,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 30,
+          "t": "2024-03-10T03:29:00"
         }
       ],
       "pivot": {
@@ -4096,19 +4184,41 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9321098765",
+          "actor": "8877665544",
           "action": "call",
-          "target": "9543210987",
-          "duration_sec": 186,
+          "target": "9321098765",
+          "duration_sec": 272,
           "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
           "line": 29,
-          "t": "2024-03-10T11:24:00"
+          "t": "2024-03-10T04:18:00"
         }
       ],
       "pivot": {
         "step_index": 0,
         "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c41",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9123456789",
+          "amount_inr": 33701.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 30,
+          "t": "2024-03-10T08:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.1
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -4118,36 +4228,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9543210987",
-          "action": "transfer",
-          "target": "9210987654",
-          "amount_inr": 2477493.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 16,
-          "t": "2024-03-10T21:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c43",
-      "case_id": "case_C",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "9321098765",
+          "actor": "8877665544",
           "action": "call",
           "target": "9543210987",
-          "duration_sec": 187,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 28,
-          "t": "2024-03-11T01:48:00"
+          "duration_sec": 495,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 32,
+          "t": "2024-03-10T08:20:00"
         }
       ],
       "pivot": {
@@ -4157,19 +4245,19 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
-      "chain_id": "case_C_c44",
+      "chain_id": "case_C_c43",
       "case_id": "case_C",
       "n_steps": 1,
       "steps": [
         {
           "actor": "9543210987",
-          "action": "transfer",
-          "target": "8877665544",
-          "amount_inr": 1167686.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 2,
-          "t": "2024-03-11T04:00:00"
+          "action": "call",
+          "target": "9321098765",
+          "duration_sec": 584,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 33,
+          "t": "2024-03-10T12:40:00"
         }
       ],
       "pivot": {
@@ -4184,41 +4272,41 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9543210987",
+          "actor": "9321098765",
           "action": "call",
-          "target": "9321098765",
-          "duration_sec": 367,
+          "target": "8877665544",
+          "duration_sec": 346,
           "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 32,
-          "t": "2024-03-11T13:16:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c46",
-      "case_id": "case_C",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "8877665544",
-          "action": "call",
-          "target": "9321098765",
-          "duration_sec": 451,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 33,
-          "t": "2024-03-11T19:28:00"
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 36,
+          "t": "2024-03-11T09:29:00"
         }
       ],
       "pivot": {
         "step_index": 0,
         "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c47",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9543210987",
+          "action": "call",
+          "target": "8877665544",
+          "duration_sec": 501,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 37,
+          "t": "2024-03-11T16:53:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -4230,12 +4318,12 @@
         {
           "actor": "9543210987",
           "action": "transfer",
-          "target": "9321098765",
-          "amount_inr": 115020.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 21,
-          "t": "2024-03-12T08:00:00"
+          "target": "9210987654",
+          "amount_inr": 2043993.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 15,
+          "t": "2024-03-11T23:00:00"
         }
       ],
       "pivot": {
@@ -4250,13 +4338,35 @@
       "n_steps": 1,
       "steps": [
         {
+          "actor": "9321098765",
+          "action": "call",
+          "target": "9543210987",
+          "duration_sec": 66,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 38,
+          "t": "2024-03-12T02:46:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c50",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
           "actor": "9876543210",
           "action": "transfer",
           "target": "9123456789",
-          "amount_inr": 38634.0,
+          "amount_inr": 27538.0,
           "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 31,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 28,
           "t": "2024-03-12T08:00:00"
         }
       ],
@@ -4272,19 +4382,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
-          "action": "transfer",
+          "actor": "9543210987",
+          "action": "call",
           "target": "9321098765",
-          "amount_inr": 2041408.0,
-          "flagged": true,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 8,
-          "t": "2024-03-12T23:00:00"
+          "duration_sec": 160,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 40,
+          "t": "2024-03-12T13:30:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -4294,36 +4404,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
-          "action": "call",
-          "target": "9543210987",
-          "duration_sec": 99,
-          "tower": "TOWER_CHE_05",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 36,
-          "t": "2024-03-13T00:29:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c53",
-      "case_id": "case_C",
-      "n_steps": 1,
-      "steps": [
-        {
           "actor": "9543210987",
           "action": "call",
-          "target": "9321098765",
-          "duration_sec": 56,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 39,
-          "t": "2024-03-13T08:36:00"
+          "target": "8877665544",
+          "duration_sec": 507,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 41,
+          "t": "2024-03-12T21:53:00"
         }
       ],
       "pivot": {
@@ -4338,36 +4426,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
-          "action": "transfer",
-          "target": "9321098765",
-          "amount_inr": 501174.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 13,
-          "t": "2024-03-13T16:00:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.2
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c55",
-      "case_id": "case_C",
-      "n_steps": 1,
-      "steps": [
-        {
           "actor": "9543210987",
-          "action": "call",
-          "target": "8877665544",
-          "duration_sec": 304,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 41,
-          "t": "2024-03-14T01:36:00"
+          "action": "transfer",
+          "target": "9210987654",
+          "amount_inr": 1592448.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 13,
+          "t": "2024-03-13T05:00:00"
         }
       ],
       "pivot": {
@@ -4385,11 +4451,11 @@
           "actor": "9543210987",
           "action": "call",
           "target": "8877665544",
-          "duration_sec": 54,
-          "tower": "TOWER_HYD_03",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 40,
-          "t": "2024-03-14T02:34:00"
+          "duration_sec": 451,
+          "tower": "TOWER_DEL_01",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 44,
+          "t": "2024-03-13T09:57:00"
         }
       ],
       "pivot": {
@@ -4404,14 +4470,36 @@
       "n_steps": 1,
       "steps": [
         {
+          "actor": "8877665544",
+          "action": "transfer",
+          "target": "9321098765",
+          "amount_inr": 1267674.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 9,
+          "t": "2024-03-13T22:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c58",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
           "actor": "9543210987",
-          "action": "call",
+          "action": "transfer",
           "target": "8877665544",
-          "duration_sec": 298,
-          "tower": "TOWER_DEL_01",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 42,
-          "t": "2024-03-14T18:06:00"
+          "amount_inr": 1516119.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 2,
+          "t": "2024-03-14T00:00:00"
         }
       ],
       "pivot": {
@@ -4426,19 +4514,19 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "8877665544",
-          "action": "transfer",
-          "target": "9543210987",
-          "amount_inr": 247937.0,
-          "flagged": false,
-          "source": "demo_dataset/transaction_files/case_C_transactions.csv",
-          "line": 24,
-          "t": "2024-03-15T08:00:00"
+          "actor": "9543210987",
+          "action": "call",
+          "target": "9321098765",
+          "duration_sec": 142,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 43,
+          "t": "2024-03-14T03:46:00"
         }
       ],
       "pivot": {
         "step_index": 0,
-        "score": 0.2
+        "score": 0.3
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
@@ -4448,36 +4536,14 @@
       "n_steps": 1,
       "steps": [
         {
-          "actor": "9543210987",
+          "actor": "9321098765",
           "action": "call",
           "target": "8877665544",
-          "duration_sec": 77,
-          "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 45,
-          "t": "2024-03-15T22:40:00"
-        }
-      ],
-      "pivot": {
-        "step_index": 0,
-        "score": 0.3
-      },
-      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
-    },
-    {
-      "chain_id": "case_C_c61",
-      "case_id": "case_C",
-      "n_steps": 1,
-      "steps": [
-        {
-          "actor": "8877665544",
-          "action": "call",
-          "target": "9321098765",
-          "duration_sec": 94,
-          "tower": "TOWER_BLR_04",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 46,
-          "t": "2024-03-16T05:48:00"
+          "duration_sec": 329,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 42,
+          "t": "2024-03-14T06:00:00"
         }
       ],
       "pivot": {
@@ -4487,7 +4553,139 @@
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     },
     {
+      "chain_id": "case_C_c61",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9876543210",
+          "action": "transfer",
+          "target": "9123456789",
+          "amount_inr": 44660.0,
+          "flagged": false,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 26,
+          "t": "2024-03-14T08:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.1
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
       "chain_id": "case_C_c62",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9321098765",
+          "action": "call",
+          "target": "9543210987",
+          "duration_sec": 59,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 46,
+          "t": "2024-03-14T19:15:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c63",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "8877665544",
+          "action": "transfer",
+          "target": "9321098765",
+          "amount_inr": 2065396.0,
+          "flagged": true,
+          "source": "demo_dataset\\transaction_files\\case_C_transactions.csv",
+          "line": 11,
+          "t": "2024-03-14T20:00:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c64",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "8877665544",
+          "action": "call",
+          "target": "9321098765",
+          "duration_sec": 510,
+          "tower": "TOWER_MUM_02",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 47,
+          "t": "2024-03-15T03:30:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c65",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9543210987",
+          "action": "call",
+          "target": "9321098765",
+          "duration_sec": 74,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 52,
+          "t": "2024-03-15T10:45:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c66",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9543210987",
+          "action": "call",
+          "target": "9321098765",
+          "duration_sec": 588,
+          "tower": "TOWER_HYD_03",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 50,
+          "t": "2024-03-15T12:11:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c67",
       "case_id": "case_C",
       "n_steps": 1,
       "steps": [
@@ -4495,16 +4693,60 @@
           "actor": "9543210987",
           "action": "call",
           "target": "8877665544",
-          "duration_sec": 46,
+          "duration_sec": 74,
           "tower": "TOWER_MUM_02",
-          "source": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "line": 44,
-          "t": "2024-03-16T06:34:00"
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 49,
+          "t": "2024-03-15T15:24:00"
         }
       ],
       "pivot": {
         "step_index": 0,
         "score": 0.3
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c68",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "8877665544",
+          "action": "call",
+          "target": "9321098765",
+          "duration_sec": 278,
+          "tower": "TOWER_BLR_04",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 51,
+          "t": "2024-03-15T16:26:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
+      },
+      "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
+    },
+    {
+      "chain_id": "case_C_c69",
+      "case_id": "case_C",
+      "n_steps": 1,
+      "steps": [
+        {
+          "actor": "9321098765",
+          "action": "call",
+          "target": "9543210987",
+          "duration_sec": 470,
+          "tower": "TOWER_CHE_05",
+          "source": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "line": 48,
+          "t": "2024-03-15T22:08:00"
+        }
+      ],
+      "pivot": {
+        "step_index": 0,
+        "score": 0.2
       },
       "note": "Ordered sequence of observed events within a 30-minute window. Requires investigator verification."
     }

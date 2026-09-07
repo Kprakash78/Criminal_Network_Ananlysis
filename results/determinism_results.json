@@ -9,8 +9,8 @@
       "pass": true
     },
     "case_A_top3.json": {
-      "expected_sha256": "5a4652006caa5caa5bc7a8c82fa1c15d8d219aa0b8ba98cd7485f9f5b37b4aa6",
-      "actual_sha256": "5a4652006caa5caa5bc7a8c82fa1c15d8d219aa0b8ba98cd7485f9f5b37b4aa6",
+      "expected_sha256": "49c40c69271d14be79c4b26f41cd866f3efb06c3da64be0910519c90ab8bfa5f",
+      "actual_sha256": "49c40c69271d14be79c4b26f41cd866f3efb06c3da64be0910519c90ab8bfa5f",
       "pass": true
     },
     "case_B_entities.json": {
@@ -19,8 +19,8 @@
       "pass": true
     },
     "case_B_top3.json": {
-      "expected_sha256": "7b7e8b26fb0312653e75e6bfc68c3332b56c1486a6ef2336869b50a1cbbe10be",
-      "actual_sha256": "7b7e8b26fb0312653e75e6bfc68c3332b56c1486a6ef2336869b50a1cbbe10be",
+      "expected_sha256": "bd9140165f8c841547b0551a51f9d958e26fe3f30a2c65caad4eb4f74d5ec091",
+      "actual_sha256": "bd9140165f8c841547b0551a51f9d958e26fe3f30a2c65caad4eb4f74d5ec091",
       "pass": true
     },
     "case_C_entities.json": {
@@ -29,13 +29,13 @@
       "pass": true
     },
     "case_C_top3.json": {
-      "expected_sha256": "190b574a13f593db41152e1952f7917ca4bbfa0963443c2d79b3c68913ccc1d5",
-      "actual_sha256": "190b574a13f593db41152e1952f7917ca4bbfa0963443c2d79b3c68913ccc1d5",
+      "expected_sha256": "811316ffb8f9844c7c557419b90f10d8c0246bc3e988b980545510c16a32ac8c",
+      "actual_sha256": "811316ffb8f9844c7c557419b90f10d8c0246bc3e988b980545510c16a32ac8c",
       "pass": true
     },
     "search_index.json": {
-      "expected_sha256": "549b7b5f4a57c8d90b79945e0283a6a83e56e9acbe612ef2fa05a0d94c7db6f5",
-      "actual_sha256": "549b7b5f4a57c8d90b79945e0283a6a83e56e9acbe612ef2fa05a0d94c7db6f5",
+      "expected_sha256": "a7644400ad8e89d212c617d9e513bb6d3f9d8de100ca66bf6311cc8eb9dea22f",
+      "actual_sha256": "a7644400ad8e89d212c617d9e513bb6d3f9d8de100ca66bf6311cc8eb9dea22f",
       "pass": true
     }
   }

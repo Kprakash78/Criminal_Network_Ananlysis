@@ -39,20 +39,68 @@ RESULTS   = REPO_ROOT / "results"
 
 @pytest.fixture(scope="session")
 def run_pipeline():
-    """Run the full pipeline once per session using SKIP_VENV=1."""
-    import os, subprocess
+    """Run the full pipeline once per session using SKIP_VENV=1.
+
+    On Unix: delegates to scripts/run_benchmarks.sh via bash.
+    On Windows with Git-Bash: passes PYTHON= so the shell script uses the
+    correct interpreter instead of the Windows Store python3 stub.
+    Pure Windows fallback: invokes Python benchmark scripts directly.
+    """
+    import os, subprocess, shutil, sys as _sys
+
+    python_exe = _sys.executable   # always the real interpreter running pytest
+
     env = os.environ.copy()
     env["SKIP_VENV"] = "1"
     env["PYTHONPATH"] = str(REPO_ROOT)
-    result = subprocess.run(
-        ["bash", "scripts/run_benchmarks.sh"],
-        cwd=str(REPO_ROOT),
-        env=env,
-        capture_output=True,
-        text=True,
-        timeout=300,
-    )
-    return result
+    env["PYTHONIOENCODING"] = "utf-8"
+    # Expose PYTHON= so the shell script can use it via ${PYTHON:-python3}
+    env["PYTHON"] = python_exe
+
+    bash = shutil.which("bash")
+    if bash:
+        result = subprocess.run(
+            [bash, "scripts/run_benchmarks.sh"],
+            cwd=str(REPO_ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        return result
+
+    # Pure Windows fallback — bash not available at all.
+    scripts_to_run = [
+        [python_exe, "scripts/generate_demo_data.py"],
+        [python_exe, "scripts/prepare_demo_cache.py"],
+    ]
+    combined_stdout = ""
+    combined_stderr = ""
+    last_rc = 0
+    for cmd in scripts_to_run:
+        script_path = REPO_ROOT / cmd[1]
+        if not script_path.exists():
+            combined_stderr += f"SKIP (not found): {cmd[1]}\n"
+            continue
+        r = subprocess.run(
+            cmd,
+            cwd=str(REPO_ROOT),
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=300,
+        )
+        combined_stdout += r.stdout
+        combined_stderr += r.stderr
+        if r.returncode != 0:
+            last_rc = r.returncode
+
+    class _Result:
+        returncode = last_rc
+        stdout = combined_stdout
+        stderr = combined_stderr
+
+    return _Result()
 
 
 @pytest.fixture(scope="session")
@@ -236,7 +284,7 @@ class TestScorecardMarkdown:
         md_path = RESULTS / "scorecard.md"
         if not md_path.exists():
             pytest.skip("scorecard.md not generated yet")
-        text = md_path.read_text()
+        text = md_path.read_text(encoding="utf-8")
         required_sections = [
             "What we measured",
             "Key Numbers",

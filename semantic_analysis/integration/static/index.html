@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCHIVE // PS2614</title>
+  <link rel="stylesheet" href="/static/style.css?v=3" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="bg-blobs">
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-orange"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- Top Header -->
+    <header class="masthead">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 3L19 12L5 21V3Z" fill="url(#logo-grad)" />
+          <defs>
+            <linearGradient id="logo-grad" x1="5" y1="3" x2="19" y2="21" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#9d4edd" />
+              <stop offset="1" stop-color="#ff7b00" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="logo-text">
+          <strong>MULTIMODAL</strong>
+          <span>RETRIEVAL NODE</span>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+      </nav>
+
+      <div class="header-actions">
+        <label class="btn-upload" for="videoFileInput">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span class="btn-text">Upload Video</span>
+          <input type="file" id="videoFileInput" accept="video/mp4,video/*" onchange="handleVideoUpload(event)" />
+        </label>
+        <button class="btn-icon theme-toggle">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+      <h1 class="hero-title">
+        Search videos<br />
+        <span class="gradient-text">the way you think.</span>
+      </h1>
+      <p class="hero-desc">Find moments in videos using anything — text, objects, actions, scenes, or OCR.</p>
+    </section>
+
+    <!-- Search Section -->
+    <section class="command-panel">
+      <div class="search-module">
+        <div class="search-input-wrapper">
+          <input type="text" id="queryInput" placeholder="ENTER SEMANTIC PARAMETERS..."
+            onkeydown="if(event.key==='Enter') executeSearch()" />
+          <button id="searchBtn" class="btn-search" onclick="executeSearch()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="suggested-queries">
+        <span class="sq-label">SUGGESTED VECTORS:</span>
+        <button class="sq-chip" onclick="setQuery('air fryer chef')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          AIR_FRYER_CHEF
+        </button>
+        <button class="sq-chip" onclick="setQuery('person repairing motorcycle wearing helmet')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
+            </path>
+          </svg>
+          MOTORCYCLE_REPAIR
+        </button>
+        <button class="sq-chip" onclick="setQuery('scenic highway view outdoor')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+          </svg>
+          SCENIC_HIGHWAY
+        </button>
+        <button class="sq-chip" onclick="setQuery('alien spaceship landing underwater')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+            </path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          DEV_NO_MATCH
+        </button>
+      </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <main class="workspace-grid">
+
+      <!-- Video Viewer Left Column -->
+      <section class="module-viewer card">
+        <header class="card-header">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="text-purple">
+              <path d="M5 3L19 12L5 21V3Z" />
+            </svg>
+            <h2>MEDIA VIEWER</h2>
+          </div>
+          <select id="videoSelect" class="source-select hidden" onchange="loadSelectedVideo()">
+            <option value="">AWAITING SOURCES...</option>
+          </select>
+        </header>
+
+        <div class="video-container">
+          <video id="videoPlayer" controls preload="metadata">
+            <p>UNSUPPORTED BROWSER</p>
+          </video>
+          <div id="seekBanner" class="seek-banner hidden">
+            <span>Seeking T=<strong id="seekTsVal">0.0s</strong></span>
+          </div>
+        </div>
+
+        <footer class="card-footer" style="font-family: monospace;">
+          <div class="meta-left">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+              <polyline points="13 2 13 9 20 9"></polyline>
+            </svg>
+            <span>SRC: <span id="currentVidId">sample_test.mp4</span></span>
+            <span class="divider">|</span>
+            <span id="videoSize">0.0 MB</span>
+          </div>
+          <div class="meta-right">
+            <span>RANGE: <span id="videoDuration">--:--</span></span>
+          </div>
+        </footer>
+      </section>
+
+      <!-- Analysis Results Right Column -->
+      <section class="module-analysis">
+        <!-- Answer Block -->
+        <div id="answerCard" class="card status-card">
+          <header class="card-header border-bottom">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                class="text-purple">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+              <h3>SYNTHESIS REPORT</h3>
+            </div>
+            <div class="status-indicator">
+              <span id="statusDot" class="dot dot-idle"></span>
+              <span id="confidenceBadge" class="status-text">AWAITING_QUERY</span>
+            </div>
+          </header>
+          <div class="card-body">
+            <div id="answerText" class="synthesis-text" style="font-family: monospace;">
+              SYSTEM STANDING BY
+            </div>
+            <div id="evidenceSection" class="evidence-box hidden">
+              <h4>SIGNAL TRACES:</h4>
+              <ul id="evidenceBullets" class="signal-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Segments Block -->
+        <div class="card results-card">
+          <div class="card-header border-bottom">
+            <div class="card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                class="text-purple">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+              <h3>RETRIEVED SEGMENTS</h3>
+            </div>
+            <span id="resultsCount" class="count-badge">0</span>
+          </div>
+
+          <div id="loadingState" class="scan-state hidden">
+            <div class="spinner"></div>
+            <p>PROCESSING VECTORS...</p>
+          </div>
+
+          <div id="resultsList" class="results-list">
+            <div class="empty-state">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="text-purple opacity-50">
+                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                <line x1="7" y1="2" x2="7" y2="22"></line>
+                <line x1="17" y1="2" x2="17" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <line x1="2" y1="7" x2="7" y2="7"></line>
+                <line x1="2" y1="17" x2="7" y2="17"></line>
+                <line x1="17" y1="17" x2="22" y2="17"></line>
+                <line x1="17" y1="7" x2="22" y2="7"></line>
+              </svg>
+              <p style="font-family: monospace;">[ NO DATA PRESENT ]</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer" style="font-family: monospace; font-size: 0.7rem;">
+      &copy; 2025 PS-2614. ALL RIGHTS RESERVED.
+    </footer>
+  </div>
+  <script src="/static/app.js?v=3"></script>
+</body>
+
+</html>

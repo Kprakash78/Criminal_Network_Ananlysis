@@ -25,7 +25,7 @@ All 10 milestones completed in a single session:
 
 ## 2. Test Results
 
-### Full suite: **103 tests — 103 PASS, 0 FAIL**
+### Full suite: **107 tests — 107 PASS, 0 FAIL**
 
 | Test file | Tests | Status |
 |---|---|---|
@@ -126,6 +126,19 @@ Valid entity types: `PERSON, PHONE, VEHICLE, LOCATION, ORGANIZATION, ACCOUNT, CA
 3. **DATE entity type**: DATE entities are extracted and assigned IDs but are not currently used in relationship building. M2 may want to use timestamp information for temporal graph analysis.
 
 4. **Scale**: Tested on 35 FIRs + 120 CDRs + 65 transactions. The architecture supports up to 200+ documents without redesign (per PRD NFR requirement), but NER model load time (fixed cost ~3s) will dominate for very small datasets.
+
+5. **Batch-mode alias merging is per-document, not per-case** *(deferred — out of scope for current deadline)*
+
+   `run_pipeline()` processes each document in isolation: when it calls `_resolve(normed, store)` for each `doc` in the batch loop, no `case_id` is passed, so `resolve_entities()` falls back to using each document's own `doc_id` as the isolation key. This means:
+
+   - **What works:** Two mentions of `Ravi Kumar` in the same file are merged correctly. Two different unrelated cases in the same batch (e.g., `FIR_2026_00931` and `FIR_2026_00812`) are correctly kept separate — there is no incorrect cross-case merging.
+   - **What does not work:** If the same case spans multiple files (e.g., `fir_2026_00931_main.txt` and `fir_2026_00931_supplement.txt` loaded in the same `run_pipeline()` call), `Ravi Kumar` in the main file and `R. Kumar` in the supplement will **not** be merged. They will remain two separate entities, both with `needs_review=False`, because the resolver treats each file as its own isolation bucket.
+
+   **This is safe** (no incorrect merges happen) **but incomplete** (cross-document alias resolution within a single case does not occur in batch mode).
+
+   **The resolver already supports the correct behavior** via the `case_id` parameter of `resolve_entities()`: a caller that knows which files belong to the same case can pass a shared `case_id` and merging will work correctly across those files. The gap is that `run_pipeline()` does not derive or pass a case-level `case_id` — the `Document` dataclass has no `case_id` field, and the pipeline has no convention for grouping filenames by case.
+
+   **Future fix** (not scheduled): add a `case_id` field to the `Document` dataclass, populate it from a filename-convention rule or a manifest file in `loader.py`, and pass it through the batch loop. No resolver changes are needed.
 
 ---
 

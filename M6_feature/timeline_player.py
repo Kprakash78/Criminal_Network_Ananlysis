@@ -65,14 +65,19 @@ def build_timeline(
     cdr_path: str | Path = None,
     txn_path: str | Path = None,
     fir_dir: str | Path = None,
+    case_id: str = None,
+    case_entities: set[str] = None
 ) -> list[dict]:
     """
     Build a chronologically sorted event timeline from case data.
+    Filters to only include events relevant to the given case_id if provided.
 
     Args:
         cdr_path: Path to CDR CSV file
         txn_path: Path to transactions CSV file
         fir_dir:  Path to directory containing FIR text files
+        case_id:  The active case identifier to filter by
+        case_entities: Set of entity IDs associated with the case
 
     Returns:
         Sorted list of event dicts:
@@ -113,10 +118,26 @@ def build_timeline(
     if fir_dir.exists():
         events.extend(_parse_fir_events(fir_dir))
 
+    # --- Case Filtering ---
+    if case_id:
+        filtered_events = []
+        for e in events:
+            # For FIRs, check if the from field (which is the case_no) matches
+            if e["type"] == "fir_filing":
+                if e["from"].lower() == case_id.lower():
+                    filtered_events.append(e)
+            else:
+                # For CDRs/Txns, check if the involved entities are part of the case
+                if case_entities:
+                    if (e.get("from") in case_entities or e.get("to") in case_entities or 
+                        e.get("from_name") in case_entities or e.get("to_name") in case_entities):
+                        filtered_events.append(e)
+        events = filtered_events
+
     # Sort chronologically
     events.sort(key=lambda e: e.get("t", ""))
 
-    logger.info(f"[Timeline] Built {len(events)} events")
+    logger.info(f"[Timeline] Built {len(events)} events for case {case_id}")
     return events
 
 

@@ -23,8 +23,8 @@
         },
         "explanation": "Possible unobserved intermediary between the same cluster: 'Sunita Sharma' and 'Ravi Kumar' share 1 mutual contact(s). Adamic-Adar=0.910, Jaccard=0.333. Requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "txn_file": "demo_dataset/transaction_files/case_A_transactions.csv"
+          "cdr_file": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "txn_file": "demo_dataset\\transaction_files\\case_A_transactions.csv"
         }
       },
       {
@@ -47,8 +47,8 @@
         },
         "explanation": "Possible unobserved intermediary between the same cluster: 'Anjali Singh' and 'Ravi Kumar' share 1 mutual contact(s). Adamic-Adar=0.910, Jaccard=0.333. Requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "txn_file": "demo_dataset/transaction_files/case_A_transactions.csv"
+          "cdr_file": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "txn_file": "demo_dataset\\transaction_files\\case_A_transactions.csv"
         }
       },
       {
@@ -71,8 +71,8 @@
         },
         "explanation": "Possible unobserved intermediary between the same cluster: 'Fatima Begum' and 'Mohammed Iqbal' share 1 mutual contact(s). Adamic-Adar=1.443, Jaccard=0.333. Requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_A_cdr.csv",
-          "txn_file": "demo_dataset/transaction_files/case_A_transactions.csv"
+          "cdr_file": "demo_dataset\\cdr_files\\case_A_cdr.csv",
+          "txn_file": "demo_dataset\\transaction_files\\case_A_transactions.csv"
         }
       }
     ],
@@ -97,8 +97,8 @@
         },
         "explanation": "Possible unobserved intermediary between the same cluster: 'Deepak Verma' and 'Priya Nair' share 1 mutual contact(s). Adamic-Adar=0.910, Jaccard=0.333. Requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "txn_file": "demo_dataset/transaction_files/case_B_transactions.csv"
+          "cdr_file": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "txn_file": "demo_dataset\\transaction_files\\case_B_transactions.csv"
         }
       },
       {
@@ -121,8 +121,8 @@
         },
         "explanation": "Possible unobserved intermediary between the same cluster: 'Priya Nair' and 'Mohammed Iqbal' share 1 mutual contact(s). Adamic-Adar=0.910, Jaccard=0.333. Requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "txn_file": "demo_dataset/transaction_files/case_B_transactions.csv"
+          "cdr_file": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "txn_file": "demo_dataset\\transaction_files\\case_B_transactions.csv"
         }
       },
       {
@@ -145,8 +145,8 @@
         },
         "explanation": "Possible unobserved intermediary between the same cluster: 'Sunita Sharma' and 'Ravi Kumar' share 1 mutual contact(s). Adamic-Adar=1.443, Jaccard=0.333. Requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_B_cdr.csv",
-          "txn_file": "demo_dataset/transaction_files/case_B_transactions.csv"
+          "cdr_file": "demo_dataset\\cdr_files\\case_B_cdr.csv",
+          "txn_file": "demo_dataset\\transaction_files\\case_B_transactions.csv"
         }
       }
     ],
@@ -171,8 +171,8 @@
         },
         "explanation": "Possible unobserved intermediary between the same cluster: 'Priya Nair' and 'Kavya Reddy' share 1 mutual contact(s). Adamic-Adar=0.910, Jaccard=0.500. Requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "txn_file": "demo_dataset/transaction_files/case_C_transactions.csv"
+          "cdr_file": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "txn_file": "demo_dataset\\transaction_files\\case_C_transactions.csv"
         }
       },
       {
@@ -195,8 +195,8 @@
         },
         "explanation": "Possible unobserved intermediary between the same cluster: 'Kavya Reddy' and 'Suresh Patil' share 1 mutual contact(s). Adamic-Adar=0.910, Jaccard=0.500. Requires investigator verification.",
         "evidence": {
-          "cdr_file": "demo_dataset/cdr_files/case_C_cdr.csv",
-          "txn_file": "demo_dataset/transaction_files/case_C_transactions.csv"
+          "cdr_file": "demo_dataset\\cdr_files\\case_C_cdr.csv",
+          "txn_file": "demo_dataset\\transaction_files\\case_C_transactions.csv"
         }
       }
     ]

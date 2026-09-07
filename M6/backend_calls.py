@@ -93,6 +93,12 @@ def _load_real_backends():
             pipeline.load(graph=_CRIMINAL_GRAPH)
             _M4_PIPELINE = pipeline
             logger.info("[Backend] M4 RAGPipeline loaded successfully")
+        except MemoryError as e:
+            _INIT_ERROR = (_INIT_ERROR or "") + f" | M4 pipeline load failed (OOM — model too large for available RAM): {e}"
+            logger.error(f"[Backend] M4 pipeline OOM: {e}", exc_info=False)
+        except RuntimeError as e:
+            _INIT_ERROR = (_INIT_ERROR or "") + f" | M4 pipeline load failed: {e}"
+            logger.error(f"[Backend] M4 pipeline RuntimeError: {e}", exc_info=False)
         except Exception as e:
             _INIT_ERROR = (_INIT_ERROR or "") + f" | M4 pipeline load failed: {e}"
             logger.error(f"[Backend] M4 pipeline load failed: {e}", exc_info=True)

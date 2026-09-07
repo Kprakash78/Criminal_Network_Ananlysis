@@ -20,7 +20,7 @@ from M1.generate_dataset import generate_all
 from M1.loader import Document, load_all, load_fir, load_cdrs, load_transactions
 from M1.extractor import extract_all, RawEntity
 from M1.normalizer import normalize_entities, NormalizedEntity
-from M1.resolver import EntityStore, resolve_entities as _resolve, ResolvedEntity
+from M1.resolver import EntityStore, resolve_entities as _resolve, ResolvedEntity, deduplicate_cross_type
 from M1.scorer import score_entity
 from M1.schema import (
     Entity,
@@ -66,6 +66,10 @@ def extract_entities(document_path: str, doc_type: str) -> list[Entity]:
         raw = extract_all(doc.doc_id, doc.clean_text)
         normed = normalize_entities(raw)
         _resolve(normed, store)
+
+    # Bug 2 fix: cross-type deduplication (e.g., Vikram Oberoi PERSON + LOCATION → PERSON)
+    for doc in docs:
+        deduplicate_cross_type(store, case_id=doc.doc_id)
 
     # Score and convert
     entities = []
@@ -141,6 +145,12 @@ def run_pipeline(source_dir: str) -> PipelineResult:
         try:
             raw_entities: list[RawEntity] = extract_all(doc.doc_id, doc.clean_text)
             normed: list[NormalizedEntity] = normalize_entities(raw_entities)
+            # NOTE: no case_id is passed here, so each document is its own isolation
+            # bucket. Aliases for the same person across two files of the same case
+            # will NOT be merged. This is safe (no cross-case merging) but means
+            # cross-document alias resolution within a case does not occur in batch
+            # mode. See M1/RUN_REPORT.md §5 Known Limitation 5 for full details and
+            # the future fix path (Document.case_id + loader convention).
             resolved_batch: list[ResolvedEntity] = _resolve(normed, store)
 
             # For CDR/TRANSACTION, also extract from structured metadata fields
@@ -149,6 +159,7 @@ def run_pipeline(source_dir: str) -> PipelineResult:
                 meta_text = " ".join(str(v) for v in doc.metadata.values())
                 meta_raw = extract_all(doc.doc_id, meta_text)
                 meta_normed = normalize_entities(meta_raw)
+                # Same isolation note as above: per-document, no case_id passed.
                 meta_resolved = _resolve(meta_normed, store)
                 resolved_batch.extend(meta_resolved)
 
@@ -178,6 +189,19 @@ def run_pipeline(source_dir: str) -> PipelineResult:
         extraction_log.append(log_entry)
 
     # ---- Score all entities ----
+    # Bug 2 fix: run cross-type deduplication before scoring.
+    # This collapses pairs like (Vikram Oberoi LOCATION) + (Vikram Oberoi PERSON)
+    # into a single PERSON node, which also reduces the edge count (Bug 3).
+    for doc in documents:
+        removed = deduplicate_cross_type(store, case_id=doc.doc_id)
+        if removed:
+            logger.info(f"[Pipeline] Cross-type dedup removed {len(removed)} duplicate(s) for {doc.doc_id}: {removed}")
+            # Clean up doc_entity_map so removed entities don't create ghost edges
+            for doc_id_key in list(doc_entity_map.keys()):
+                doc_entity_map[doc_id_key] = [
+                    eid for eid in doc_entity_map[doc_id_key] if eid not in removed
+                ]
+
     all_resolved = store.all()
     for resolved in all_resolved:
         methods = entity_methods.get(resolved.entity_id, {"spacy"})
