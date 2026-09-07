@@ -35,8 +35,12 @@ log = logging.getLogger(__name__)
 _VEHICLES = {"car", "vehicle", "truck", "van", "bus", "auto", "automobile", "suv", "jeep", "cab", "taxi"}
 
 # Person synonyms
-_PERSONS = {"person", "people", "man", "woman", "individual", "individuals", "pedestrian", "pedestrians",
-            "officer", "occupant", "occupants", "driver", "passenger", "passengers"}
+_PERSONS = {
+    "person", "people", "man", "woman", "individual", "individuals",
+    "pedestrian", "pedestrians", "officer", "occupant", "occupants",
+    "driver", "passenger", "passengers", "thief", "thieves", "suspect",
+    "suspects", "criminal", "criminals",
+}
 
 # Action / event keywords mapped to normalized action tokens
 _ACTION_MAP = {

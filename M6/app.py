@@ -1095,9 +1095,14 @@ def render_graph_tab():
 def render_search_tab():
     st.markdown('<div class="section-header">🔎 Case Search</div>',
                 unsafe_allow_html=True)
+    active_case = st.session_state.get("case_id")
+    case_text = st.session_state.get("uploaded_case_text", "")
+    if not active_case or not case_text:
+        st.info("Upload and analyze a case first. Search is limited to the active uploaded case.")
+        return
     st.markdown(
-        "Search across all case documents. Results include exact file:line "
-        "provenance for every finding."
+        f"Search within uploaded case `{active_case}`. Results include exact line provenance "
+        "from the active case document only."
     )
 
     col_search, col_opts = st.columns([4, 1])
@@ -1118,7 +1123,12 @@ def render_search_tab():
             with st.spinner("Searching case documents..."):
                 try:
                     from M6_feature.search_api import search_local
-                    results = search_local(query, top_k=top_k)
+                    results = search_local(
+                        query,
+                        top_k=top_k,
+                        case_text=case_text,
+                        source_label=st.session_state.get("uploaded_source_label", "uploaded_case.txt"),
+                    )
                     st.session_state.search_results = results
                 except Exception as e:
                     st.error(f"Search failed: {e}")
@@ -1151,9 +1161,12 @@ def render_search_tab():
                 # File viewer button
                 if st.button(f"📄 View Source File", key=f"view_file_{i}"):
                     try:
-                        with open(r["file_path"], "r", encoding="utf-8",
-                                  errors="replace") as f:
-                            lines = f.readlines()
+                        source_path = Path(r["file_path"])
+                        if source_path.exists():
+                            with open(source_path, "r", encoding="utf-8", errors="replace") as f:
+                                lines = f.readlines()
+                        else:
+                            lines = case_text.splitlines(keepends=True)
 
                         # Highlight relevant lines
                         start = max(0, r["line_start"] - 3)
@@ -1193,111 +1206,55 @@ def render_video_analysis_tab():
         unsafe_allow_html=True
     )
 
+    video_dir = REPO_ROOT / "data" / "videos"
+    videos = sorted(p for p in video_dir.glob("*") if p.is_file()) if video_dir.exists() else []
+    if videos:
+        video = st.selectbox("Video file", videos, format_func=lambda p: p.name, key="video_download_file")
+        st.download_button(
+            "⬇️ Download video",
+            data=video.read_bytes(),
+            file_name=video.name,
+            mime="video/mp4" if video.suffix.lower() == ".mp4" else "application/octet-stream",
+            key="download_video",
+        )
+    else:
+        st.caption("No processed video is available in the local case workspace yet.")
+
 # ===========================================================================
 # M6.5 — Key players view
 # ===========================================================================
 
 def render_key_players_tab():
-    st.markdown('<div class="section-header">🎯 Top-3 Suspects</div>',
+    st.markdown('<div class="section-header">👥 Case Entities</div>',
                 unsafe_allow_html=True)
-    st.markdown(
-        "Entities ranked by composite risk score. Each score is derived from "
-        "network centrality, temporal patterns, co-location, call patterns, "
-        "and financial anomalies."
-    )
+    case_id = st.session_state.get("case_id")
+    graph_data = st.session_state.get("graph_data") or {}
+    nodes = graph_data.get("nodes", [])
+    edges = graph_data.get("edges", [])
+    if not case_id:
+        st.info("Upload and analyze a case first. Entities are limited to the active uploaded case.")
+        return
+    if not nodes:
+        st.info(f"No entities were extracted from case {case_id}.")
+        return
 
-    # Load top3 results
-    top3_path = REPO_ROOT / "M3_feature" / "top3_results.json"
-
-    if top3_path.exists():
-        with open(top3_path, "r", encoding="utf-8") as f:
-            top3_data = json.load(f)
-        st.session_state.top3_data = top3_data
-
-        # Render suspect cards
-        for idx, suspect in enumerate(top3_data.get("suspects", []), 1):
-            risk_color = (
-                "#e94560" if suspect["risk_score"] >= 75
-                else "#FFB74D" if suspect["risk_score"] >= 50
-                else "#4FC3F7"
-            )
-
-            st.markdown(f"""
-            <div class="suspect-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <div class="suspect-name">#{idx} {suspect['name']}</div>
-                        <div class="risk-label">Investigation Priority Score</div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div class="risk-score" style="background:linear-gradient(135deg, {risk_color}, #533483);
-                            -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
-                            {suspect['risk_score']:.1f}
-                        </div>
-                        <div class="risk-label">/ 100</div>
-                    </div>
-                </div>
-                <div class="explanation-text">
-                    {suspect['explanation']}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-            # Evidence references
-            evidence = suspect.get("evidence", [])
-            if evidence:
-                with st.expander(f"📎 Evidence References ({len(evidence)} items)", expanded=False):
-                    for ev in evidence:
-                        short_file = Path(ev["file"]).name
-                        st.markdown(
-                            f'`[{short_file}:L{ev["line_start"]}-L{ev["line_end"]}]` '
-                            f'— {ev["text_snippet"][:120]}...'
-                        )
-
-                        # View source button
-                        btn_key = f"ev_{idx}_{ev['line_start']}_{hash(ev['file'])}"
-                        if st.button(f"📄 View lines", key=btn_key):
-                            try:
-                                with open(ev["file"], "r", encoding="utf-8",
-                                          errors="replace") as f:
-                                    lines = f.readlines()
-                                start = max(0, ev["line_start"] - 2)
-                                end = min(len(lines), ev["line_end"] + 2)
-                                display = []
-                                for j in range(start, end):
-                                    prefix = ">>> " if ev["line_start"] - 1 <= j <= ev["line_end"] - 1 else "    "
-                                    display.append(f"L{j+1:4d} {prefix}{lines[j].rstrip()}")
-                                st.code("\n".join(display), language=None)
-                            except Exception as e:
-                                st.error(f"Could not read file: {e}")
-
-            st.markdown("---")
-
-        # Score methodology
-        with st.expander("📊 Scoring Methodology"):
-            st.markdown("""
-            **Risk Score Formula** (0–100 scale):
-
-            ```
-            risk_score = normalize(
-                0.20 × degree_centrality       # Network connectivity
-              + 0.20 × temporal_anomaly         # Unusual timing patterns
-              + 0.15 × co-location_score        # Same-tower convergence
-              + 0.20 × call_pattern_score       # Call frequency & patterns
-              + 0.25 × transaction_anomaly      # Financial red flags
-            )
-            ```
-
-            Each component returns a value in [0, 1]. The weighted sum is
-            scaled to 0–100. Higher scores indicate higher investigation priority.
-
-            **⚠️ Scores indicate investigation priority, NOT guilt determination.**
-            """)
-    else:
-        st.warning(
-            "Top-3 results not found. Run the analysis first:\n\n"
-            "```bash\npython3 -m M3_feature.top3\n```"
-        )
+    degrees = {n["id"]: 0 for n in nodes}
+    for edge in edges:
+        for endpoint in (edge.get("source"), edge.get("target")):
+            if endpoint in degrees:
+                degrees[endpoint] += 1
+    rows = [{
+        "Entity ID": n.get("id", ""),
+        "Name": n.get("label", n.get("name", n.get("id", ""))),
+        "Type": n.get("type", "UNKNOWN"),
+        "Connections in case": degrees.get(n.get("id"), 0),
+        "Confidence": f"{n.get('confidence', 1.0):.0%}",
+    } for n in nodes]
+    # Keep people visually prominent; the remaining case entities follow in
+    # name order, independent of confidence.
+    rows.sort(key=lambda row: (row["Type"] != "PERSON", row["Name"].casefold()))
+    st.caption(f"{len(rows)} entities from uploaded case `{case_id}`")
+    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 # ===========================================================================
 # M6.6 — Follow-up conversation tab
 # ===========================================================================
@@ -1381,37 +1338,42 @@ def render_conversation_tab():
 
 
 def render_timeline_tab():
+    # Resolve the active case before any cached-event or filter branch. Streamlit
+    # reruns can preserve timeline_events while skipping the event builder.
+    case_id = getattr(st.session_state, 'case_id', None) or "no_case"
     st.markdown('<div class="section-header">⏱️ Timeline Player</div>',
                 unsafe_allow_html=True)
     st.markdown(
-        "Animated playback of all case events (calls, transactions, FIR filings) "
+        "Animated playback of all case events (incidents, calls, transactions, FIR filings) "
         "in chronological order. Events are highlighted on the network graph."
     )
 
     # Build timeline events
     if getattr(st.session_state, 'timeline_events', None) is None:
         try:
-            case_id = getattr(st.session_state, 'case_id', None)
-            
-            if case_id:
-                graph_data = getattr(st.session_state, 'graph_data', {})
-                nodes = graph_data.get("nodes", []) if graph_data else []
-                valid_entities = set()
-                for node in nodes:
-                    for key in ("id", "label", "name"):
-                        value = node.get(key)
-                        if value:
-                            valid_entities.add(str(value))
-                valid_entities = valid_entities or None
-                
+            active_case_id = getattr(st.session_state, 'case_id', None)
+
+            if active_case_id:
                 from M6_feature.timeline_player import build_timeline, build_uploaded_case_timeline
-                events = build_timeline(case_id=case_id, case_entities=valid_entities)
-                if not events and st.session_state.get("uploaded_case_text"):
+                uploaded_text = st.session_state.get("uploaded_case_text", "")
+                if uploaded_text:
+                    # An uploaded case is authoritative. Do not search the
+                    # historical FIR/CDR corpus by case ID: IDs can collide.
                     events = build_uploaded_case_timeline(
-                        case_id=case_id,
-                        case_text=st.session_state.get("uploaded_case_text", ""),
+                        case_id=active_case_id,
+                        case_text=uploaded_text,
                         source_label=st.session_state.get("uploaded_source_label", "uploaded_case.txt"),
                     )
+                else:
+                    graph_data = getattr(st.session_state, 'graph_data', {})
+                    nodes = graph_data.get("nodes", []) if graph_data else []
+                    valid_entities = set()
+                    for node in nodes:
+                        for key in ("id", "label", "name"):
+                            value = node.get(key)
+                            if value:
+                                valid_entities.add(str(value))
+                    events = build_timeline(case_id=active_case_id, case_entities=valid_entities or None)
             else:
                 events = []
                 
@@ -1427,15 +1389,21 @@ def render_timeline_tab():
                     f"{events[0]['t'][:10]} to {events[-1]['t'][:10]}")
 
         # Date range filter
+        event_start = datetime.fromisoformat(events[0]["t"][:10]).date()
+        event_end = datetime.fromisoformat(events[-1]["t"][:10]).date()
         col1, col2 = st.columns(2)
         with col1:
             date_start = st.date_input("From Date",
-                                       value=datetime(2024, 1, 1),
-                                       key="tl_start")
+                                       value=event_start,
+                                       min_value=event_start,
+                                       max_value=event_end,
+                                       key=f"tl_start_{case_id}")
         with col2:
             date_end = st.date_input("To Date",
-                                     value=datetime(2026, 12, 31),
-                                     key="tl_end")
+                                     value=event_end,
+                                     min_value=event_start,
+                                     max_value=event_end,
+                                     key=f"tl_end_{case_id}")
 
         # Filter events by date range
         filtered = [
@@ -1446,8 +1414,8 @@ def render_timeline_tab():
         # Event type filter
         event_types = st.multiselect(
             "Event Types",
-            ["call", "transaction", "fir_filing"],
-            default=["call", "transaction", "fir_filing"],
+            ["incident", "call", "transaction", "fir_filing"],
+            default=["incident", "call", "transaction", "fir_filing"],
             key="tl_types",
         )
         filtered = [e for e in filtered if e["type"] in event_types]
@@ -1723,17 +1691,18 @@ def render_upload_tab():
                 }
                 for e in extracted_entities
             ]
-            # Try to get edges from the real graph for extracted entity IDs
+            # Keep only relationships explicitly recorded for this case.
+            # Shared entity IDs must not pull historical relationships into
+            # the uploaded case view.
             graph_edges = []
             try:
                 from M6.backend_calls import _get_graph
                 real_g = _get_graph()
                 if real_g is not None:
                     extracted_ids = {e["entity_id"] for e in extracted_entities}
-                    neighbor_ids = set()
                     for u, v, data in real_g.edges(data=True):
-                        # Include edges connected to ANY extracted entity
-                        if u in extracted_ids or v in extracted_ids:
+                        if (u in extracted_ids and v in extracted_ids
+                                and data.get("source_record") == case_id):
                             graph_edges.append({
                                 "source": u, "target": v,
                                 "type": data.get("relationship", ""),
@@ -1742,20 +1711,6 @@ def render_upload_tab():
                                 "timestamp": data.get("timestamp", ""),
                                 "source_record": data.get("source_record", "Unknown"),
                             })
-                            neighbor_ids.add(u)
-                            neighbor_ids.add(v)
-                    
-                    # Add any missing historical neighbor nodes to graph_nodes
-                    for nid in neighbor_ids:
-                        if nid not in {n["id"] for n in graph_nodes}:
-                            if nid in real_g:
-                                node_data = real_g.nodes[nid]
-                                graph_nodes.append({
-                                    "id": nid,
-                                    "label": node_data.get("name", nid),
-                                    "type": node_data.get("type", "UNKNOWN"),
-                                    "confidence": node_data.get("confidence", 1.0),
-                                })
             except Exception as eg:
                 logger.warning(f"[UI] Could not pull graph edges for extracted entities: {eg}")
                 
@@ -1784,14 +1739,6 @@ def render_upload_tab():
             with st.spinner("Loading network data…"):
                 try:
                     graph_data = call_m2_subgraph(None, case_id)
-                    # If it returned the full graph (>100 nodes) and we have no extracted
-                    # entities, warn the user rather than silently showing unrelated data.
-                    if len(graph_data.get("nodes", [])) > 100:
-                        st.warning(
-                            "⚠️ Network graph is showing the full historical dataset because "
-                            "the uploaded document's entities could not be matched. "
-                            "The entity table above shows only extracted entities from your document."
-                        )
                 except Exception as e:
                     logger.warning(f"[UI] Graph load failed: {e}")
                     graph_data = {"nodes": [], "edges": []}
@@ -1811,6 +1758,8 @@ def render_upload_tab():
         st.session_state.graph_data = graph_data
         st.session_state.key_players = key_players
         st.session_state.timeline_events = None
+        st.session_state.search_results = []
+        st.session_state.last_search_query = ""
         st.session_state.uploaded_case_text = case_text
         st.session_state.uploaded_source_label = (
             uploaded_files[0].name if len(uploaded_files) == 1 else f"{len(uploaded_files)} uploaded files"

@@ -395,13 +395,26 @@ def _apply_regex_precedence(entities: list[RawEntity]) -> list[RawEntity]:
     We identify regex spans and remove NER entities that overlap them.
     Returns the pruned list.
     """
+    regex_entities = [
+        e for e in entities
+        if e.extraction_method == "regex" and e.entity_type in {"PHONE", "VEHICLE", "ACCOUNT"}
+    ]
     regex_spans: list[tuple[int, int]] = [
         (e.span_start, e.span_end)
-        for e in entities
-        if e.extraction_method == "regex" and e.span_start >= 0
+        for e in regex_entities
+        if e.span_start >= 0
     ]
 
-    if not regex_spans:
+    # Some multilingual NER pipelines do not return character offsets. Keep
+    # the same structured-value precedence for those outputs by comparing a
+    # normalized form of the account/phone/vehicle text.
+    regex_values = {
+        re.sub(r"[^a-z0-9]", "", e.text.casefold())
+        for e in regex_entities
+        if e.text
+    }
+
+    if not regex_spans and not regex_values:
         return entities
 
     def _overlaps(start: int, end: int) -> bool:
@@ -415,6 +428,10 @@ def _apply_regex_precedence(entities: list[RawEntity]) -> list[RawEntity]:
         if e.extraction_method != "regex" and e.span_start >= 0:
             if _overlaps(e.span_start, e.span_end):
                 continue   # drop this NER entity; regex covers the span
+        if e.extraction_method != "regex" and e.text:
+            normalized_value = re.sub(r"[^a-z0-9]", "", e.text.casefold())
+            if normalized_value in regex_values and normalized_value:
+                continue   # offset-less NER duplicate of a structured field
         result.append(e)
 
     return result

@@ -31,6 +31,8 @@ class RetrievalConfig:
     w_transcript: float = float(os.getenv("M4_W_TRANSCRIPT", "0.35"))
     w_object: float = float(os.getenv("M4_W_OBJECT", "0.20"))
     w_ocr: float = float(os.getenv("M4_W_OCR", "0.10"))
+    # Deterministic event-position signal for arrival/departure/exit queries.
+    w_event: float = float(os.getenv("M4_W_EVENT", "0.25"))
 
     # Device for query embedding ('cpu' or 'cuda')
     device: str = os.getenv("M4_DEVICE", "cpu")
@@ -40,7 +42,12 @@ class RetrievalConfig:
 
     # ── Paths ─────────────────────────────────────────────────────────────────
     data_root: Path = field(
-        default_factory=lambda: Path(os.getenv("M4_DATA_ROOT", "data"))
+        default_factory=lambda: Path(
+            os.getenv(
+                "M4_DATA_ROOT",
+                str(Path(__file__).resolve().parents[3] / "data" / "video"),
+            )
+        )
     )
 
     @property

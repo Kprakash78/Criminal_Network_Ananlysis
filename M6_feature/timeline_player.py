@@ -26,6 +26,10 @@ logger = logging.getLogger(__name__)
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ACCOUNT_RE = re.compile(r"\bACC(?:\d{5}|_[A-Za-z0-9]{8})\b")
 PHONE_RE = re.compile(r"(?:\+?91[\s-]?)?\b[6-9]\d{9}\b")
+INCIDENT_RE = re.compile(
+    r"\b(?:died|death|deceased|killed|killing|murder(?:ed)?|dead|body|bodies)\b",
+    re.IGNORECASE,
+)
 DATE_PATTERNS = [
     (re.compile(r"\bDate\s*:\s*(\d{2}-\d{2}-\d{4})", re.IGNORECASE), "%d-%m-%Y"),
     (re.compile(r"\bDate\s*:\s*(\d{2}/\d{2}/\d{4})", re.IGNORECASE), "%d/%m/%Y"),
@@ -144,10 +148,30 @@ def build_uploaded_case_timeline(
 
     seen_accounts: set[tuple[str, int]] = set()
     seen_phones: set[tuple[str, int]] = set()
+    seen_incidents: set[int] = set()
     for line_no, line in enumerate(case_text.splitlines(), start=1):
         clean_line = " ".join(line.split())
         if not clean_line:
             continue
+
+        if INCIDENT_RE.search(line) and line_no not in seen_incidents:
+            seen_incidents.add(line_no)
+            timestamp = case_date.replace(hour=11, minute=0) + timedelta(minutes=line_no)
+            events.append(
+                {
+                    "t": timestamp.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "type": "incident",
+                    "from": case_id,
+                    "to": "",
+                    "file": source_label,
+                    "line": line_no,
+                    "confidence": 0.75,
+                    "caption": (
+                        f"{timestamp.strftime('%H:%M')} - Incident reference: "
+                        f"{clean_line[:220]} [source: {source_label}:L{line_no}]"
+                    ),
+                }
+            )
 
         for account in ACCOUNT_RE.findall(line):
             key = (account.upper(), line_no)
@@ -237,11 +261,18 @@ def build_timeline(
         }
     """
     if cdr_path is None:
-        cdr_path = REPO_ROOT / "data" / "cdrs" / "cdr.csv"
+        # Keep the timeline on the same source tree as the real M1/M2 graph.
+        # The repository also contains demo copies under data/, which can be
+        # stale or incomplete when the dashboard is running in real mode.
+        real_data_root = REPO_ROOT / "M1" / "data"
+        data_root = real_data_root if real_data_root.exists() else REPO_ROOT / "data"
+        cdr_path = data_root / "cdrs" / "cdr.csv"
     if txn_path is None:
-        txn_path = REPO_ROOT / "data" / "transactions" / "transactions.csv"
+        data_root = REPO_ROOT / "M1" / "data" if (REPO_ROOT / "M1" / "data").exists() else REPO_ROOT / "data"
+        txn_path = data_root / "transactions" / "transactions.csv"
     if fir_dir is None:
-        fir_dir = REPO_ROOT / "data" / "firs"
+        data_root = REPO_ROOT / "M1" / "data" if (REPO_ROOT / "M1" / "data").exists() else REPO_ROOT / "data"
+        fir_dir = data_root / "firs"
 
     cdr_path = Path(cdr_path)
     txn_path = Path(txn_path)

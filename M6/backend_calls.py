@@ -187,13 +187,8 @@ def call_m2_subgraph(graph, case_id: str) -> dict:
             from M2.query import subgraph
             g = subgraph(real_graph, case_id)
 
-            # If subgraph is empty, fall back to full graph for display
-            if g.number_of_nodes() == 0:
-                logger.info(
-                    f"[Backend] subgraph('{case_id}') returned empty — "
-                    "displaying full graph for visualization"
-                )
-                g = real_graph
+            # An empty case subgraph is a valid result. Never broaden the
+            # query to the global graph because that leaks other cases.
 
             nodes = [
                 {

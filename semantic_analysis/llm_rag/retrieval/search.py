@@ -14,7 +14,12 @@ from typing import Any, Dict, List, Optional
 from .config import RetrievalConfig as RetrievalConfig, DEFAULT_CONFIG
 from .embedder import QueryEmbedder
 from .index_manager import FAISSIndexManager
-from .scorer import calculate_fusion_score, object_match_score, ocr_match_score
+from .scorer import (
+    action_event_score,
+    calculate_fusion_score,
+    object_match_score,
+    ocr_match_score,
+)
 
 log = logging.getLogger(__name__)
 
@@ -93,14 +98,33 @@ def search(
             seg.get("ocr", []),
         )
 
+        # Temporal/Event Match (arrival, departure, exit, movement)
+        event_match = action_event_score(
+            structured_query,
+            seg,
+            unified_segments,
+        )
+
         # Fusion Final Score
         final = calculate_fusion_score(
             visual_sim=vis_sim,
             transcript_sim=aud_sim,
             object_match=obj_match,
             ocr_match=ocr_match,
+            event_match=event_match,
             cfg=cfg,
         )
+
+        # An exact license-plate OCR hit is stronger evidence than generic
+        # visual similarity. Keep plate searches from being downgraded merely
+        # because the vehicle is distant, blurred, or partly occluded.
+        queried_objects = structured_query.get("objects", [])
+        has_plate_query = any(
+            isinstance(item, dict) and item.get("object") == "license_plate"
+            for item in queried_objects
+        )
+        if has_plate_query and ocr_match >= 1.0:
+            final = max(final, 0.85)
 
         # Build output record copy with populated 'scores'
         seg_out = dict(seg)
@@ -109,6 +133,7 @@ def search(
             "transcript_similarity": round(aud_sim, 3),
             "object_match": round(obj_match, 3),
             "ocr_match": round(ocr_match, 3),
+            "event_match": round(event_match, 3),
             "final_score": round(final, 3),
         }
         scored_results.append(seg_out)

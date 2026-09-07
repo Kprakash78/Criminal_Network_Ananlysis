@@ -18,6 +18,7 @@ Optionally enriches objects with a dominant-color attribute for attribute bindin
 from __future__ import annotations
 
 import logging
+import re
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +28,9 @@ import numpy as np
 from .config import OcrConfig, DEFAULT_CONFIG
 
 log = logging.getLogger(__name__)
+
+VEHICLE_LABELS = {"car", "truck", "bus", "van", "motorcycle", "bicycle"}
+PLATE_TEXT_RE = re.compile(r"[A-Z0-9][A-Z0-9\-\s]{4,12}[A-Z0-9]", re.I)
 
 # ── Lazy singletons so models load once per process ───────────────────────────
 _yolo_instance = None
@@ -94,6 +98,8 @@ def process_frame(
         # Skip OCR on frames we've flagged as low quality — likely garbage output
         if quality_flag == "ok":
             ocr_texts = _run_ocr(img, cfg)
+            ocr_texts.extend(_run_vehicle_plate_ocr(img, objects, cfg))
+            ocr_texts = list(dict.fromkeys(ocr_texts))
         else:
             log.debug("Skipping OCR on low-quality frame at t=%.3f", timestamp)
 
@@ -172,9 +178,11 @@ def _run_yolo(
         if conf < conf_threshold:
             continue
         label = yolo.names[int(box.cls[0])]
+        x1, y1, x2, y2 = (int(v) for v in box.xyxy[0].tolist())
         obj: dict[str, Any] = {
             "label": label,
             "confidence": round(conf, 3),
+            "bbox": [x1, y1, x2, y2],
         }
         if extract_attributes:
             attrs = _extract_color_attributes(img, box)
@@ -259,6 +267,68 @@ def _run_ocr(img: np.ndarray, cfg: OcrConfig) -> list[str]:
         if len(t.strip()) >= cfg.ocr_min_len
     ))
     return filtered
+
+
+def _run_vehicle_plate_ocr(
+    img: np.ndarray,
+    objects: list[dict[str, Any]],
+    cfg: OcrConfig,
+) -> list[str]:
+    """Run OCR on enlarged vehicle crops to improve small plate reads."""
+    texts: list[str] = []
+    for obj in objects:
+        if str(obj.get("label", "")).lower() not in VEHICLE_LABELS:
+            continue
+        bbox = obj.get("bbox")
+        if not isinstance(bbox, list) or len(bbox) != 4:
+            continue
+        crop = _vehicle_plate_region(img, bbox)
+        if crop is None:
+            continue
+        for text in _run_ocr(crop, cfg):
+            cleaned = _normalize_plate_text(text)
+            if cleaned and cleaned not in texts:
+                texts.append(cleaned)
+    return texts
+
+
+def _vehicle_plate_region(img: np.ndarray, bbox: list[int]) -> np.ndarray | None:
+    h, w = img.shape[:2]
+    x1, y1, x2, y2 = [int(v) for v in bbox]
+    x1, x2 = max(0, x1), min(w, x2)
+    y1, y2 = max(0, y1), min(h, y2)
+    if x2 <= x1 or y2 <= y1:
+        return None
+
+    box_w = x2 - x1
+    box_h = y2 - y1
+    if box_w < 20 or box_h < 20:
+        return None
+
+    pad_x = int(box_w * 0.12)
+    crop_y1 = y1 + int(box_h * 0.45)
+    crop_y2 = y2
+    crop_x1 = max(0, x1 - pad_x)
+    crop_x2 = min(w, x2 + pad_x)
+    crop = img[crop_y1:crop_y2, crop_x1:crop_x2]
+    if crop.size == 0:
+        return None
+
+    scale = 2 if min(crop.shape[:2]) >= 40 else 3
+    crop = cv2.resize(crop, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
+    gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
+    gray = cv2.equalizeHist(gray)
+    return cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+
+
+def _normalize_plate_text(text: str) -> str | None:
+    value = " ".join(text.upper().replace("-", " ").split())
+    if not PLATE_TEXT_RE.search(value):
+        return None
+    compact = "".join(ch for ch in value if ch.isalnum())
+    if len(compact) < 5 or not any(ch.isdigit() for ch in compact):
+        return None
+    return compact
 
 
 def _empty_record(video_id: str, timestamp: float) -> dict[str, Any]:

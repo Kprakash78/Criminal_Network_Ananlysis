@@ -662,7 +662,8 @@ const EVENTS = {events_json};
 const COLORS = {{
     call: "#4A6FA5",
     transaction: "#B8860B",
-    fir_filing: "#8B0000"
+    fir_filing: "#8B0000",
+    incident: "#7A3E65"
 }};
 
 let currentIndex = -1;

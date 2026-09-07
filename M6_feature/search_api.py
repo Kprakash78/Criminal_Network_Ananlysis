@@ -56,16 +56,21 @@ def chunk_file(filepath: str, chunk_size: int = CHUNK_SIZE,
         logger.warning(f"Cannot read {filepath}: {e}")
         return []
 
-    if not content.strip():
+    return chunk_text(content, str(filepath), chunk_size=chunk_size, stride=stride)
+
+
+def chunk_text(content: str, source_label: str = "uploaded_case.txt",
+               chunk_size: int = CHUNK_SIZE, stride: int = CHUNK_STRIDE) -> list[dict]:
+    """Split in-memory case text into chunks with line-level provenance."""
+    if not content or not content.strip():
         return []
 
     # Build char->line mapping
+    lines = content.splitlines(keepends=True)
     char_to_line = []
-    char_idx = 0
     for line_num, line in enumerate(lines, start=1):
         for _ in line:
             char_to_line.append(line_num)
-            char_idx += 1
 
     chunks = []
     pos = 0
@@ -79,7 +84,7 @@ def chunk_file(filepath: str, chunk_size: int = CHUNK_SIZE,
 
             chunks.append({
                 "text": chunk_text,
-                "file_path": filepath,
+                "file_path": source_label,
                 "line_start": line_start,
                 "line_end": line_end,
                 "char_start": pos,
@@ -229,6 +234,18 @@ class SearchIndex:
         logger.info(f"[Search] Indexed {len(self.chunks)} chunks from {len(doc_dirs)} directories")
         return len(self.chunks)
 
+    def index_case_text(self, case_text: str, source_label: str = "uploaded_case.txt") -> int:
+        """Build an isolated index containing only the currently uploaded case."""
+        self.chunks = chunk_text(case_text, source_label)
+        self.embeddings = None
+        self._indexed = False
+        if not self.chunks:
+            return 0
+        self.embeddings = self.engine.encode([c["text"] for c in self.chunks])
+        self._indexed = True
+        logger.info("[Search] Indexed %d chunks for uploaded case %s", len(self.chunks), source_label)
+        return len(self.chunks)
+
     def search(self, query: str, top_k: int = 5) -> list[dict]:
         """
         Search for the most relevant chunks to the query.
@@ -298,7 +315,9 @@ def get_or_build_index(doc_dirs: list[str | Path] = None) -> SearchIndex:
 # ---------------------------------------------------------------------------
 
 def search_local(query: str, top_k: int = 5,
-                 doc_dirs: list[str | Path] = None) -> dict:
+                 doc_dirs: list[str | Path] = None,
+                 case_text: str = None,
+                 source_label: str = "uploaded_case.txt") -> dict:
     """
     Search case documents and return results with provenance.
 
@@ -323,7 +342,12 @@ def search_local(query: str, top_k: int = 5,
             ]
         }
     """
-    index = get_or_build_index(doc_dirs)
+    # Uploaded-case searches must never use the global historical index.
+    if case_text is not None:
+        index = SearchIndex()
+        index.index_case_text(case_text, source_label=source_label)
+    else:
+        index = get_or_build_index(doc_dirs)
     chunks = index.search(query, top_k=top_k)
 
     # Add citation strings
@@ -332,7 +356,7 @@ def search_local(query: str, top_k: int = 5,
         chunk["citation"] = f"[source: {short_path}:L{chunk['line_start']}-L{chunk['line_end']}]"
 
     # Generate answer
-    answer = generate_answer(query, chunks)
+    answer = generate_answer(query, chunks, case_text=case_text)
 
     result = {
         "query": query,
@@ -346,7 +370,7 @@ def search_local(query: str, top_k: int = 5,
     return result
 
 
-def generate_answer(query: str, chunks: list[dict]) -> str:
+def generate_answer(query: str, chunks: list[dict], case_text: str = None) -> str:
     """
     Generate a template-based answer from search results.
 
@@ -358,6 +382,13 @@ def generate_answer(query: str, chunks: list[dict]) -> str:
     """
     if not chunks:
         return "No relevant information found in the case documents."
+
+    # Answer location questions directly from the uploaded case context. This
+    # prevents a semantic search result from becoming a long, ambiguous dump.
+    if case_text and re.search(r"\bwhere\b|\blocation\b|\bplace\b", query, re.IGNORECASE):
+        focused = _focused_location_answer(query, case_text)
+        if focused:
+            return focused
 
     # Build answer from top chunks
     answer_parts = []
@@ -378,6 +409,38 @@ def generate_answer(query: str, chunks: list[dict]) -> str:
         answer_parts.append(f"\n({len(chunks) - 3} additional results available)")
 
     return "\n".join(answer_parts)
+
+
+def _focused_location_answer(query: str, case_text: str) -> str:
+    """Return a concise location answer when the case contains one."""
+    query_words = [w.casefold() for w in re.findall(r"[A-Za-z][A-Za-z'-]+", query)]
+    stop_words = {"where", "was", "were", "is", "are", "the", "seen", "located", "location", "place"}
+    subject_words = [w for w in query_words if w not in stop_words and len(w) > 2]
+    if not subject_words:
+        return ""
+
+    text_lower = case_text.casefold()
+    subject_pos = next((text_lower.find(word) for word in subject_words if text_lower.find(word) >= 0), -1)
+    if subject_pos < 0:
+        return ""
+
+    window_start = max(0, subject_pos - 500)
+    window_end = min(len(case_text), subject_pos + 700)
+    window = case_text[window_start:window_end]
+
+    # Prefer explicit place phrases and retain a compact city/area pair such
+    # as "Malad, Mumbai" from the case wording.
+    place_patterns = [
+        r"\b(?:in|near|at|from|around)\s+([A-Z][A-Za-z-]+(?:,\s*[A-Z][A-Za-z-]+)?)",
+        r"\b([A-Z][A-Za-z-]+,\s*[A-Z][A-Za-z-]+)\b",
+    ]
+    for pattern in place_patterns:
+        matches = re.findall(pattern, window)
+        for place in matches:
+            if place.casefold() not in {"the case", "the incident"}:
+                return f"The uploaded case places the relevant activity in {place}."
+
+    return ""
 
 
 # ---------------------------------------------------------------------------
