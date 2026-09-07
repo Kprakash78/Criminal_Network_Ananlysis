@@ -1,14 +1,13 @@
 {
   "case_id": "FIR107",
-  "summary_text": "Case ID: FIR107 NEW CASE DOCUMENT: FIRST INFORMATION REPORT FIR No.: FIR_2026_HIGH_02 Date: 05/09/2026 Police Station: Cyber Cell, Mumbai Reporting Officer: Inspector Kavita Sharma Case Reference: FIR_046 INCIDENT REPORT: Corporate fraud of 7136 Crores. Falsification of bank accounts including ACC89012 and ACC99123. PRIMARY ACCUSED: 1. Rakesh Kumar (Alias), Call Center Manager. 2...\n\nAll findings require investigator verification before any action is taken.",
+  "summary_text": "Case ID: FIR107 NEW CASE DOCUMENT: FIRST INFORMATION REPORT FIR No.: FIR_2026_HIGH_01 Date: 04/09/2026 Police Station: EOW, New Delhi Reporting Officer: ACP Sanjeev Kumar Case Reference: FIR049 INCIDENT REPORT: Stock market manipulation using fake bank receipts. Account ACC11223 used for siphoning. PRIMARY ACCUSED: 1. Ravi Kumar, Director of Shell Corp Alpha. 2. Fatima Begum, suspected hawala operator. EVIDENCE: - Seized ledgers indicating 45 Crores.\n\nAll findings require investigator verification before any action is taken.",
   "evidence_used": [
     "RAG_RESULT_1",
     "RAG_RESULT_2",
     "RAG_RESULT_3",
     "RAG_RESULT_4",
     "RAG_RESULT_5",
-    "PATTERN_FLAG_ACC_3413aed9",
-    "PATTERN_FLAG_ACC_49c380ba"
+    "PATTERN_FLAG_ACC_dac31588"
   ],
-  "confidence": 0.4685
+  "confidence": 0.4988
 }

@@ -2,7 +2,7 @@ import os
 import json
 import numpy as np
 # pyrefly: ignore [missing-import]
-from pipeline import process_video_audio
+from semantic_analysis.M2.pipeline import process_video_audio
 
 def validate_schema(records):
     """Verify that output exactly matches COMMON_DATA_CONTRACT.md schema."""
@@ -33,7 +33,7 @@ def cosine_similarity(v1, v2):
     norm_v2 = np.linalg.norm(v2)
     return dot_product / (norm_v1 * norm_v2)
 
-def test_video(video_path, video_id="test_video_1"):
+def run_video_check(video_path, video_id="test_video_1"):
     print(f"--- Running pipeline on {video_path} ---")
     if not os.path.exists(video_path):
         print(f"File {video_path} not found.")
@@ -63,7 +63,7 @@ def test_video(video_path, video_id="test_video_1"):
         
     # Verification 3: Embedding matching check
     print("\n[3] Embedding sanity check...")
-    from pipeline import embed_model
+    from semantic_analysis.M2.pipeline import embed_model
     # We will test against the preamble words since we use the preamble download
     query = "We the people are forming a perfect union" 
     print(f"Query text: '{query}'")
@@ -90,10 +90,10 @@ def test_video(video_path, video_id="test_video_1"):
     return True
 
 if __name__ == "__main__":
-    result1 = test_video("test_speech.mp4", video_id="test_speech")
+    result1 = run_video_check("test_speech.mp4", video_id="test_speech")
     print("\n--------------------------\n")
     # Also test the silent video to ensure we avoid hallucinations
-    result2 = test_video("test_silent.mp4", video_id="test_silent")
+    result2 = run_video_check("test_silent.mp4", video_id="test_silent")
     
     if result1 and result2:
         print("All verification steps PASSED.")

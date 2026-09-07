@@ -50,7 +50,17 @@ print("\n[4] Loading M4 RAGPipeline ...")
 from M4.pipeline import RAGPipeline
 from M4.config import DEFAULT_CONFIG
 pipeline = RAGPipeline(DEFAULT_CONFIG)
-pipeline.load(graph=g)
+try:
+    pipeline.load(graph=g)
+except RuntimeError as exc:
+    if "Insufficient RAM" in str(exc):
+        try:
+            import pytest
+
+            pytest.skip(str(exc), allow_module_level=True)
+        except ImportError:
+            raise
+    raise
 print("    M4 pipeline loaded  OK")
 
 # 5. M5 end-to-end call
@@ -96,18 +106,26 @@ print(f"    Response     : {resp2.response_text[:150]}")
 # 7. M6 backend_calls wrapper
 print("\n[7] Testing M6 backend_calls wrapper ...")
 import os
+original_real_modules_env = os.environ.get("CRIMINAL_USE_REAL_MODULES")
 os.environ["CRIMINAL_USE_REAL_MODULES"] = "1"
 # Force reload to pick up env var
 import importlib
 import M6.backend_calls as bc_module
 importlib.reload(bc_module)
-status = bc_module.get_backend_status()
-print(f"    use_real_modules : {status['use_real_modules']}")
-print(f"    graph_loaded     : {status['graph_loaded']}")
-print(f"    graph_nodes      : {status['graph_nodes']}")
-print(f"    pipeline_loaded  : {status['pipeline_loaded']}")
-print(f"    m3_flags_ok      : {status['m3_flags_available']}")
-if status["init_error"]:
-    print(f"    init_error       : {status['init_error']}")
+try:
+    status = bc_module.get_backend_status()
+    print(f"    use_real_modules : {status['use_real_modules']}")
+    print(f"    graph_loaded     : {status['graph_loaded']}")
+    print(f"    graph_nodes      : {status['graph_nodes']}")
+    print(f"    pipeline_loaded  : {status['pipeline_loaded']}")
+    print(f"    m3_flags_ok      : {status['m3_flags_available']}")
+    if status["init_error"]:
+        print(f"    init_error       : {status['init_error']}")
+finally:
+    if original_real_modules_env is None:
+        os.environ.pop("CRIMINAL_USE_REAL_MODULES", None)
+    else:
+        os.environ["CRIMINAL_USE_REAL_MODULES"] = original_real_modules_env
+    importlib.reload(bc_module)
 
 print("\n=== ALL REAL INTEGRATION CHECKS PASSED ===")

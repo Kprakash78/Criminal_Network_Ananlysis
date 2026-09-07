@@ -855,6 +855,8 @@ def _init_state():
         "date_filter_to": None,
         "demo_mode": False,
         "timeline_events": None,
+        "uploaded_case_text": "",
+        "uploaded_source_label": "",
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -1394,10 +1396,22 @@ def render_timeline_tab():
             if case_id:
                 graph_data = getattr(st.session_state, 'graph_data', {})
                 nodes = graph_data.get("nodes", []) if graph_data else []
-                valid_entities = {n["id"] for n in nodes} if nodes else None
+                valid_entities = set()
+                for node in nodes:
+                    for key in ("id", "label", "name"):
+                        value = node.get(key)
+                        if value:
+                            valid_entities.add(str(value))
+                valid_entities = valid_entities or None
                 
-                from M6_feature.timeline_player import build_timeline
+                from M6_feature.timeline_player import build_timeline, build_uploaded_case_timeline
                 events = build_timeline(case_id=case_id, case_entities=valid_entities)
+                if not events and st.session_state.get("uploaded_case_text"):
+                    events = build_uploaded_case_timeline(
+                        case_id=case_id,
+                        case_text=st.session_state.get("uploaded_case_text", ""),
+                        source_label=st.session_state.get("uploaded_source_label", "uploaded_case.txt"),
+                    )
             else:
                 events = []
                 
@@ -1797,6 +1811,10 @@ def render_upload_tab():
         st.session_state.graph_data = graph_data
         st.session_state.key_players = key_players
         st.session_state.timeline_events = None
+        st.session_state.uploaded_case_text = case_text
+        st.session_state.uploaded_source_label = (
+            uploaded_files[0].name if len(uploaded_files) == 1 else f"{len(uploaded_files)} uploaded files"
+        )
         st.session_state.conversation_history = [
             {"role": "investigator", "content": f"[Uploaded: {case_id}]"},
             {"role": "system", "content": resp_dict.get("response_text", "")},
@@ -1867,7 +1885,8 @@ def render_sidebar():
         st.sidebar.markdown(f"<div style='font-size: 15px; font-weight: 500; color:#211C18; margin-bottom:16px;'>{st.session_state.case_id}</div>", unsafe_allow_html=True)
         if st.sidebar.button("Clear Session"):
             for key in ["session_id", "case_id", "final_response", "graph_data",
-                        "key_players", "conversation_history", "search_results"]:
+                        "key_players", "conversation_history", "search_results",
+                        "uploaded_case_text", "uploaded_source_label"]:
                 st.session_state[key] = None if key not in ["conversation_history", "search_results"] else []
             st.rerun()
         st.sidebar.markdown("<hr style='border:none; border-top:1px solid #DED5C8; margin:32px 0;'>", unsafe_allow_html=True)

@@ -15,16 +15,22 @@ Usage:
     events = build_timeline(cdr_path, txn_path, fir_dir)
 """
 
-from M6_feature.search_ui import case_id
 import csv
 import re
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+ACCOUNT_RE = re.compile(r"\bACC(?:\d{5}|_[A-Za-z0-9]{8})\b")
+PHONE_RE = re.compile(r"(?:\+?91[\s-]?)?\b[6-9]\d{9}\b")
+DATE_PATTERNS = [
+    (re.compile(r"\bDate\s*:\s*(\d{2}-\d{2}-\d{4})", re.IGNORECASE), "%d-%m-%Y"),
+    (re.compile(r"\bDate\s*:\s*(\d{2}/\d{2}/\d{4})", re.IGNORECASE), "%d/%m/%Y"),
+    (re.compile(r"\bDate\s*:\s*(\d{4}-\d{2}-\d{2})", re.IGNORECASE), "%Y-%m-%d"),
+]
 
 # Phone -> person name (for captions)
 PHONE_TO_NAME = {
@@ -54,12 +60,148 @@ ACCOUNT_TO_NAME = {
 }
 
 
+def _entity_match_values(value: object) -> set[str]:
+    """Return normalized forms that may appear in UI entities or raw records."""
+    if value is None:
+        return set()
+
+    raw = str(value).strip()
+    if not raw:
+        return set()
+
+    lowered = raw.lower()
+    values = {lowered}
+
+    # Entity IDs commonly look like phone_9876543210 or account_acc00101.
+    if "_" in lowered:
+        values.add(lowered.rsplit("_", 1)[-1])
+
+    compact = re.sub(r"[^a-z0-9]", "", lowered)
+    if compact:
+        values.add(compact)
+
+    digits = re.sub(r"\D", "", raw)
+    if digits:
+        values.add(digits[-10:] if len(digits) >= 10 else digits)
+
+    return values
+
+
 def _short_path(filepath: str) -> str:
     """Convert absolute path to relative path from repo root."""
     try:
         return str(Path(filepath).relative_to(REPO_ROOT))
     except ValueError:
         return Path(filepath).name
+
+
+def _find_case_date(case_text: str) -> tuple[datetime, str, int]:
+    """Extract a filing/reference date from uploaded text."""
+    lines = case_text.splitlines()
+    for line_no, line in enumerate(lines, start=1):
+        for pattern, fmt in DATE_PATTERNS:
+            match = pattern.search(line)
+            if match:
+                raw_date = match.group(1)
+                try:
+                    return datetime.strptime(raw_date, fmt), raw_date, line_no
+                except ValueError:
+                    continue
+    return datetime.now().replace(hour=9, minute=0, second=0, microsecond=0), "uploaded date", 1
+
+
+def build_uploaded_case_timeline(
+    case_id: str,
+    case_text: str,
+    source_label: str = "uploaded_case.txt",
+) -> list[dict]:
+    """
+    Build timeline events directly from an uploaded case document.
+
+    Ad-hoc uploads are not present in the static CDR/transaction/FIR folders, so
+    this fallback gives the Timeline tab visible, source-backed events.
+    """
+    if not case_text or not case_text.strip():
+        return []
+
+    case_date, raw_date, date_line = _find_case_date(case_text)
+    source_label = source_label or "uploaded_case.txt"
+    events = [
+        {
+            "t": case_date.strftime("%Y-%m-%dT09:00:00"),
+            "type": "fir_filing",
+            "from": case_id,
+            "to": "",
+            "file": source_label,
+            "line": date_line,
+            "confidence": 0.9,
+            "caption": (
+                f"09:00 - Uploaded case {case_id} reference date {raw_date}. "
+                f"[source: {source_label}:L{date_line}]"
+            ),
+        }
+    ]
+
+    seen_accounts: set[tuple[str, int]] = set()
+    seen_phones: set[tuple[str, int]] = set()
+    for line_no, line in enumerate(case_text.splitlines(), start=1):
+        clean_line = " ".join(line.split())
+        if not clean_line:
+            continue
+
+        for account in ACCOUNT_RE.findall(line):
+            key = (account.upper(), line_no)
+            if key in seen_accounts:
+                continue
+            seen_accounts.add(key)
+            timestamp = case_date.replace(hour=9, minute=0) + timedelta(minutes=line_no)
+            events.append(
+                {
+                    "t": timestamp.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "type": "transaction",
+                    "from": account.upper(),
+                    "to": "",
+                    "from_name": account.upper(),
+                    "to_name": "",
+                    "amount": 0,
+                    "file": source_label,
+                    "line": line_no,
+                    "confidence": 0.85,
+                    "caption": (
+                        f"{timestamp.strftime('%H:%M')} - Account reference {account.upper()}: "
+                        f"{clean_line[:180]} [source: {source_label}:L{line_no}]"
+                    ),
+                }
+            )
+
+        for phone in PHONE_RE.findall(line):
+            normalized_phone = re.sub(r"\D", "", phone)[-10:]
+            key = (normalized_phone, line_no)
+            if key in seen_phones:
+                continue
+            seen_phones.add(key)
+            timestamp = case_date.replace(hour=10, minute=0) + timedelta(minutes=line_no)
+            events.append(
+                {
+                    "t": timestamp.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "type": "call",
+                    "from": normalized_phone,
+                    "to": "",
+                    "from_name": normalized_phone,
+                    "to_name": "",
+                    "file": source_label,
+                    "line": line_no,
+                    "confidence": 0.8,
+                    "caption": (
+                        f"{timestamp.strftime('%H:%M')} - Phone reference {normalized_phone}: "
+                        f"{clean_line[:180]} [source: {source_label}:L{line_no}]"
+                    ),
+                }
+            )
+
+    events.sort(key=lambda e: e.get("t", ""))
+    logger.info(f"[Timeline] Built {len(events)} uploaded-document events for case {case_id}")
+    return events
 
 
 def build_timeline(
@@ -120,68 +262,39 @@ def build_timeline(
         events.extend(_parse_fir_events(fir_dir))
 
     # --- Case Filtering ---
-# ------------------------------------------------------------
-# CASE ISOLATION
-# ------------------------------------------------------------
-#
-# A timeline without an active case is unsafe because the
-# underlying CDR/transaction/FIR files may contain multiple
-# investigations.
-#
-# Fail closed instead of returning global events.
+    if case_id:
+        case_id_normalized = str(case_id).strip().lower()
 
-if not case_id:
-    logger.warning(
-        "[Timeline] No active case supplied; "
-        "refusing to return global timeline events."
-    )
-    return []
+        entity_set: set[str] = set()
+        for value in case_entities or set():
+            entity_set.update(_entity_match_values(value))
 
-case_id_normalized = str(case_id).strip().lower()
+        filtered_events = []
 
-entity_set = {
-    str(value).strip()
-    for value in (case_entities or set())
-    if value is not None and str(value).strip()
-}
+        for event in events:
+            event_type = event.get("type")
 
-filtered_events = []
+            # FIRs are directly associated with a case number.
+            if event_type == "fir_filing":
+                event_case = str(event.get("from", "")).strip().lower()
+                if event_case == case_id_normalized:
+                    filtered_events.append(event)
+                continue
 
-for event in events:
+            # CDR / transaction records do not contain a case ID in the current
+            # data contract. Include them only when one of their participants is
+            # explicitly known to belong to the active case.
+            if not entity_set:
+                continue
 
-    event_type = event.get("type")
+            involved_values: set[str] = set()
+            for field in ("from", "to", "from_name", "to_name"):
+                involved_values.update(_entity_match_values(event.get(field, "")))
 
-    # FIRs are directly associated with a case number.
-    if event_type == "fir_filing":
+            if involved_values & entity_set:
+                filtered_events.append(event)
 
-        event_case = str(
-            event.get("from", "")
-        ).strip().lower()
-
-        if event_case == case_id_normalized:
-            filtered_events.append(event)
-
-        continue
-
-    # CDR / transaction records do not contain a case ID
-    # in the current data contract.
-    #
-    # Therefore they are included ONLY when their entities
-    # are explicitly known to belong to the active case.
-    if not entity_set:
-        continue
-
-    involved_values = {
-        str(event.get("from", "")).strip(),
-        str(event.get("to", "")).strip(),
-        str(event.get("from_name", "")).strip(),
-        str(event.get("to_name", "")).strip(),
-    }
-
-    if involved_values & entity_set:
-        filtered_events.append(event)
-
-events = filtered_events
+        events = filtered_events
 
     # Sort chronologically
     events.sort(key=lambda e: e.get("t", ""))

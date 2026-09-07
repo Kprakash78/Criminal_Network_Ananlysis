@@ -118,6 +118,7 @@ def run_pipeline(source_dir: str) -> PipelineResult:
     base = Path(source_dir)
     store = EntityStore()
     extraction_log = []
+    batch_case_scope = "GLOBAL"
 
     # doc_id → list of entity_ids that appeared in that doc (for relationship building)
     doc_entity_map: dict[str, list[str]] = {}
@@ -145,13 +146,11 @@ def run_pipeline(source_dir: str) -> PipelineResult:
         try:
             raw_entities: list[RawEntity] = extract_all(doc.doc_id, doc.clean_text)
             normed: list[NormalizedEntity] = normalize_entities(raw_entities)
-            # NOTE: no case_id is passed here, so each document is its own isolation
-            # bucket. Aliases for the same person across two files of the same case
-            # will NOT be merged. This is safe (no cross-case merging) but means
-            # cross-document alias resolution within a case does not occur in batch
-            # mode. See M1/RUN_REPORT.md §5 Known Limitation 5 for full details and
-            # the future fix path (Document.case_id + loader convention).
-            resolved_batch: list[ResolvedEntity] = _resolve(normed, store)
+            resolved_batch: list[ResolvedEntity] = _resolve(
+                normed,
+                store,
+                case_id=batch_case_scope,
+            )
 
             # For CDR/TRANSACTION, also extract from structured metadata fields
             # (phones and accounts appear there directly)
@@ -159,8 +158,11 @@ def run_pipeline(source_dir: str) -> PipelineResult:
                 meta_text = " ".join(str(v) for v in doc.metadata.values())
                 meta_raw = extract_all(doc.doc_id, meta_text)
                 meta_normed = normalize_entities(meta_raw)
-                # Same isolation note as above: per-document, no case_id passed.
-                meta_resolved = _resolve(meta_normed, store)
+                meta_resolved = _resolve(
+                    meta_normed,
+                    store,
+                    case_id=batch_case_scope,
+                )
                 resolved_batch.extend(meta_resolved)
 
             # Track entity→doc mapping

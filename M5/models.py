@@ -75,14 +75,16 @@ class FinalResponse:
     extracted_entities: list[dict] = field(default_factory=list)
 
     def to_dict(self) -> dict:
-        return {
+        data = {
             "session_id": self.session_id,
             "response_text": self.response_text,
             "evidence": self.evidence,
             "confidence": self.confidence,
             "requires_human_review": self.requires_human_review,
-            "extracted_entities": self.extracted_entities,
         }
+        if self.extracted_entities:
+            data["extracted_entities"] = self.extracted_entities
+        return data
 
 
 # ---------------------------------------------------------------------------
